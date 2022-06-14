@@ -4,12 +4,12 @@
  */
 package facades;
 
-import model.interfaces.IMusic;
+
 
 /**
  *
  * @author mateus
  */
-public class MusicFacade implements IMusic{
+public class MusicFacade {
     
 }

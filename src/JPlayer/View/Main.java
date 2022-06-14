@@ -1,19 +1,22 @@
 package JPlayer.View;
 
+
+import DesignPattern.Observer.interfaces.IObserver;
+import JPlayer.View.Playlist.PlaylistPanel;
+import JPlayer.View.Playlist.PlaylistContainer;
 import JPlayer.View.Records.SignIn;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import model.JPanelManager;
+import model.Playlist;
+import model.interfaces.IPlaylist;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 
 /**
  *
  * @author mateus
  */
-public class Main extends javax.swing.JFrame {
+public class Main extends javax.swing.JFrame implements IObserver {
 
     /**
      * Creates new form Main
@@ -37,7 +40,7 @@ public class Main extends javax.swing.JFrame {
         jButtonHome = new javax.swing.JButton();
         jButtonMusics = new javax.swing.JButton();
         jButtonPlaylists = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        container = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(600, 355));
@@ -88,31 +91,21 @@ public class Main extends javax.swing.JFrame {
         LateralBarLayout.setVerticalGroup(
             LateralBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LateralBarLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(63, 63, 63)
+                .addGap(20, 20, 20)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
                 .addComponent(jButtonHome, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonMusics, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonPlaylists, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addContainerGap(150, Short.MAX_VALUE))
         );
 
         mainPainel.add(LateralBar, java.awt.BorderLayout.LINE_START);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 407, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 427, Short.MAX_VALUE)
-        );
-
-        mainPainel.add(jPanel1, java.awt.BorderLayout.CENTER);
+        container.setLayout(new java.awt.BorderLayout());
+        mainPainel.add(container, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(mainPainel, java.awt.BorderLayout.CENTER);
 
@@ -125,7 +118,9 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonHomeActionPerformed
 
     private void jButtonPlaylistsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPlaylistsActionPerformed
-        // TODO add your handling code here:
+        PlaylistContainer playlistContainer = new PlaylistContainer();
+        playlistContainer.addObserver(this);
+        new JPanelManager(container, playlistContainer);
     }//GEN-LAST:event_jButtonPlaylistsActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -170,14 +165,26 @@ public class Main extends javax.swing.JFrame {
             }
         });
     }
+    
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel LateralBar;
+    private javax.swing.JPanel container;
     private javax.swing.JButton jButtonHome;
     private javax.swing.JButton jButtonMusics;
     private javax.swing.JButton jButtonPlaylists;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel mainPainel;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(Object publisher) {
+
+        if( publisher instanceof IPlaylist){
+            Playlist playlist = (Playlist) publisher;
+            new JPanelManager(container, new PlaylistPanel(playlist));
+        }
+    }
 }

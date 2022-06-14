@@ -4,12 +4,12 @@
  */
 package facades;
 
-import model.interfaces.IUser;
+
 
 /**
  *
  * @author mateus
  */
-public class UserFacade implements IUser {
+public class UserFacade {
     
 }
