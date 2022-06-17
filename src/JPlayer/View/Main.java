@@ -2,6 +2,7 @@ package JPlayer.View;
 
 
 import DesignPattern.Observer.interfaces.IObserver;
+import JPlayer.View.Music.MusicContainer;
 import JPlayer.View.Playlist.PlaylistPanel;
 import JPlayer.View.Playlist.PlaylistContainer;
 import JPlayer.View.Records.SignIn;
@@ -67,6 +68,11 @@ public class Main extends javax.swing.JFrame implements IObserver {
         });
 
         jButtonMusics.setText("Search Musics");
+        jButtonMusics.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButtonMusicsMousePressed(evt);
+            }
+        });
 
         jButtonPlaylists.setText("Playlists");
         jButtonPlaylists.addActionListener(new java.awt.event.ActionListener() {
@@ -130,6 +136,11 @@ public class Main extends javax.swing.JFrame implements IObserver {
             this.dispose();
         }
     }//GEN-LAST:event_formWindowClosing
+
+    private void jButtonMusicsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonMusicsMousePressed
+       
+        new JPanelManager(container, new MusicContainer());
+    }//GEN-LAST:event_jButtonMusicsMousePressed
 
     /**
      * @param args the command line arguments

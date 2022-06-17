@@ -4,6 +4,10 @@
  */
 package facades;
 
+import JPlayer.Mocks.MusicMock;
+import java.util.List;
+import model.Music;
+
 
 
 /**
@@ -12,4 +16,8 @@ package facades;
  */
 public class MusicFacade {
     
+    
+    public List<Music> GetAllMusics(){
+        return MusicMock.musicsList();
+    }
 }

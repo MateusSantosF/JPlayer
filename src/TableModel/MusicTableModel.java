@@ -1,11 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package TableModel;
 
+import facades.MusicFacade;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.table.AbstractTableModel;
 import model.Music;
 
@@ -15,7 +14,8 @@ import model.Music;
  */
 public class MusicTableModel extends AbstractTableModel {
 
-    private String[] columns = {"Title", "Author", "Album", "Duration"};
+    private final String[] columns = {"Title", "Author", "Album", "Duration"};
+    private final MusicFacade facade = new MusicFacade();
     private List<Music> musics;
 
     public MusicTableModel(){
@@ -57,10 +57,26 @@ public class MusicTableModel extends AbstractTableModel {
         musics.add(music);
     }
     
+    public void SearchMusicByName(String input){ 
+        ClearData();
+        insertMusic(facade.GetAllMusics());
+        List<Music> filtered = musics.stream().filter(
+                music -> input.toLowerCase().contains(music.getTitle().toLowerCase())).collect(Collectors.toList());
+        
+        if(!filtered.isEmpty()){
+            musics = filtered;
+        }
+        fireTableDataChanged();    
+    }
+    
     public void insertMusic(List<Music> musics){
         this.musics.clear();
         this.musics.addAll(musics);     
         fireTableDataChanged(); 
+    }
+    
+    private void ClearData(){
+        musics.clear();
     }
     
 }

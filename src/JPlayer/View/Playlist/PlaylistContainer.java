@@ -5,7 +5,7 @@
 package JPlayer.View.Playlist;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
+
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -15,10 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import DesignPattern.Observer.interfaces.IObserver;
 import DesignPattern.Observer.interfaces.IPublisher;
-import JPlayer.Mocks.MusicMock;
 import facades.PlaylistFacade;
-import java.awt.FlowLayout;
-import model.Playlist;
 import model.interfaces.IPlaylist;
 
 /**
@@ -35,15 +32,33 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher 
      */
     public PlaylistContainer() {
         initComponents();
+        GetAllPlayLists();
+    }
+    
+    private void resizeScroll(){
         
+        int itemsPerColumn = (int) scrollContainer.getSize().getWidth() / 100;
+        
+        int gap = Math.round(playlistSize/itemsPerColumn) * 5;
+        int newHeight = Math.round(playlistSize/itemsPerColumn) * 100 + gap;
+        
+        if(newHeight % 2 != 0)
+            newHeight += 100;
+        
+        int newWidth = itemsPerColumn * 100;
+              
+        jPanelPlaylists.setPreferredSize(new Dimension(  newWidth, newHeight));
+
+    }
+    
+    private void GetAllPlayLists(){
         PlaylistFacade facade = new PlaylistFacade();
         List<JPanel> capas = new ArrayList<>();
         Dimension dimension = new Dimension(100, 100);
         List<IPlaylist> playlists = facade.getAllPlaylist();
         playlistSize = playlists.size();
             
-        playlists.forEach(playlist ->{
-             
+        playlists.forEach(playlist ->{        
             JPanel panel = new JPanel();
             panel.setLayout(new BorderLayout());
             JButton button = new JButton(playlist.getTitle());
@@ -63,23 +78,6 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher 
         capas.forEach(item->{
             jPanelPlaylists.add(item);
         });
-
-    }
-    
-    private void resizeScroll(){
-        
-        int itemsPerColumn = (int) scrollContainer.getSize().getWidth() / 100;
-        
-        int gap = Math.round(playlistSize/itemsPerColumn) * 5;
-        int newHeight = Math.round(playlistSize/itemsPerColumn) * 100 + gap;
-        
-        if(newHeight % 2 != 0)
-            newHeight += 100;
-        
-        int newWidth = itemsPerColumn * 100;
-              
-        jPanelPlaylists.setPreferredSize(new Dimension(  newWidth, newHeight));
-
     }
     /**
      * This method is called from within the constructor to initialize the form.
