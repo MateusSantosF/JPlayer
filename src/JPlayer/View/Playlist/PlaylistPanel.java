@@ -7,10 +7,10 @@ package JPlayer.View.Playlist;
 import DesignPattern.Observer.interfaces.IObserver;
 import JPlayer.Modal.ModalAddMusic;
 import TableModel.MusicTableModel;
+import TableModel.SelectMusicTableModel;
 import facades.PlaylistFacade;
-import java.util.ArrayList;
 import java.util.List;
-import model.Music;
+import javax.swing.JOptionPane;
 import model.Playlist;
 import model.interfaces.IMusic;
 import model.interfaces.IPlaylist;
@@ -21,9 +21,10 @@ import model.interfaces.IPlaylist;
  */
 public class PlaylistPanel extends javax.swing.JPanel implements IObserver {
     
-    private final MusicTableModel model = new MusicTableModel();
+    private  MusicTableModel model = new MusicTableModel();
+    private  SelectMusicTableModel deleteModel = new SelectMusicTableModel();
     private final PlaylistFacade playlistFacade = new PlaylistFacade();
-    private final IPlaylist currentPlaylist;
+    private IPlaylist currentPlaylist;
     /**
      * Creates new form Playlist
      * @param playlist
@@ -52,7 +53,9 @@ public class PlaylistPanel extends javax.swing.JPanel implements IObserver {
         jLabelTitle = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextAreaDescription = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
+        jLabelAddSongs = new javax.swing.JLabel();
+        jLabelConfirmRemove = new javax.swing.JLabel();
+        jLabelRemoveSongs = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableMusic = new javax.swing.JTable();
@@ -75,15 +78,43 @@ public class PlaylistPanel extends javax.swing.JPanel implements IObserver {
         jTextAreaDescription.setForeground(new java.awt.Color(255, 255, 255));
         jTextAreaDescription.setRows(5);
         jTextAreaDescription.setWrapStyleWord(true);
+        jTextAreaDescription.setBorder(null);
         jScrollPane1.setViewportView(jTextAreaDescription);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Add songs");
-        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabelAddSongs.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelAddSongs.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelAddSongs.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelAddSongs.setText("Add songs");
+        jLabelAddSongs.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jLabelAddSongs.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabelAddSongs.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                jLabelAddSongsMouseClicked(evt);
+            }
+        });
+
+        jLabelConfirmRemove.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelConfirmRemove.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelConfirmRemove.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelConfirmRemove.setText("Confirm");
+        jLabelConfirmRemove.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jLabelConfirmRemove.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabelConfirmRemove.setEnabled(false);
+        jLabelConfirmRemove.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelConfirmRemoveMouseClicked(evt);
+            }
+        });
+
+        jLabelRemoveSongs.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelRemoveSongs.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelRemoveSongs.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelRemoveSongs.setText("Remove");
+        jLabelRemoveSongs.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jLabelRemoveSongs.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabelRemoveSongs.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelRemoveSongsMouseClicked(evt);
             }
         });
 
@@ -95,13 +126,14 @@ public class PlaylistPanel extends javax.swing.JPanel implements IObserver {
                 .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE))
-                        .addGap(36, 36, 36))))
+                        .addComponent(jLabelAddSongs, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabelRemoveSongs, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabelConfirmRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE))
+                .addGap(36, 36, 36))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -109,8 +141,11 @@ public class PlaylistPanel extends javax.swing.JPanel implements IObserver {
                 .addComponent(jLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelAddSongs, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelConfirmRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelRemoveSongs, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 12, Short.MAX_VALUE))
         );
 
@@ -136,16 +171,51 @@ public class PlaylistPanel extends javax.swing.JPanel implements IObserver {
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+    private void jLabelAddSongsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelAddSongsMouseClicked
         
         ModalAddMusic modal = new ModalAddMusic();
         modal.addObserver(this);
         modal.setVisible(true);
-    }//GEN-LAST:event_jLabel1MouseClicked
+    }//GEN-LAST:event_jLabelAddSongsMouseClicked
+
+    private void jLabelConfirmRemoveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelConfirmRemoveMouseClicked
+       
+        int option = JOptionPane.showConfirmDialog(null, "Sure you want to Remove songs this playlist ?", "JPlayer", JOptionPane.OK_OPTION);
+        
+        if(option == 0){
+           
+            List<IMusic> selecteds = deleteModel.GetAllSelected();
+            boolean result =  playlistFacade.removeMusicsDb(currentPlaylist, selecteds); 
+            currentPlaylist.getMusics().removeAll(selecteds); // remove visually
+            model.insertWithRemove(currentPlaylist.getMusics());  // alter visually
+            if(!result){
+                JOptionPane.showMessageDialog(null, "An error occurred while trying to delete the selected songs. Try again");
+                return;
+            }
+            deleteModel.removeMusic(selecteds); //remove visually
+        }
+        jLabelConfirmRemove.setEnabled(false);
+        jTableMusic.setModel(model);
+    }//GEN-LAST:event_jLabelConfirmRemoveMouseClicked
+
+    private void jLabelRemoveSongsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelRemoveSongsMouseClicked
+        
+        if(jLabelConfirmRemove.isEnabled()){
+          jTableMusic.setModel(model);
+          jLabelConfirmRemove.setEnabled(false);
+          return;
+        }
+        
+        jLabelConfirmRemove.setEnabled(!jLabelConfirmRemove.isEnabled());
+        deleteModel.insertMusic(playlistFacade.getPlayList(currentPlaylist).getMusics());
+        jTableMusic.setModel(deleteModel);
+    }//GEN-LAST:event_jLabelRemoveSongsMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabelAddSongs;
+    private javax.swing.JLabel jLabelConfirmRemove;
+    private javax.swing.JLabel jLabelRemoveSongs;
     private javax.swing.JLabel jLabelTitle;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -157,11 +227,22 @@ public class PlaylistPanel extends javax.swing.JPanel implements IObserver {
 
     @Override
     public void update(Object publisher) {
-        
+        IPlaylist backup = currentPlaylist;
         if( publisher instanceof List){
-            List<IMusic> musics = (List<IMusic>) publisher;
-            boolean response = playlistFacade.insertMusicsInDatabase(currentPlaylist, musics);
-            model.insertMusic(musics);
+            
+            List<IMusic> musics = (List<IMusic>) publisher;         
+            currentPlaylist.getMusics().addAll(musics);
+            playlistFacade.removeDuplicateMusics(currentPlaylist.getMusics());
+            
+            boolean response = playlistFacade.insertMusicsDb(currentPlaylist, musics);
+            
+            if(!response){
+                JOptionPane.showMessageDialog(null, "An error occurred while trying to insert the selected songs. Try Again");
+                currentPlaylist = backup;
+                return;
+            }
+            model.insertMusic(currentPlaylist.getMusics());
+            jTableMusic.setModel(model);
         }
     }
 }

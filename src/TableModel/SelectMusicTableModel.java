@@ -2,14 +2,10 @@
 package TableModel;
 
 import facades.MusicFacade;
-import java.awt.Checkbox;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
-import model.Music;
 import model.interfaces.IMusic;
 
 /**
@@ -34,11 +30,11 @@ public class SelectMusicTableModel extends AbstractTableModel  {
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 
-            if (columnIndex == 4) {
-                musics.get(rowIndex).setSelected(Boolean.valueOf(aValue.toString()));             
-                fireTableRowsUpdated(rowIndex, rowIndex);
-                fireTableCellUpdated(rowIndex, columnIndex);
-            }
+        if (columnIndex == 4) {
+            musics.get(rowIndex).setSelected(Boolean.valueOf(aValue.toString()));             
+            fireTableRowsUpdated(rowIndex, rowIndex);
+            fireTableCellUpdated(rowIndex, columnIndex);
+        }
     }
         
     @Override
@@ -94,8 +90,8 @@ public class SelectMusicTableModel extends AbstractTableModel  {
     }
 
     public void SearchMusicByName(String input){ 
-        ClearData();
-        insertMusic(facade.GetAllMusics());
+        clearData();
+        insertMusic(facade.GetAllMusicsTwo());
         List<IMusic> filtered = musics.stream().filter(
                 music -> input.toLowerCase().contains(music.getTitle().toLowerCase())).collect(Collectors.toList());
         
@@ -106,8 +102,14 @@ public class SelectMusicTableModel extends AbstractTableModel  {
     }
     
     public void insertMusic(List<IMusic> musics){
-        this.musics.clear();
+        clearData();
+        musics.forEach( m -> { m.setSelected(false); });
         this.musics.addAll(musics);     
+        fireTableDataChanged(); 
+    }
+    
+    public void removeMusic(List<IMusic> musics){
+        this.musics.removeAll(musics);
         fireTableDataChanged(); 
     }
     
@@ -115,7 +117,7 @@ public class SelectMusicTableModel extends AbstractTableModel  {
         return musics.stream().filter(music -> music.isSelected() == true).collect(Collectors.toList());
     }
     
-    private void ClearData(){
+    private void clearData(){
         musics.clear();
     }
 

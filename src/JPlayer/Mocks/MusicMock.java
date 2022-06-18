@@ -32,4 +32,21 @@ public class MusicMock {
         
         return list;        
     }
+    
+      public static List<IMusic> musicsListTwo(){
+         List<IMusic> list = new ArrayList<>();
+        
+        for (int i = 10; i < 20; i++) {
+            Music current = new Music();
+            current.setId(i);
+            current.setTitle("Title"+i);
+            current.setAlbum("Album"+i);
+            current.setDuration(i*20L);
+            current.setSelected(false);
+            current.setAuthor("Author"+i);
+            list.add(current);
+        }
+        
+        return list;        
+    }
 }

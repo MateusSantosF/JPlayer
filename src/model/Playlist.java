@@ -10,10 +10,9 @@ import model.interfaces.IPlaylist;
  */
 public class Playlist implements IPlaylist {
 
-    private final String title;
-    private final String description;
-    
-    private final List<IMusic> musics;
+    private  String title;
+    private  String description;  
+    private  List<IMusic> musics;
     
     public Playlist(List<IMusic> musics, String title, String description){
         this.musics = musics;
@@ -34,6 +33,10 @@ public class Playlist implements IPlaylist {
     @Override
     public String getDescription() {
         return description;
+    }
+    
+    public void addMusics(List<IMusic> musics){
+        this.musics.addAll(musics);
     }
     
     

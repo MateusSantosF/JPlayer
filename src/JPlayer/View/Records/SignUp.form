@@ -100,7 +100,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="CADASTRO"/>
+            <Property name="text" type="java.lang.String" value="SIGN UP"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -194,14 +194,14 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Nome"/>
+            <Property name="text" type="java.lang.String" value="First Name"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldLastName">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Sobrenome"/>
+            <Property name="text" type="java.lang.String" value="Last Name"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldName">
@@ -223,19 +223,19 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Senha"/>
+            <Property name="text" type="java.lang.String" value="Password"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Confirmar Senha"/>
+            <Property name="text" type="java.lang.String" value="Confirm Password"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JPasswordField" name="jPasswordFieldPassword">
         </Component>
         <Component class="javax.swing.JButton" name="jButtonSignup">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cadastrar"/>
+            <Property name="text" type="java.lang.String" value="Let&apos;s Go!"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSignupActionPerformed"/>

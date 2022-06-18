@@ -2,6 +2,7 @@
 package TableModel;
 
 import facades.MusicFacade;
+import facades.PlaylistFacade;
 import java.awt.Checkbox;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -21,7 +22,8 @@ import model.interfaces.IMusic;
 public class MusicTableModel extends AbstractTableModel {
 
     private final String[] columns = {"Title", "Author", "Album", "Duration"};
-    private final MusicFacade facade = new MusicFacade();
+    private final MusicFacade musicFacade = new MusicFacade();
+    private final PlaylistFacade playlistFacade = new PlaylistFacade();
     private List<IMusic> musics;
 
     public MusicTableModel(){
@@ -62,7 +64,7 @@ public class MusicTableModel extends AbstractTableModel {
 
     public void SearchMusicByName(String input){ 
         clearData();
-        insertMusic(facade.GetAllMusics());
+        insertMusic(musicFacade.GetAllMusics());
         List<IMusic> filtered = musics.stream().filter(
                 music -> input.toLowerCase().contains(music.getTitle().toLowerCase())).collect(Collectors.toList());
         
@@ -74,7 +76,13 @@ public class MusicTableModel extends AbstractTableModel {
     
     public void insertMusic(List<IMusic> newMusics){  
         musics.addAll(newMusics);
-        removeDuplicateValues();
+        musics = playlistFacade.removeDuplicateMusics(musics);
+        fireTableDataChanged(); 
+    }
+    
+    public void insertWithRemove(List<IMusic> newMusics){
+        clearData();
+        musics.addAll(newMusics);
         fireTableDataChanged(); 
     }
     
@@ -82,13 +90,6 @@ public class MusicTableModel extends AbstractTableModel {
         musics.clear();
     }
     
-    private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
-        Set<Object> seen = ConcurrentHashMap.newKeySet();
-    return t -> seen.add(keyExtractor.apply(t));
-}
-    private void removeDuplicateValues(){
-        musics = musics.stream().filter(distinctByKey(IMusic::getId)).collect(Collectors.toList());
-        fireTableDataChanged();
-    }
+ 
     
 }

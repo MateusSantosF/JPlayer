@@ -67,7 +67,7 @@ public class SignUp extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("CADASTRO");
+        jLabel2.setText("SIGN UP");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -88,9 +88,9 @@ public class SignUp extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
-        jLabel3.setText("Nome");
+        jLabel3.setText("First Name");
 
-        jLabel4.setText("Sobrenome");
+        jLabel4.setText("Last Name");
 
         jTextFieldName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,11 +106,11 @@ public class SignUp extends javax.swing.JFrame {
 
         jLabel5.setText("E-mail");
 
-        jLabel6.setText("Senha");
+        jLabel6.setText("Password");
 
-        jLabel7.setText("Confirmar Senha");
+        jLabel7.setText("Confirm Password");
 
-        jButtonSignup.setText("Cadastrar");
+        jButtonSignup.setText("Let's Go!");
         jButtonSignup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSignupActionPerformed(evt);

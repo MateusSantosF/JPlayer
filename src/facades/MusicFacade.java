@@ -21,4 +21,8 @@ public class MusicFacade {
     public List<IMusic> GetAllMusics(){
         return MusicMock.musicsList();
     }
+    
+     public List<IMusic> GetAllMusicsTwo(){
+        return MusicMock.musicsListTwo();
+    }
 }

@@ -13,4 +13,6 @@ public interface IPlaylist {
     public String getTitle();
     
     public String getDescription();
+    
+    public void addMusics(List<IMusic> musics);
 }
