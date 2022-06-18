@@ -4,7 +4,7 @@
  */
 package JPlayer.View.Playlist;
 
-import DesignPattern.Observer.interfaces.IObserver;
+import Utils.Observer.interfaces.IObserver;
 import JPlayer.Modal.ModalAddMusic;
 import TableModel.MusicTableModel;
 import TableModel.SelectMusicTableModel;
@@ -234,7 +234,7 @@ public class PlaylistPanel extends javax.swing.JPanel implements IObserver {
             currentPlaylist.getMusics().addAll(musics);
             playlistFacade.removeDuplicateMusics(currentPlaylist.getMusics());
             
-            boolean response = playlistFacade.insertMusicsDb(currentPlaylist, musics);
+            boolean response = playlistFacade.insertMusicsInPlaylist(currentPlaylist, musics);
             
             if(!response){
                 JOptionPane.showMessageDialog(null, "An error occurred while trying to insert the selected songs. Try Again");

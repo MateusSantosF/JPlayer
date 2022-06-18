@@ -1,5 +1,7 @@
 package model.interfaces;
 
+import java.time.LocalDate;
+
 import java.util.List;
 
 /**
@@ -15,4 +17,8 @@ public interface IPlaylist {
     public String getDescription();
     
     public void addMusics(List<IMusic> musics);
+    
+    public LocalDate getCreateData();
+
+    public void setCreateData(LocalDate createDate);
 }

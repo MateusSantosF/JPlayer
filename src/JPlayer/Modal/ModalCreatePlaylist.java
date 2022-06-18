@@ -6,29 +6,30 @@ package JPlayer.Modal;
 
 import Utils.Observer.interfaces.IObserver;
 import Utils.Observer.interfaces.IPublisher;
-import TableModel.SelectMusicTableModel;
-import facades.MusicFacade;
+import facades.PlaylistFacade;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
+import model.Playlist;
+import model.interfaces.IPlaylist;
 
 /**
  *
  * @author Mateus Santos
  */
-public class ModalAddMusic extends javax.swing.JFrame implements IPublisher {
+public class ModalCreatePlaylist extends javax.swing.JFrame implements IPublisher{
 
     /**
      * Creates new form ModalAddMusic
      */
+    private final PlaylistFacade facade = new PlaylistFacade();
     private final List<IObserver> observers = new ArrayList<>();
-    private final SelectMusicTableModel model = new SelectMusicTableModel();
-    private final MusicFacade facade = new MusicFacade();
+    private boolean result;
     
-    public ModalAddMusic() {
+    public ModalCreatePlaylist() {
         initComponents();
-                       
-        model.insertMusic(facade.GetAllMusicsTwo());  
-        jTableMusics.setModel(model);   
+
     }
 
     /**
@@ -41,20 +42,22 @@ public class ModalAddMusic extends javax.swing.JFrame implements IPublisher {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jButtonCreate = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        jTextFieldName = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableMusics = new javax.swing.JTable();
-        jTextField1 = new javax.swing.JTextField();
+        jTextAreaDescription = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(35, 35, 35));
 
-        jButton1.setText("Add Selected Songs");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonCreate.setText("Create");
+        jButtonCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonCreateActionPerformed(evt);
             }
         });
 
@@ -64,37 +67,32 @@ public class ModalAddMusic extends javax.swing.JFrame implements IPublisher {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(108, 108, 108)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(120, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
 
-        jTableMusics.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTableMusics);
-
-        jTextField1.addCaretListener(new javax.swing.event.CaretListener() {
+        jTextFieldName.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                jTextField1CaretUpdate(evt);
+                jTextFieldNameCaretUpdate(evt);
             }
         });
+
+        jLabel1.setText("Playlist Name");
+
+        jLabel2.setText("Description");
+
+        jTextAreaDescription.setColumns(20);
+        jTextAreaDescription.setRows(5);
+        jScrollPane1.setViewportView(jTextAreaDescription);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -102,38 +100,46 @@ public class ModalAddMusic extends javax.swing.JFrame implements IPublisher {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
-                        .addGap(27, 27, 27))))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
+                    .addComponent(jTextFieldName))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(8, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17))
+                .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateActionPerformed
        
-        notifyObservers();
+        result = facade.createPlaylist(CreatePlaylist());
+        if(result){
+            notifyObservers();
+            JOptionPane.showMessageDialog(null, "Playlist created with sucess!");
+        }
+     
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonCreateActionPerformed
 
-    private void jTextField1CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextField1CaretUpdate
-        model.SearchMusicByName(jTextField1.getText());
-    }//GEN-LAST:event_jTextField1CaretUpdate
+    private void jTextFieldNameCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldNameCaretUpdate
+        
+    }//GEN-LAST:event_jTextFieldNameCaretUpdate
 
     /**
      * @param args the command line arguments
@@ -152,31 +158,38 @@ public class ModalAddMusic extends javax.swing.JFrame implements IPublisher {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ModalAddMusic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModalCreatePlaylist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ModalAddMusic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModalCreatePlaylist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ModalAddMusic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModalCreatePlaylist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ModalAddMusic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModalCreatePlaylist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ModalAddMusic().setVisible(true);
+                new ModalCreatePlaylist().setVisible(true);
             }
         });
     }
+    
+    private IPlaylist CreatePlaylist(){ 
+        return new Playlist(new ArrayList<>(), jTextFieldName.getName(), jTextAreaDescription.getText(), LocalDate.now());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonCreate;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableMusics;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextArea jTextAreaDescription;
+    private javax.swing.JTextField jTextFieldName;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -193,7 +206,9 @@ public class ModalAddMusic extends javax.swing.JFrame implements IPublisher {
     public void notifyObservers() {
 
         observers.forEach(ob ->{
-            ob.update(model.GetAllSelected());
+            ob.update(result);
         });
     }
+
+
 }

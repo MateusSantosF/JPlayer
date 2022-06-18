@@ -4,9 +4,10 @@
  */
 package JPlayer.Mocks;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
-import model.Music;
 import model.Playlist;
 import model.interfaces.IPlaylist;
 
@@ -21,6 +22,7 @@ public class PlaylistMock {
         
         for (int i = 0; i < 16; i++) {
             IPlaylist current = new Playlist(MusicMock.musicsList(), "Playlist"+i, "Any description"+i);
+            current.setCreateData(LocalDate.of(2022, Month.MARCH, 2));
             list.add(current);
         }
         

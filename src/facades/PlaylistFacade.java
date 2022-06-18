@@ -30,15 +30,21 @@ public class PlaylistFacade {
         return  true;
     }
     
-    public boolean insertMusicsDb(IPlaylist playlist, List<IMusic> musics){
+    public boolean insertMusicsInPlaylist(IPlaylist playlist, List<IMusic> musics){
         return true;
     }
     
+    public boolean createPlaylist(IPlaylist playlist){
+        return true;
+    }
+    
+    
+    public List<IMusic> removeDuplicateMusics(List<IMusic> musics){
+        return musics.stream().filter(distinctByKey(IMusic::getId)).collect(Collectors.toList());  
+    }
+
     private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
         Set<Object> seen = ConcurrentHashMap.newKeySet();
     return t -> seen.add(keyExtractor.apply(t));
-}
-    public List<IMusic> removeDuplicateMusics(List<IMusic> musics){
-        return musics.stream().filter(distinctByKey(IMusic::getId)).collect(Collectors.toList());  
     }
 }

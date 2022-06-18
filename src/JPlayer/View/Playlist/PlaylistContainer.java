@@ -4,6 +4,7 @@
  */
 package JPlayer.View.Playlist;
 
+import JPlayer.Modal.ModalCreatePlaylist;
 import java.awt.BorderLayout;
 
 import java.awt.Dimension;
@@ -13,18 +14,21 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import DesignPattern.Observer.interfaces.IObserver;
-import DesignPattern.Observer.interfaces.IPublisher;
+import Utils.Observer.interfaces.IObserver;
+import Utils.Observer.interfaces.IPublisher;
 import facades.PlaylistFacade;
+import java.util.Collections;
+import model.Comparators.PlaylistComparatorWithDate;
 import model.interfaces.IPlaylist;
 
 /**
  *
  * @author mateus
  */
-public class PlaylistContainer extends javax.swing.JPanel implements IPublisher {
+public class PlaylistContainer extends javax.swing.JPanel implements IPublisher, IObserver {
     
     private final List<IObserver> observers = new ArrayList<>();
+    private final PlaylistFacade facade = new PlaylistFacade();
     private IPlaylist clickedPlaylist;
     private long playlistSize;
     /**
@@ -32,7 +36,7 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher 
      */
     public PlaylistContainer() {
         initComponents();
-        GetAllPlayLists();
+        ListAllPlayLists();
     }
     
     private void resizeScroll(){
@@ -51,11 +55,13 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher 
 
     }
     
-    private void GetAllPlayLists(){
-        PlaylistFacade facade = new PlaylistFacade();
+    private void ListAllPlayLists(){
+        jPanelPlaylists.removeAll();
         List<JPanel> capas = new ArrayList<>();
         Dimension dimension = new Dimension(100, 100);
         List<IPlaylist> playlists = facade.getAllPlaylist();
+        Collections.sort(playlists, new PlaylistComparatorWithDate()); // Sort to createData
+      
         playlistSize = playlists.size();
             
         playlists.forEach(playlist ->{        
@@ -127,6 +133,11 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher 
         jPanel2.setBackground(new java.awt.Color(34, 34, 34));
 
         jButton2.setText("Create New Playlist");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -167,6 +178,13 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher 
          resizeScroll();
     }//GEN-LAST:event_scrollContainerComponentResized
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+       
+        ModalCreatePlaylist modal = new ModalCreatePlaylist();
+        modal.addObserver(this);
+        modal.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
@@ -194,6 +212,17 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher 
             ob.update(clickedPlaylist);
         });
        
+    }
+
+    @Override
+    public void update(Object publisher) {
+
+        if( publisher  instanceof Boolean ){
+            
+            if( ((Boolean)publisher) ){ // True if sucess insert playlist in database
+                ListAllPlayLists();
+            }
+        }
     }
 
 }

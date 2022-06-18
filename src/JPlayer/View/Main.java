@@ -1,13 +1,11 @@
 package JPlayer.View;
 
 
-import DesignPattern.Observer.interfaces.IObserver;
+import Utils.Observer.interfaces.IObserver;
 import JPlayer.View.Music.MusicContainer;
 import JPlayer.View.Playlist.PlaylistPanel;
 import JPlayer.View.Playlist.PlaylistContainer;
-import JPlayer.View.Records.SignIn;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import model.JPanelManager;
 import model.Playlist;
 import model.interfaces.IPlaylist;
