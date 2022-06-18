@@ -39,11 +39,11 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher,
         
         int itemsPerColumn = (int) scrollContainer.getSize().getWidth() / 100;
         
-        int gap = Math.round(playlistSize/itemsPerColumn) * 5;
-        int newHeight = Math.round(playlistSize/itemsPerColumn) * 100 + gap;
+        int gap = Math.round(playlistSize/itemsPerColumn) * 50;
+        int newHeight = (Math.round(playlistSize/itemsPerColumn) * 100 )+ gap;
         
         if(newHeight % 2 != 0)
-            newHeight += 100;
+            newHeight += 150;
         
         int newWidth = itemsPerColumn * 100;
               
