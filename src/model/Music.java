@@ -1,16 +1,20 @@
 package model;
 
+import model.interfaces.IMusic;
+
 /**
  *
  * @author mateus
  */
-public class Music {
+public class Music implements IMusic{
     
-    
+    private long Id;
     private String title;
     private String author;
     private String album;
     private long duration;
+    private boolean selected;
+
 
     
     public Music(){
@@ -39,6 +43,21 @@ public class Music {
 
     public void setDuration(long duration) {
         this.duration = duration;
+    }
+        public boolean isSelected() {
+        return selected;
+    }
+
+    public long getId() {
+        return Id;
+    }
+
+    public void setId(long Id) {
+        this.Id = Id;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     public String getAlbum() {

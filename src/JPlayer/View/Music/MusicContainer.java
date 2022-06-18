@@ -4,8 +4,12 @@
  */
 package JPlayer.View.Music;
 
+
 import TableModel.MusicTableModel;
+import TableModel.SelectMusicTableModel;
 import facades.MusicFacade;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 /**
  *
@@ -24,7 +28,7 @@ public class MusicContainer extends javax.swing.JPanel {
         initComponents();
         
         model.insertMusic(facade.GetAllMusics());
-        jTableMusics.setModel(model);       
+        jTableMusics.setModel(model);           
     }
 
     /**
@@ -37,7 +41,7 @@ public class MusicContainer extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextFieldSearchBar = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -47,15 +51,15 @@ public class MusicContainer extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(35, 35, 35));
 
-        jTextField1.addCaretListener(new javax.swing.event.CaretListener() {
+        jTextFieldSearchBar.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                jTextField1CaretUpdate(evt);
+                jTextFieldSearchBarCaretUpdate(evt);
             }
         });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Buscar Por Nome");
+        jLabel1.setText("Buscar");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -65,7 +69,7 @@ public class MusicContainer extends javax.swing.JPanel {
                 .addGap(40, 40, 40)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE))
+                    .addComponent(jTextFieldSearchBar, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE))
                 .addGap(41, 41, 41))
         );
         jPanel1Layout.setVerticalGroup(
@@ -74,7 +78,7 @@ public class MusicContainer extends javax.swing.JPanel {
                 .addContainerGap(25, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldSearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
 
@@ -113,10 +117,10 @@ public class MusicContainer extends javax.swing.JPanel {
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextField1CaretUpdate
-       model.SearchMusicByName(jTextField1.getText());
+    private void jTextFieldSearchBarCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldSearchBarCaretUpdate
+       model.SearchMusicByName(jTextFieldSearchBar.getText());
        jTableMusics.setModel(model);
-    }//GEN-LAST:event_jTextField1CaretUpdate
+    }//GEN-LAST:event_jTextFieldSearchBarCaretUpdate
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -125,6 +129,6 @@ public class MusicContainer extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableMusics;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextFieldSearchBar;
     // End of variables declaration//GEN-END:variables
 }

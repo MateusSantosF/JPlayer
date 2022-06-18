@@ -2,11 +2,17 @@
 package TableModel;
 
 import facades.MusicFacade;
+import java.awt.Checkbox;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javax.swing.table.AbstractTableModel;
-import model.Music;
+import model.interfaces.IMusic;
 
 /**
  *
@@ -16,7 +22,7 @@ public class MusicTableModel extends AbstractTableModel {
 
     private final String[] columns = {"Title", "Author", "Album", "Duration"};
     private final MusicFacade facade = new MusicFacade();
-    private List<Music> musics;
+    private List<IMusic> musics;
 
     public MusicTableModel(){
         musics = new ArrayList<>();
@@ -26,7 +32,7 @@ public class MusicTableModel extends AbstractTableModel {
     public String getColumnName(int column){
         return columns[column];
     }
-    
+  
     @Override
     public int getRowCount() {
         return musics.size();
@@ -35,8 +41,8 @@ public class MusicTableModel extends AbstractTableModel {
     @Override
     public int getColumnCount() {
         return columns.length;
-    }      
-
+    }  
+    
     @Override
     public Object getValueAt(int row, int column) {
         switch (column) {
@@ -53,14 +59,11 @@ public class MusicTableModel extends AbstractTableModel {
         }
     }
     
-    public void insertMusic(Music music){
-        musics.add(music);
-    }
-    
+
     public void SearchMusicByName(String input){ 
-        ClearData();
+        clearData();
         insertMusic(facade.GetAllMusics());
-        List<Music> filtered = musics.stream().filter(
+        List<IMusic> filtered = musics.stream().filter(
                 music -> input.toLowerCase().contains(music.getTitle().toLowerCase())).collect(Collectors.toList());
         
         if(!filtered.isEmpty()){
@@ -69,14 +72,23 @@ public class MusicTableModel extends AbstractTableModel {
         fireTableDataChanged();    
     }
     
-    public void insertMusic(List<Music> musics){
-        this.musics.clear();
-        this.musics.addAll(musics);     
+    public void insertMusic(List<IMusic> newMusics){  
+        musics.addAll(newMusics);
+        removeDuplicateValues();
         fireTableDataChanged(); 
     }
     
-    private void ClearData(){
+    private void clearData(){
         musics.clear();
+    }
+    
+    private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Set<Object> seen = ConcurrentHashMap.newKeySet();
+    return t -> seen.add(keyExtractor.apply(t));
+}
+    private void removeDuplicateValues(){
+        musics = musics.stream().filter(distinctByKey(IMusic::getId)).collect(Collectors.toList());
+        fireTableDataChanged();
     }
     
 }

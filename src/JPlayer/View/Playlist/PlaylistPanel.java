@@ -4,29 +4,38 @@
  */
 package JPlayer.View.Playlist;
 
+import DesignPattern.Observer.interfaces.IObserver;
+import JPlayer.Modal.ModalAddMusic;
 import TableModel.MusicTableModel;
+import facades.PlaylistFacade;
+import java.util.ArrayList;
 import java.util.List;
 import model.Music;
 import model.Playlist;
+import model.interfaces.IMusic;
 import model.interfaces.IPlaylist;
 
 /**
  *
  * @author mateus
  */
-public class PlaylistPanel extends javax.swing.JPanel {
+public class PlaylistPanel extends javax.swing.JPanel implements IObserver {
     
-    private MusicTableModel model = new MusicTableModel();
+    private final MusicTableModel model = new MusicTableModel();
+    private final PlaylistFacade playlistFacade = new PlaylistFacade();
+    private final IPlaylist currentPlaylist;
     /**
      * Creates new form Playlist
+     * @param playlist
      */
     public PlaylistPanel(IPlaylist playlist) {
         initComponents();
         
-        Playlist play = (Playlist) playlist;
-        jLabelTitle.setText(play.getTitle());
-        jTextAreaDescription.setText(play.getDescription());
-        model.insertMusic(play.getMusics());
+        currentPlaylist = (Playlist) playlist;
+  
+        jLabelTitle.setText(currentPlaylist.getTitle());
+        jTextAreaDescription.setText(currentPlaylist.getDescription());
+        model.insertMusic(currentPlaylist.getMusics());
         jTableMusic.setModel(model);
     }
 
@@ -43,6 +52,7 @@ public class PlaylistPanel extends javax.swing.JPanel {
         jLabelTitle = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextAreaDescription = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableMusic = new javax.swing.JTable();
@@ -67,6 +77,16 @@ public class PlaylistPanel extends javax.swing.JPanel {
         jTextAreaDescription.setWrapStyleWord(true);
         jScrollPane1.setViewportView(jTextAreaDescription);
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Add songs");
+        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -74,9 +94,14 @@ public class PlaylistPanel extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE))
-                .addGap(36, 36, 36))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE))
+                        .addGap(36, 36, 36))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -84,7 +109,9 @@ public class PlaylistPanel extends javax.swing.JPanel {
                 .addComponent(jLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 40, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1)
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         add(jPanel1, java.awt.BorderLayout.PAGE_START);
@@ -109,8 +136,16 @@ public class PlaylistPanel extends javax.swing.JPanel {
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        
+        ModalAddMusic modal = new ModalAddMusic();
+        modal.addObserver(this);
+        modal.setVisible(true);
+    }//GEN-LAST:event_jLabel1MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelTitle;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -119,4 +154,14 @@ public class PlaylistPanel extends javax.swing.JPanel {
     private javax.swing.JTable jTableMusic;
     private javax.swing.JTextArea jTextAreaDescription;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(Object publisher) {
+        
+        if( publisher instanceof List){
+            List<IMusic> musics = (List<IMusic>) publisher;
+            boolean response = playlistFacade.insertMusicsInDatabase(currentPlaylist, musics);
+            model.insertMusic(musics);
+        }
+    }
 }

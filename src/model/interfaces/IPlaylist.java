@@ -1,7 +1,6 @@
 package model.interfaces;
 
 import java.util.List;
-import model.Music;
 
 /**
  *
@@ -9,7 +8,9 @@ import model.Music;
  */
 public interface IPlaylist {
     
-    List<Music> getMusics();
+    List<IMusic> getMusics();
     
     public String getTitle();
+    
+    public String getDescription();
 }

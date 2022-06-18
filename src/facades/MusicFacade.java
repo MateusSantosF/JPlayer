@@ -7,6 +7,7 @@ package facades;
 import JPlayer.Mocks.MusicMock;
 import java.util.List;
 import model.Music;
+import model.interfaces.IMusic;
 
 
 
@@ -17,7 +18,7 @@ import model.Music;
 public class MusicFacade {
     
     
-    public List<Music> GetAllMusics(){
+    public List<IMusic> GetAllMusics(){
         return MusicMock.musicsList();
     }
 }
