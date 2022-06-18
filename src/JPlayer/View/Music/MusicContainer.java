@@ -1,21 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package JPlayer.View.Music;
 
-
+import JPlayer.Modal.ModalCreateMusic;
 import TableModel.MusicTableModel;
-import TableModel.SelectMusicTableModel;
+import Utils.Observer.interfaces.IObserver;
 import facades.MusicFacade;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
+
 
 /**
  *
  * @author Mateus Santos
  */
-public class MusicContainer extends javax.swing.JPanel {
+public class MusicContainer extends javax.swing.JPanel implements IObserver {
 
     /**
      * Creates new form MusicContainer
@@ -27,10 +23,14 @@ public class MusicContainer extends javax.swing.JPanel {
     public MusicContainer() {
         initComponents();
         
-        model.insertMusic(facade.GetAllMusics());
-        jTableMusics.setModel(model);           
+        listAllMusicsInDatabase();           
     }
-
+    
+    private void listAllMusicsInDatabase(){
+        
+        model.insertWithRemove(facade.GetAllMusics());
+        jTableMusics.setModel(model);  
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -46,6 +46,8 @@ public class MusicContainer extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableMusics = new javax.swing.JTable();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -97,21 +99,47 @@ public class MusicContainer extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(jTableMusics);
 
+        jButton2.setText("Create New Playlist");
+
+        jButton3.setText("Add New Song");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
-                .addGap(26, 26, 26))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButton3)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                        .addGap(26, 26, 26))))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jButton2)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(17, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jButton2)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         add(jPanel2, java.awt.BorderLayout.CENTER);
@@ -122,8 +150,17 @@ public class MusicContainer extends javax.swing.JPanel {
        jTableMusics.setModel(model);
     }//GEN-LAST:event_jTextFieldSearchBarCaretUpdate
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        
+        ModalCreateMusic modal = new ModalCreateMusic();
+        modal.addObserver(this);
+        modal.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -131,4 +168,16 @@ public class MusicContainer extends javax.swing.JPanel {
     private javax.swing.JTable jTableMusics;
     private javax.swing.JTextField jTextFieldSearchBar;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(Object publisher) {
+        
+        if(publisher instanceof Boolean){
+            
+            if( (( Boolean) publisher)){
+                listAllMusicsInDatabase();    
+            }
+        }
+
+    }
 }

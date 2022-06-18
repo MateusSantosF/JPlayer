@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import model.interfaces.IMusic;
 
 /**
@@ -11,13 +13,19 @@ public class Music implements IMusic{
     private long Id;
     private String name;
     private String author;
-    private long duration;
+    private LocalTime duration;
     private boolean selected;
 
-
-    
+   
     public Music(){
         
+    }
+    
+    public Music(String name, String author, String duration){
+        //TODO get lastId increment in database
+        this.name  = name;
+        this.author = author;
+        this.duration = LocalTime.parse(duration);
     }
 
     @Override
@@ -48,12 +56,12 @@ public class Music implements IMusic{
     }
 
     @Override
-    public long getDuration() {
-        return duration;
+    public String getDuration() {
+        return duration.toString();
     }
 
-    public void setDuration(long duration) {
-        this.duration = duration;
+    public void setDuration(String duration) {
+        this.duration = LocalTime.parse(duration);
     }
     @Override
         public boolean isSelected() {

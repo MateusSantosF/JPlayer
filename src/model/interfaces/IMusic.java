@@ -9,7 +9,7 @@ public interface IMusic {
     long getId();
     String getName();
     String getAuthor();
-    long getDuration();  
+    String getDuration();  
     void setSelected(boolean value);
     boolean isSelected();
 }

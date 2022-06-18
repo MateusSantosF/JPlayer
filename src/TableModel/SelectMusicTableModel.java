@@ -30,7 +30,7 @@ public class SelectMusicTableModel extends AbstractTableModel  {
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 
-        if (columnIndex == 3) {
+        if ( columnIndex == 3 ) {
             musics.get(rowIndex).setSelected(Boolean.valueOf(aValue.toString()));             
             fireTableRowsUpdated(rowIndex, rowIndex);
             fireTableCellUpdated(rowIndex, columnIndex);

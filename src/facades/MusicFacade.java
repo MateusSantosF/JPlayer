@@ -25,4 +25,8 @@ public class MusicFacade {
      public List<IMusic> GetAllMusicsTwo(){
         return MusicMock.musicsListTwo();
     }
+     
+    public boolean insertMusic(IMusic music){
+        return true;
+    }
 }

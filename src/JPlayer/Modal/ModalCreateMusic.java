@@ -1,18 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package JPlayer.Modal;
 
 import Utils.Observer.interfaces.IObserver;
 import Utils.Observer.interfaces.IPublisher;
+import facades.MusicFacade;
 import facades.PlaylistFacade;
-import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import model.Playlist;
-import model.interfaces.IPlaylist;
+import model.Music;
+import model.interfaces.IMusic;
 
 /**
  *
@@ -23,7 +20,7 @@ public class ModalCreateMusic extends javax.swing.JFrame implements IPublisher{
     /**
      * Creates new form ModalAddMusic
      */
-    private final PlaylistFacade facade = new PlaylistFacade();
+    private final MusicFacade facade = new MusicFacade();
     private final List<IObserver> observers = new ArrayList<>();
     private boolean result;
     
@@ -44,12 +41,12 @@ public class ModalCreateMusic extends javax.swing.JFrame implements IPublisher{
         jPanel1 = new javax.swing.JPanel();
         jButtonCreate = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jTextFieldName = new javax.swing.JTextField();
+        jTextFieldAuthor = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextFieldName1 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jTextFieldName2 = new javax.swing.JTextField();
+        jTextFieldName = new javax.swing.JTextField();
+        jFormattedTextFieldDuration = new javax.swing.JFormattedTextField();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -69,7 +66,7 @@ public class ModalCreateMusic extends javax.swing.JFrame implements IPublisher{
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(108, 108, 108)
                 .addComponent(jButtonCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(120, Short.MAX_VALUE))
+                .addContainerGap(109, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -81,9 +78,9 @@ public class ModalCreateMusic extends javax.swing.JFrame implements IPublisher{
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
 
-        jTextFieldName.addCaretListener(new javax.swing.event.CaretListener() {
+        jTextFieldAuthor.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                jTextFieldNameCaretUpdate(evt);
+                jTextFieldAuthorCaretUpdate(evt);
             }
         });
 
@@ -91,19 +88,25 @@ public class ModalCreateMusic extends javax.swing.JFrame implements IPublisher{
 
         jLabel2.setText("Author");
 
-        jTextFieldName1.addCaretListener(new javax.swing.event.CaretListener() {
+        jTextFieldName.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                jTextFieldName1CaretUpdate(evt);
+                jTextFieldNameCaretUpdate(evt);
             }
         });
 
-        jLabel3.setText("Album ");
-
-        jTextFieldName2.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                jTextFieldName2CaretUpdate(evt);
+        try {
+            jFormattedTextFieldDuration.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jFormattedTextFieldDuration.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jFormattedTextFieldDuration.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFormattedTextFieldDurationActionPerformed(evt);
             }
         });
+
+        jLabel4.setText("Duration");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -112,13 +115,13 @@ public class ModalCreateMusic extends javax.swing.JFrame implements IPublisher{
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextFieldName1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldName2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(29, Short.MAX_VALUE))
+                    .addComponent(jTextFieldAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jFormattedTextFieldDuration, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,41 +129,50 @@ public class ModalCreateMusic extends javax.swing.JFrame implements IPublisher{
                 .addGap(35, 35, 35)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextFieldName1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
+                .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldName2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addComponent(jFormattedTextFieldDuration, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateActionPerformed
-       
-        notifyObservers();       
+        
+        result = facade.insertMusic(createMusic());
+        if(result){
+            JOptionPane.showMessageDialog(null, "Music created in database with sucess!");        
+        }  
+        
+        notifyObservers();
         this.dispose();
     }//GEN-LAST:event_jButtonCreateActionPerformed
 
-    private void jTextFieldNameCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldNameCaretUpdate
+    private void jTextFieldAuthorCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldAuthorCaretUpdate
         
+    }//GEN-LAST:event_jTextFieldAuthorCaretUpdate
+
+    private void jTextFieldNameCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldNameCaretUpdate
+        // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldNameCaretUpdate
 
-    private void jTextFieldName1CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldName1CaretUpdate
+    private void jFormattedTextFieldDurationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextFieldDurationActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldName1CaretUpdate
+    }//GEN-LAST:event_jFormattedTextFieldDurationActionPerformed
 
-    private void jTextFieldName2CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldName2CaretUpdate
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldName2CaretUpdate
-
+    private IMusic createMusic(){     
+        return new Music(jTextFieldName.getText(), jTextFieldAuthor.getText(), jFormattedTextFieldDuration.getText());
+    }
     /**
      * @param args the command line arguments
      */
@@ -202,14 +214,14 @@ public class ModalCreateMusic extends javax.swing.JFrame implements IPublisher{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCreate;
+    private javax.swing.JFormattedTextField jFormattedTextFieldDuration;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JTextField jTextFieldAuthor;
     private javax.swing.JTextField jTextFieldName;
-    private javax.swing.JTextField jTextFieldName1;
-    private javax.swing.JTextField jTextFieldName2;
     // End of variables declaration//GEN-END:variables
 
     @Override
