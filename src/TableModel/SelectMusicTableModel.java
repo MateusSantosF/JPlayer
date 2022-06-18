@@ -14,7 +14,7 @@ import model.interfaces.IMusic;
  */
 public class SelectMusicTableModel extends AbstractTableModel  {
 
-    private final String[] columns = {"Title", "Author", "Album", "Duration", "Selected"};
+    private final String[] columns = {"Title", "Author", "Duration", "Selected"};
     private final MusicFacade facade = new MusicFacade();
     private List<IMusic> musics;
 
@@ -30,7 +30,7 @@ public class SelectMusicTableModel extends AbstractTableModel  {
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 
-        if (columnIndex == 4) {
+        if (columnIndex == 3) {
             musics.get(rowIndex).setSelected(Boolean.valueOf(aValue.toString()));             
             fireTableRowsUpdated(rowIndex, rowIndex);
             fireTableCellUpdated(rowIndex, columnIndex);
@@ -48,8 +48,6 @@ public class SelectMusicTableModel extends AbstractTableModel  {
             case 2:
                 return String.class;
             case 3:
-                return String.class;
-            case 4:
                 return Boolean.class;
             default:
                 throw new AssertionError();
@@ -68,21 +66,19 @@ public class SelectMusicTableModel extends AbstractTableModel  {
     
     @Override
     public boolean isCellEditable(int row, int column) {
-        return column == 4;
+        return column == 3;
     }
     
     @Override
     public Object getValueAt(int row, int column) {
         switch (column) {
             case 0:
-                return musics.get(row).getTitle();
+                return musics.get(row).getName();
             case 1:
                 return musics.get(row).getAuthor();
             case 2:
-                return musics.get(row).getAlbum();
-            case 3:
                 return musics.get(row).getDuration();
-            case 4:
+            case 3:
                 return musics.get(row).isSelected();          
             default:
                 return null;
@@ -93,7 +89,7 @@ public class SelectMusicTableModel extends AbstractTableModel  {
         clearData();
         insertMusic(facade.GetAllMusicsTwo());
         List<IMusic> filtered = musics.stream().filter(
-                music -> input.toLowerCase().contains(music.getTitle().toLowerCase())).collect(Collectors.toList());
+                music -> input.toLowerCase().contains(music.getName().toLowerCase())).collect(Collectors.toList());
         
         if(!filtered.isEmpty()){
             musics = filtered;

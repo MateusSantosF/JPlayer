@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package JPlayer.View.Playlist;
 
 import JPlayer.Modal.ModalCreatePlaylist;
@@ -18,7 +14,7 @@ import Utils.Observer.interfaces.IObserver;
 import Utils.Observer.interfaces.IPublisher;
 import facades.PlaylistFacade;
 import java.util.Collections;
-import model.Comparators.PlaylistComparatorWithDate;
+import model.Comparators.PlaylistComparatorByDate;
 import model.interfaces.IPlaylist;
 
 /**
@@ -60,7 +56,7 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher,
         List<JPanel> capas = new ArrayList<>();
         Dimension dimension = new Dimension(100, 100);
         List<IPlaylist> playlists = facade.getAllPlaylist();
-        Collections.sort(playlists, new PlaylistComparatorWithDate()); // Sort to createData
+        Collections.sort(playlists, new PlaylistComparatorByDate()); // Sort to createData
       
         playlistSize = playlists.size();
             

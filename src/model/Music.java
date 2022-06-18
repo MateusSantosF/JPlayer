@@ -9,9 +9,8 @@ import model.interfaces.IMusic;
 public class Music implements IMusic{
     
     private long Id;
-    private String title;
+    private String name;
     private String author;
-    private String album;
     private long duration;
     private boolean selected;
 
@@ -21,14 +20,25 @@ public class Music implements IMusic{
         
     }
 
-    public String getTitle() {
-        return title;
+    @Override
+    public long getId() {
+        return Id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setId(long Id) {
+        this.Id = Id;
+    }
+    
+    @Override
+    public String getName() {
+        return name;
     }
 
+    public void setName(String title) {
+        this.name = title;
+    }
+
+    @Override
     public String getAuthor() {
         return author;
     }
@@ -37,6 +47,7 @@ public class Music implements IMusic{
         this.author = author;
     }
 
+    @Override
     public long getDuration() {
         return duration;
     }
@@ -44,29 +55,16 @@ public class Music implements IMusic{
     public void setDuration(long duration) {
         this.duration = duration;
     }
+    @Override
         public boolean isSelected() {
         return selected;
     }
 
-    public long getId() {
-        return Id;
-    }
-
-    public void setId(long Id) {
-        this.Id = Id;
-    }
-
+    @Override
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
 
-    public String getAlbum() {
-        return album;
-    }
-
-    public void setAlbum(String album) {
-        this.album = album;
-    }
     
     
 }

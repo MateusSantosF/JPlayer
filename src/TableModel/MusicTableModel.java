@@ -3,14 +3,8 @@ package TableModel;
 
 import facades.MusicFacade;
 import facades.PlaylistFacade;
-import java.awt.Checkbox;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javax.swing.table.AbstractTableModel;
 import model.interfaces.IMusic;
@@ -21,7 +15,7 @@ import model.interfaces.IMusic;
  */
 public class MusicTableModel extends AbstractTableModel {
 
-    private final String[] columns = {"Title", "Author", "Album", "Duration"};
+    private final String[] columns = {"Title", "Author", "Duration"};
     private final MusicFacade musicFacade = new MusicFacade();
     private final PlaylistFacade playlistFacade = new PlaylistFacade();
     private List<IMusic> musics;
@@ -49,12 +43,10 @@ public class MusicTableModel extends AbstractTableModel {
     public Object getValueAt(int row, int column) {
         switch (column) {
             case 0:
-                return musics.get(row).getTitle();
+                return musics.get(row).getName();
             case 1:
                 return musics.get(row).getAuthor();
             case 2:
-                return musics.get(row).getAlbum();
-            case 3:
                 return musics.get(row).getDuration();
             default:
                 return null;
@@ -66,7 +58,7 @@ public class MusicTableModel extends AbstractTableModel {
         clearData();
         insertMusic(musicFacade.GetAllMusics());
         List<IMusic> filtered = musics.stream().filter(
-                music -> input.toLowerCase().contains(music.getTitle().toLowerCase())).collect(Collectors.toList());
+                music -> input.toLowerCase().contains(music.getName().toLowerCase())).collect(Collectors.toList());
         
         if(!filtered.isEmpty()){
             musics = filtered;

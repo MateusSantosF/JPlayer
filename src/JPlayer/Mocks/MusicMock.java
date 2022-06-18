@@ -22,8 +22,7 @@ public class MusicMock {
         for (int i = 0; i < 10; i++) {
             Music current = new Music();
             current.setId(i);
-            current.setTitle("Title"+i);
-            current.setAlbum("Album"+i);
+            current.setName("Title"+i);
             current.setDuration(i*20L);
             current.setSelected(false);
             current.setAuthor("Author"+i);
@@ -39,8 +38,7 @@ public class MusicMock {
         for (int i = 10; i < 20; i++) {
             Music current = new Music();
             current.setId(i);
-            current.setTitle("Title"+i);
-            current.setAlbum("Album"+i);
+            current.setName("Title"+i);
             current.setDuration(i*20L);
             current.setSelected(false);
             current.setAuthor("Author"+i);
