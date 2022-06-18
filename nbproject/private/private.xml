@@ -5,15 +5,17 @@
         <group>
             <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/model/Playlist.java</file>
             <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/TableModel/SelectMusicTableModel.java</file>
+            <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/JPlayer/Modal/ModalCreatePlaylist.java</file>
+            <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/JPlayer/View/Playlist/PlaylistContainer.java</file>
             <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/JPlayer/View/Playlist/PlaylistPanel.java</file>
-            <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/model/JPanelManager.java</file>
-            <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/JPlayer/View/Records/SignUp.java</file>
+            <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/JPlayer/Modal/ModalCreateMusic.java</file>
             <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/model/interfaces/IPlaylist.java</file>
-            <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/JPlayer/View/Music/MusicContainer.java</file>
             <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/JPlayer/View/Main.java</file>
             <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/JPlayer/Mocks/PlaylistMock.java</file>
             <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/JPlayer/Modal/ModalAddMusic.java</file>
+            <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/model/interfaces/IMusic.java</file>
             <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/facades/MusicFacade.java</file>
+            <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/model/Music.java</file>
             <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/JPlayer/Mocks/MusicMock.java</file>
             <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/TableModel/MusicTableModel.java</file>
         </group>

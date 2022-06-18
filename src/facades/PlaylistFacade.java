@@ -1,5 +1,6 @@
 package facades;
 
+import Database.DbContext;
 import JPlayer.Mocks.PlaylistMock;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +18,12 @@ import model.interfaces.IPlaylist;
  */
 public class PlaylistFacade {
 
+    
+    private final DbContext dbContext;
+    
+    public PlaylistFacade(){
+        dbContext = DbContext.getInstance();
+    }
     
     public List<IPlaylist> getAllPlaylist(){
         return PlaylistMock.playlistList();

@@ -1,14 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package facades;
 
+import Database.DbContext;
 import JPlayer.Mocks.MusicMock;
 import java.util.List;
-import model.Music;
 import model.interfaces.IMusic;
-
 
 
 /**
@@ -17,6 +12,12 @@ import model.interfaces.IMusic;
  */
 public class MusicFacade {
     
+    
+    private final DbContext dbContext;
+    
+    public MusicFacade(){
+        dbContext = DbContext.getInstance();
+    }
     
     public List<IMusic> GetAllMusics(){
         return MusicMock.musicsList();
