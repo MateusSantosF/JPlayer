@@ -49,6 +49,9 @@ public class PlaylistPanel extends javax.swing.JPanel implements IObserver {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTableMusic = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabelTitle = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -56,11 +59,25 @@ public class PlaylistPanel extends javax.swing.JPanel implements IObserver {
         jLabelAddSongs = new javax.swing.JLabel();
         jLabelConfirmRemove = new javax.swing.JLabel();
         jLabelRemoveSongs = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTableMusic = new javax.swing.JTable();
 
         setLayout(new java.awt.BorderLayout());
+
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        jTableMusic.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTableMusic);
+
+        jPanel2.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
         jPanel1.setBackground(new java.awt.Color(34, 34, 34));
 
@@ -126,8 +143,8 @@ public class PlaylistPanel extends javax.swing.JPanel implements IObserver {
                 .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabelAddSongs, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
+                        .addComponent(jLabelAddSongs, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33)
                         .addComponent(jLabelRemoveSongs, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabelConfirmRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -149,24 +166,7 @@ public class PlaylistPanel extends javax.swing.JPanel implements IObserver {
                 .addGap(0, 12, Short.MAX_VALUE))
         );
 
-        add(jPanel1, java.awt.BorderLayout.PAGE_START);
-
-        jPanel2.setLayout(new java.awt.BorderLayout());
-
-        jTableMusic.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(jTableMusic);
-
-        jPanel2.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+        jPanel2.add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents

@@ -26,7 +26,7 @@ public class PlaylistFacade {
     }
     
     public List<IPlaylist> getAllPlaylist(){
-        return PlaylistMock.playlistList();
+        return dbContext.Playlists.ListAll();
     }
     
     public IPlaylist getPlayList(IPlaylist playlist){

@@ -21,4 +21,6 @@ public interface IPlaylist {
     public LocalDate getCreateData();
 
     public void setCreateData(LocalDate createDate);
+
+    public long getId();
 }

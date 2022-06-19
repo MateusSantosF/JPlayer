@@ -6,7 +6,7 @@ import JPlayer.View.Music.MusicContainer;
 import JPlayer.View.Playlist.PlaylistPanel;
 import JPlayer.View.Playlist.PlaylistContainer;
 import javax.swing.JOptionPane;
-import model.JPanelManager;
+import Utils.JPanelManager;
 import model.Playlist;
 import model.interfaces.IPlaylist;
 

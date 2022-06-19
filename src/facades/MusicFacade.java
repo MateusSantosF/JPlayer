@@ -1,7 +1,6 @@
 package facades;
 
 import Database.DbContext;
-import JPlayer.Mocks.MusicMock;
 import java.util.List;
 import model.interfaces.IMusic;
 
@@ -18,13 +17,14 @@ public class MusicFacade {
     public MusicFacade(){
         dbContext = DbContext.getInstance();
     }
-    
+   
     public List<IMusic> GetAllMusics(){
-        return MusicMock.musicsList();
+             
+        return dbContext.Musics.ListAll();
     }
     
-     public List<IMusic> GetAllMusicsTwo(){
-        return MusicMock.musicsListTwo();
+    public IMusic GetMusicById(long id){
+        return dbContext.Musics.GetById(id);
     }
      
     public boolean insertMusic(IMusic music){

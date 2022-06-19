@@ -3,8 +3,9 @@ package model.interfaces;
 /**
  *
  * @author mateus
+ * @param <T>
  */
-public interface IMusic {
+public interface IMusic{
     
     long getId();
     String getName();

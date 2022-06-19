@@ -87,7 +87,7 @@ public class SelectMusicTableModel extends AbstractTableModel  {
 
     public void SearchMusicByName(String input){ 
         clearData();
-        insertMusic(facade.GetAllMusicsTwo());
+        insertMusic(facade.GetAllMusics());
         List<IMusic> filtered = musics.stream().filter(
                 music -> input.toLowerCase().contains(music.getName().toLowerCase())).collect(Collectors.toList());
         

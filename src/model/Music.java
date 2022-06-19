@@ -1,7 +1,6 @@
 package model;
 
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import model.interfaces.IMusic;
 
 /**
@@ -16,7 +15,7 @@ public class Music implements IMusic{
     private LocalTime duration;
     private boolean selected;
 
-   
+    //TODO remove this construct for garanted with any object Music contains ID equals construct below
     public Music(){
         
     }
@@ -26,6 +25,13 @@ public class Music implements IMusic{
         this.name  = name;
         this.author = author;
         this.duration = LocalTime.parse(duration);
+    }
+    
+    public Music(String[] atributes){
+        this.Id = Long.valueOf(atributes[0]);
+        this.name  = atributes[1];
+        this.author = atributes[2];
+        this.duration = LocalTime.parse(atributes[3]);
     }
 
     @Override

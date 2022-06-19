@@ -27,7 +27,7 @@ public class ModalAddMusic extends javax.swing.JFrame implements IPublisher {
     public ModalAddMusic() {
         initComponents();
                        
-        model.insertMusic(facade.GetAllMusicsTwo());  
+        model.insertMusic(facade.GetAllMusics());  
         jTableMusics.setModel(model);   
     }
 

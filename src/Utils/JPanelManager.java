@@ -1,4 +1,4 @@
-package model;
+package Utils;
 
 import javax.swing.JPanel;
 

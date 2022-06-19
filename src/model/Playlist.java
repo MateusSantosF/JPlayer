@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import model.interfaces.IMusic;
@@ -12,10 +13,15 @@ import model.interfaces.IPlaylist;
  */
 public class Playlist implements IPlaylist {
 
+    private long Id;
     private  String title;
     private  String description;  
-    private  List<IMusic> musics;
+    private  List<IMusic> musics = new ArrayList<>();
     private  LocalDate createDate;
+    
+    public Playlist(){
+        
+    }
     
     public Playlist(List<IMusic> musics, String title, String description){
         this.musics = musics;
@@ -23,11 +29,18 @@ public class Playlist implements IPlaylist {
         this.description = description;
     }
     
-     public Playlist(List<IMusic> musics, String title, String description, LocalDate createDate){
+    public Playlist(List<IMusic> musics, String title, String description, LocalDate createDate){
         this.musics = musics;
         this.title = title;
         this.description = description;
         this.createDate = createDate;
+    }
+    
+    public Playlist(String[] atributes){
+        this.Id = Long.valueOf(atributes[0]);
+        this.title = atributes[1];
+        this.description = atributes[2];
+        this.createDate = LocalDate.parse(atributes[3]);
     }
     
     @Override
@@ -58,6 +71,11 @@ public class Playlist implements IPlaylist {
     @Override
     public void setCreateData(LocalDate createData) {
         this.createDate = createData;
+    }
+
+    @Override
+    public long getId() {
+        return this.Id;
     }
     
     
