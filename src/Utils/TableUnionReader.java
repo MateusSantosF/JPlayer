@@ -62,7 +62,8 @@ public class TableUnionReader <T, E>{
                    }
                }
             }
-            
+            buffer.close();
+            reader.close();
             return objectList;
             
         } catch (FileNotFoundException ex) {

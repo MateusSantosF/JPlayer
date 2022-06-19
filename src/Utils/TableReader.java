@@ -50,6 +50,9 @@ public class TableReader <T>{
                 objectList.add((T)objFactory.CreateObject(formated));
             }
             
+            buffer.close();
+            reader.close();
+            
             return objectList;
             
         } catch (FileNotFoundException ex) {
