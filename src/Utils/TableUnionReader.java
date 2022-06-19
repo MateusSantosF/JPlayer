@@ -88,7 +88,8 @@ public class TableUnionReader <T, E>{
         List<Long> convert = new ArrayList<>();
         
         concat.forEach( item ->{
-            convert.add(Long.valueOf(item));
+            if(!item.isEmpty())
+                convert.add(Long.valueOf(item));
         });
                  
         return convert;
