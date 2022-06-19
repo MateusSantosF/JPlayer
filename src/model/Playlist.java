@@ -2,7 +2,6 @@ package model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import model.interfaces.IMusic;
 import model.interfaces.IPlaylist;
@@ -14,10 +13,10 @@ import model.interfaces.IPlaylist;
 public class Playlist implements IPlaylist {
 
     private long Id;
-    private  String title;
-    private  String description;  
-    private  List<IMusic> musics = new ArrayList<>();
-    private  LocalDate createDate;
+    private String title;
+    private String description;  
+    private List<IMusic> musics = new ArrayList<>();
+    private LocalDate createDate;
     
     public Playlist(){
         
@@ -79,6 +78,16 @@ public class Playlist implements IPlaylist {
     }
     
     
+    @Override
+    public void setId(long id) {
+        this.Id = id;
+    }
+
+    @Override
+    public String serialize() {
+        return String.format("%d:{%s,%s,%s}", this.getId(), this.getTitle(), this.getDescription(), this.getCreateData().toString());
+    }
+
     
-    
+ 
 }

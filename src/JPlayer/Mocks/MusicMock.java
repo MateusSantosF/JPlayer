@@ -17,7 +17,7 @@ public class MusicMock {
     
     
     public static List<IMusic> musicsList(){
-         List<IMusic> list = new ArrayList<>();
+        List<IMusic> list = new ArrayList<>();
         
         for (int i = 0; i < 10; i++) {
             Music current = new Music();

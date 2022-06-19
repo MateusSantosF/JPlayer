@@ -23,4 +23,8 @@ public interface IPlaylist {
     public void setCreateData(LocalDate createDate);
 
     public long getId();
+    
+    public void setId(long id);
+    
+    String serialize();
 }

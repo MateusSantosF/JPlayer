@@ -5,8 +5,6 @@ import JPlayer.Modal.ModalCreateMusic;
 import TableModel.MusicTableModel;
 import Utils.Observer.interfaces.IObserver;
 import facades.MusicFacade;
-
-
 /**
  *
  * @author Mateus Santos
@@ -21,8 +19,7 @@ public class MusicContainer extends javax.swing.JPanel implements IObserver {
     private final MusicFacade facade = new MusicFacade();
     
     public MusicContainer() {
-        initComponents();
-        
+        initComponents();       
         listAllMusicsInDatabase();           
     }
     

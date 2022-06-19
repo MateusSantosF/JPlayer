@@ -20,7 +20,7 @@ public class MusicFacade {
    
     public List<IMusic> GetAllMusics(){
              
-        return dbContext.Musics.ListAll();
+       return dbContext.Musics.ListAll();
     }
     
     public IMusic GetMusicById(long id){
@@ -28,6 +28,6 @@ public class MusicFacade {
     }
      
     public boolean insertMusic(IMusic music){
-        return true;
+        return dbContext.Musics.Insert(music);
     }
 }

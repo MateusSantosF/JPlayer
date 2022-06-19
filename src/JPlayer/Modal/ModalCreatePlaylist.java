@@ -44,11 +44,11 @@ public class ModalCreatePlaylist extends javax.swing.JFrame implements IPublishe
         jPanel1 = new javax.swing.JPanel();
         jButtonCreate = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jTextFieldName = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextAreaDescription = new javax.swing.JTextArea();
+        jTextFieldTitle = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -80,12 +80,6 @@ public class ModalCreatePlaylist extends javax.swing.JFrame implements IPublishe
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
 
-        jTextFieldName.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                jTextFieldNameCaretUpdate(evt);
-            }
-        });
-
         jLabel1.setText("Playlist Name");
 
         jLabel2.setText("Description");
@@ -100,11 +94,11 @@ public class ModalCreatePlaylist extends javax.swing.JFrame implements IPublishe
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
-                    .addComponent(jTextFieldName))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -113,7 +107,7 @@ public class ModalCreatePlaylist extends javax.swing.JFrame implements IPublishe
                 .addGap(35, 35, 35)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -136,10 +130,6 @@ public class ModalCreatePlaylist extends javax.swing.JFrame implements IPublishe
      
         this.dispose();
     }//GEN-LAST:event_jButtonCreateActionPerformed
-
-    private void jTextFieldNameCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldNameCaretUpdate
-        
-    }//GEN-LAST:event_jTextFieldNameCaretUpdate
 
     /**
      * @param args the command line arguments
@@ -178,7 +168,7 @@ public class ModalCreatePlaylist extends javax.swing.JFrame implements IPublishe
     }
     
     private IPlaylist CreatePlaylist(){ 
-        return new Playlist(new ArrayList<>(), jTextFieldName.getName(), jTextAreaDescription.getText(), LocalDate.now());
+        return new Playlist(new ArrayList<>(), jTextFieldTitle.getText().trim(), jTextAreaDescription.getText().trim(), LocalDate.now());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -189,7 +179,7 @@ public class ModalCreatePlaylist extends javax.swing.JFrame implements IPublishe
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextAreaDescription;
-    private javax.swing.JTextField jTextFieldName;
+    private javax.swing.JTextField jTextFieldTitle;
     // End of variables declaration//GEN-END:variables
 
     @Override

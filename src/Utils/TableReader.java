@@ -30,7 +30,7 @@ public class TableReader <T>{
         
         File tableCSV = getTableFile();
         List<T> objectList = new ArrayList<>();
-        
+       
         if(!tableCSV.exists() || !tableCSV.canRead() ||!tableCSV.isFile()){
             System.out.println("FAIL READ TABLE");
             return null;
@@ -44,10 +44,14 @@ public class TableReader <T>{
             buffer = new BufferedReader(reader);
             String linha = "";
             
-            while( (linha = buffer.readLine()) != null){
-                String[] formated = formatLine(linha);
-                TableFactory objFactory = new TableFactory(type);
-                objectList.add((T)objFactory.CreateObject(formated));
+            while( (linha = buffer.readLine()) != null ){
+                
+                if(!linha.isBlank()){
+                    String[] formated = formatLine(linha);
+                    TableFactory objFactory = new TableFactory(type);
+                    objectList.add((T)objFactory.CreateObject(formated)); 
+                }
+                
             }
             
             buffer.close();
@@ -66,8 +70,45 @@ public class TableReader <T>{
     }
     
     public long getLastIdInTable(){
-        return 0L;
+        
+        File table = getTableFile();
+        
+        if(!table.exists() || !table.canRead() ||!table.isFile()){
+            System.out.println("FAIL READ TABLE");
+            return -1;
+        }
+        
+        FileReader reader;
+        BufferedReader buffer;
+        long lastId = 0;
+        
+        try {
+            reader = new FileReader(table);
+            buffer = new BufferedReader(reader);
+            String line = "";
+            
+            while( (line = buffer.readLine()) != null){
+                if(!line.isBlank()){
+                    long currentId = deserializeId(line);
+                    lastId = currentId > lastId ? currentId:lastId;
+                }
+                    
+            }
+            
+            return lastId;
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(TableReader.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(TableReader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return lastId;
     }
+    
+    private long deserializeId(String line){
+        return Long.valueOf(line.substring(0, line.indexOf(":{")));
+    }
+    
     
     private String[] formatLine(String line){
        
@@ -77,7 +118,7 @@ public class TableReader <T>{
         List<String> concat = new ArrayList<>(Arrays.asList(atributes));
         concat.add(0, id);
                  
-        return concat.toArray(new String[0]);
+        return concat.toArray(String[]::new);
     }
     
     private File getTableFile(){

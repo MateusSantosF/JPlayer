@@ -2,12 +2,14 @@ package Database;
 
 import Utils.TableReader;
 import Utils.TableUnionReader;
+import Utils.TableWriter;
 import java.util.ArrayList;
 import java.util.List;
 import model.Music;
 import model.Playlist;
 import model.interfaces.IMusic;
 import model.interfaces.IPlaylist;
+
 
 /**
  *
@@ -46,7 +48,7 @@ public class DbContext {
             throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         }
     };
-    
+        
     public Dbset<IMusic> Musics = new Dbset<IMusic>() {
         
         TableReader<IMusic> reader = new TableReader<>(new Music());
@@ -68,7 +70,9 @@ public class DbContext {
 
         @Override
         public boolean Insert(IMusic type) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            type.setId(getLastIdTableMusic());
+            TableWriter<IMusic> writer = new TableWriter(type);
+            return writer.writeInTable(type);
         }
 
         @Override
@@ -78,6 +82,8 @@ public class DbContext {
 
         @Override
         public boolean Delete(IMusic type) {
+            
+            //TODO dont forget clear TABLE_ID variables 
             throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         }
     };
@@ -92,6 +98,7 @@ public class DbContext {
                     
             list.forEach( playlist ->{
                 List<IMusic> currentPlayListMusics = new ArrayList<>();
+                
                 PlaylistMusics.ListAll(playlist).forEach(id -> {
                     currentPlayListMusics.add(Musics.GetById(id));
                 });
@@ -121,7 +128,9 @@ public class DbContext {
 
         @Override
         public boolean Insert(IPlaylist type) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            type.setId(getLastIdTablePlaylist());
+            TableWriter<IPlaylist> writer = new TableWriter(type);         
+            return writer.writeInTable(type);
         }
 
         @Override
@@ -131,24 +140,14 @@ public class DbContext {
 
         @Override
         public boolean Delete(IPlaylist type) {
+              //TODO dont forget clear TABLE_ID variables 
             throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         }
 
      
     };
-
-    public DbContext(Dbset<IPlaylist> Playlists) {
-        this.Playlists = Playlists;
-    }
-        
-
-    
+       
     private DbContext(){
-        
-    }
-    
-    
-    private void mappingTables(){
         
     }
     
@@ -159,31 +158,29 @@ public class DbContext {
         return dbContext;
     }
     
-    public void INCREMENT_ID_TABLE_MUSIC(){
+    private long getLastIdTableMusic(){
         if(LAST_ID_TABLE_MUSIC < 0) mappingTables();
-        LAST_ID_TABLE_MUSIC++;
+        return ++LAST_ID_TABLE_MUSIC;
     }
     
-     public long GET_ID_TABLE_MUSIC(){
-        return LAST_ID_TABLE_MUSIC;
-    }
-    
-    public void INCREMENT_ID_TABLE_PLAYLIST(){
+    private long getLastIdTablePlaylist(){
         if(LAST_ID_TABLE_PLAYLIST < 0) mappingTables();
-        LAST_ID_TABLE_USER++;
-    }
-     public long GET_ID_TABLE_PLAYLIST(){
-        return LAST_ID_TABLE_PLAYLIST;
+        return ++LAST_ID_TABLE_PLAYLIST;
     }
     
-    public void INCREMENT_ID_TABLE_USER(){
+    private long getLastIdTableUser(){
         if(LAST_ID_TABLE_USER < 0) mappingTables();
-        LAST_ID_TABLE_USER++;
+        return ++LAST_ID_TABLE_USER;
     }
-    
-    public long GET_ID_TABLE_USER(){
-        return LAST_ID_TABLE_USER;
-    }
-      
+   
+        
+    private void mappingTables(){
+        
+        TableReader<IMusic> musicTableReader = new TableReader<>(new Music());
+        TableReader<IPlaylist> playListTableReader = new TableReader<>(new Playlist());
+        
+        LAST_ID_TABLE_PLAYLIST = playListTableReader.getLastIdInTable();      
+        LAST_ID_TABLE_MUSIC = musicTableReader.getLastIdInTable();
 
+    }
 }

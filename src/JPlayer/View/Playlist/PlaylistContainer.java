@@ -53,6 +53,8 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher,
     
     private void ListAllPlayLists(){
         jPanelPlaylists.removeAll();
+        jPanelPlaylists.revalidate();
+        jPanelPlaylists.repaint();
         List<JPanel> capas = new ArrayList<>();
         Dimension dimension = new Dimension(100, 100);
         List<IPlaylist> playlists = facade.getAllPlaylistHasNoTracking();
@@ -213,8 +215,7 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher,
     @Override
     public void update(Object publisher) {
 
-        if( publisher  instanceof Boolean ){
-            
+        if( publisher instanceof Boolean ){
             if( ((Boolean)publisher) ){ // True if sucess insert playlist in database
                 ListAllPlayLists();
             }

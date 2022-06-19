@@ -39,6 +39,7 @@ public class Music implements IMusic{
         return Id;
     }
 
+    @Override
     public void setId(long Id) {
         this.Id = Id;
     }
@@ -79,6 +80,10 @@ public class Music implements IMusic{
         this.selected = selected;
     }
 
-    
+    @Override
+    public String serialize() {
+        return String.format("%d:{%s,%s,%s}", this.getId(), this.getName(),this.getAuthor(), this.getDuration());
+    }
+
     
 }

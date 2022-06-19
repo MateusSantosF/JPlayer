@@ -45,7 +45,7 @@ public class PlaylistFacade {
     }
     
     public boolean createPlaylist(IPlaylist playlist){
-        return true;
+        return dbContext.Playlists.Insert(playlist);
     }
     
     

@@ -12,5 +12,7 @@ public interface IMusic{
     String getAuthor();
     String getDuration();  
     void setSelected(boolean value);
+    void setId(long id);
     boolean isSelected();
+    String serialize();
 }
