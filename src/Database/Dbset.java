@@ -15,6 +15,8 @@ public abstract class Dbset <T>{
     
     public abstract List<T> ListAll();
     
+    public abstract List<T> ListAllHasNoTracking();
+    
     public abstract T GetById(long id);
     
     public abstract boolean Insert(T type);

@@ -55,7 +55,12 @@ public class DbContext {
         public List<IMusic> ListAll() {
             return reader.readTable();
         }
-
+        
+        @Override
+        public List<IMusic> ListAllHasNoTracking() {
+            return reader.readTable();
+        }
+       
         @Override
         public IMusic GetById(long id) {
            return reader.readTable().stream().filter(music -> music.getId() == id).findAny().orElse(null);
@@ -95,6 +100,11 @@ public class DbContext {
             
             return list;
         }
+        
+        @Override
+        public List<IPlaylist> ListAllHasNoTracking() {
+            return reader.readTable();
+        }
 
         @Override
         public IPlaylist GetById(long id) {
@@ -123,6 +133,8 @@ public class DbContext {
         public boolean Delete(IPlaylist type) {
             throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         }
+
+     
     };
 
     public DbContext(Dbset<IPlaylist> Playlists) {

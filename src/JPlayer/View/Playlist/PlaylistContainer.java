@@ -55,7 +55,7 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher,
         jPanelPlaylists.removeAll();
         List<JPanel> capas = new ArrayList<>();
         Dimension dimension = new Dimension(100, 100);
-        List<IPlaylist> playlists = facade.getAllPlaylist();
+        List<IPlaylist> playlists = facade.getAllPlaylistHasNoTracking();
         Collections.sort(playlists, new PlaylistComparatorByDate()); // Sort to createData
       
         playlistSize = playlists.size();
@@ -68,7 +68,7 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher,
             button.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent evt){
-                    clickedPlaylist = playlist;
+                    clickedPlaylist = facade.getPlayList(playlist);
                     notifyObservers();
                 }
             });

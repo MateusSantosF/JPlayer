@@ -25,12 +25,16 @@ public class PlaylistFacade {
         dbContext = DbContext.getInstance();
     }
     
+    public List<IPlaylist> getAllPlaylistHasNoTracking(){
+        return dbContext.Playlists.ListAllHasNoTracking();
+    }
+    
     public List<IPlaylist> getAllPlaylist(){
         return dbContext.Playlists.ListAll();
     }
     
     public IPlaylist getPlayList(IPlaylist playlist){
-        return playlist;
+        return dbContext.Playlists.GetById(playlist.getId());
     }
     
     public boolean removeMusicsDb(IPlaylist playlist,  List<IMusic> musics){
