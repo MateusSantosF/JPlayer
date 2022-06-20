@@ -1,6 +1,8 @@
 package facades;
 
 import Database.DbContext;
+import java.util.List;
+import model.interfaces.IUser;
 
 /**
  *
@@ -14,5 +16,18 @@ public class UserFacade {
         dbContext = DbContext.getInstance();
     }
     
+    
+     public List<IUser> GetAllUsers(){
+             
+       return dbContext.Users.ListAll();
+    }
+    
+    public IUser GetUserById(long id){
+        return dbContext.Users.GetById(id);
+    }
+    
+    public boolean insertUser(IUser user){
+        return dbContext.Users.Insert(user);
+    }
     
 }

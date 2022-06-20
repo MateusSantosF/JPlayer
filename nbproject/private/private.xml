@@ -3,21 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/model/Playlist.java</file>
-            <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/TableModel/SelectMusicTableModel.java</file>
-            <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/JPlayer/Modal/ModalCreatePlaylist.java</file>
-            <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/JPlayer/View/Playlist/PlaylistContainer.java</file>
-            <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/JPlayer/View/Playlist/PlaylistPanel.java</file>
-            <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/JPlayer/Modal/ModalCreateMusic.java</file>
-            <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/model/interfaces/IPlaylist.java</file>
-            <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/JPlayer/View/Main.java</file>
-            <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/JPlayer/Mocks/PlaylistMock.java</file>
-            <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/JPlayer/Modal/ModalAddMusic.java</file>
-            <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/model/interfaces/IMusic.java</file>
-            <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/facades/MusicFacade.java</file>
-            <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/model/Music.java</file>
-            <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/JPlayer/Mocks/MusicMock.java</file>
-            <file>file:/C:/Users/Mateus%20Santos/Desktop/JPlayer/src/TableModel/MusicTableModel.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/model/User.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/model/interfaces/IUser.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/Utils/Constants.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/facades/UserFacade.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/Utils/TableWriter.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/Database/DbContext.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/JPlayer/Mocks/UserMock.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/Utils/TableFactory.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/Utils/TableReader.java</file>
         </group>
     </open-files>
 </project-private>

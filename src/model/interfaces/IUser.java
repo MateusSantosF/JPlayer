@@ -9,5 +9,14 @@ package model.interfaces;
  * @author mateus
  */
 public interface IUser {
+
+    void setId(long id);
+    long getId();
+    void setSelected(boolean value);
+    String serialize();
+    String getName();
+    String getEmail();
+    String getPassword();
+    boolean isSelected();
     
 }

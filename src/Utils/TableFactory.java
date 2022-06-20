@@ -6,6 +6,7 @@ package Utils;
 
 import model.Music;
 import model.Playlist;
+import model.User;
 
 /**
  *
@@ -28,6 +29,10 @@ public class TableFactory {
         
         if(type instanceof Playlist){
             return (Object) new Playlist(atributes);
+        }
+        
+        if(type instanceof User){
+            return (Object) new User(atributes);
         }
        return null;
     }

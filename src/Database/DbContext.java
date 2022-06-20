@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Music;
 import model.Playlist;
+import model.User;
 import model.interfaces.IMusic;
 import model.interfaces.IPlaylist;
+import model.interfaces.IUser;
 
 
 /**
@@ -146,7 +148,48 @@ public class DbContext {
 
      
     };
-       
+    
+    public Dbset<IUser> Users = new Dbset<IUser>(){
+        
+        TableReader<IUser> reader = new TableReader<>(new User());
+        
+        @Override
+        public List<IUser> ListAll() {
+            
+             return reader.readTable();
+        }
+
+        @Override
+        public List<IUser> ListAllHasNoTracking() {
+            
+            return reader.readTable();
+        }
+
+        @Override
+        public IUser GetById(long id) {
+            return reader.readTable().stream().filter(User -> User.getId() == id).findAny().orElse(null);
+
+        }
+
+        @Override
+        public boolean Insert(IUser type) {
+            
+            type.setId(getLastIdTableUser());
+            TableWriter<IUser> writer = new TableWriter(type);         
+            return writer.writeInTable(type);
+        }
+
+        @Override
+        public boolean Update(IUser type) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public boolean Delete(IUser type) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+        
+    };
     private DbContext(){
         
     }

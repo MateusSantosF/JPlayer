@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.interfaces.IMusic;
 import model.interfaces.IPlaylist;
+import model.interfaces.IUser;
 
 /**
  *
@@ -129,6 +130,10 @@ public class TableReader <T>{
         
         if( type instanceof IPlaylist){
             return new File(Constants.PLAYLIST_TABLE);
+        }
+        
+        if( type instanceof IUser){
+            return new File(Constants.USER_TABLE);
         }
         return null;
     }
