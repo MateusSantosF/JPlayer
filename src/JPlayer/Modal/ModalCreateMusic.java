@@ -149,15 +149,27 @@ public class ModalCreateMusic extends javax.swing.JFrame implements IPublisher{
 
     private void jButtonCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateActionPerformed
         
-        result = facade.insertMusic(createMusic());
-        if(result){
-            JOptionPane.showMessageDialog(null, "Music created in database with sucess!");        
-        }  
-        
-        notifyObservers();
-        this.dispose();
-    }//GEN-LAST:event_jButtonCreateActionPerformed
+        if(validateFields()){
+            result = facade.insertMusic(createMusic());
+            if(result){
+                JOptionPane.showMessageDialog(null, "Music created in database with sucess!");        
+            }  
 
+            notifyObservers();
+            this.dispose();
+        }else{
+            JOptionPane.showMessageDialog(null, "Check the fields and try again");
+        }
+       
+   
+    }//GEN-LAST:event_jButtonCreateActionPerformed
+    
+    private boolean validateFields(){
+        
+        return !(jTextFieldName.getText().isEmpty() ||
+                jTextFieldAuthor.getText().isEmpty() || 
+                jFormattedTextFieldDuration.getText().equals("  :  "));
+    }
     private void jTextFieldAuthorCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldAuthorCaretUpdate
         
     }//GEN-LAST:event_jTextFieldAuthorCaretUpdate

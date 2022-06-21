@@ -122,15 +122,26 @@ public class ModalCreatePlaylist extends javax.swing.JFrame implements IPublishe
 
     private void jButtonCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateActionPerformed
        
-        result = facade.createPlaylist(CreatePlaylist());
-        if(result){
-            notifyObservers();
-            JOptionPane.showMessageDialog(null, "Playlist created with sucess!");
+        
+        if(validateFields()){
+            result = facade.createPlaylist(CreatePlaylist());
+            if(result){
+                notifyObservers();
+                JOptionPane.showMessageDialog(null, "Playlist created with sucess!");
+            }
+            this.dispose();
+        }else{
+            JOptionPane.showMessageDialog(null, "You cannot create an unnamed playlist");
         }
+       
      
-        this.dispose();
+  
     }//GEN-LAST:event_jButtonCreateActionPerformed
-
+    
+    private boolean validateFields(){
+        
+        return !jTextFieldTitle.getText().isEmpty();
+    }
     /**
      * @param args the command line arguments
      */

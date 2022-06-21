@@ -17,8 +17,7 @@ public class UserFacade {
     }
     
     
-     public List<IUser> GetAllUsers(){
-             
+    public List<IUser> GetAllUsers(){         
        return dbContext.Users.ListAll();
     }
     
