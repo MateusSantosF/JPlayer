@@ -40,7 +40,7 @@ public class PlaylistFacade {
         return  true;
     }
     
-    public boolean insertMusicsInPlaylist(IPlaylist playlist, List<IMusic> musics){
+    public boolean updatePlaylistMusics(IPlaylist playlist, List<IMusic> musics){
         return true;
     }
     

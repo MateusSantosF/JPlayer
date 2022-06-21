@@ -234,7 +234,7 @@ public class PlaylistPanel extends javax.swing.JPanel implements IObserver {
             currentPlaylist.getMusics().addAll(musics);
             playlistFacade.removeDuplicateMusics(currentPlaylist.getMusics());
             
-            boolean response = playlistFacade.insertMusicsInPlaylist(currentPlaylist, musics);
+            boolean response = playlistFacade.updatePlaylistMusics(currentPlaylist, musics);
             
             if(!response){
                 JOptionPane.showMessageDialog(null, "An error occurred while trying to insert the selected songs. Try Again");

@@ -49,18 +49,18 @@ public class TableUnionReader <T, E>{
             
             while( (linha = buffer.readLine()) != null){
                 if( father instanceof IPlaylist){
-                   if(getIdInLine(linha) == ((IPlaylist) father).getId()){                 
-                       objectList.addAll(formatLine(linha));
+                   if(StringExtensions.getIdInLine(linha) == ((IPlaylist) father).getId()){                 
+                       objectList.addAll(StringExtensions.formatLine(linha));
                        break;
                    }
                 }
                
-                if( father instanceof IUser){
-                   if(getIdInLine(linha) == ((IPlaylist) father).getId()){                 
-                       objectList.addAll(formatLine(linha));
-                       break;
-                   }
-               }
+//                if( father instanceof IUser){
+//                   if(getIdInLine(linha) == ((IPlaylist) father).getId()){                 
+//                       objectList.addAll(formatLine(linha));
+//                       break;
+//                   }
+//               }
             }
             buffer.close();
             reader.close();
@@ -76,25 +76,7 @@ public class TableUnionReader <T, E>{
         
     }
     
-    private long getIdInLine(String line){
-        return Long.valueOf(line.substring(0, line.indexOf(":{")));
-    }
-    
-    private List<Long> formatLine(String line){
-       
-        int indexId = line.indexOf(":{");
-        String[] atributes = line.substring( indexId+2, line.lastIndexOf("}")).trim().split(",");
-        List<String> concat = new ArrayList<>(Arrays.asList(atributes));
-        
-        List<Long> convert = new ArrayList<>();
-        
-        concat.forEach( item ->{
-            if(!item.isEmpty())
-                convert.add(Long.valueOf(item));
-        });
-                 
-        return convert;
-    }
+
     
     private File getTableFile(){
               

@@ -48,7 +48,7 @@ public class TableReader <T>{
             while( (linha = buffer.readLine()) != null ){
                 
                 if(!linha.isBlank()){
-                    String[] formated = formatLine(linha);
+                    String[] formated = StringExtensions.formatLineAndGetAtributes(linha);
                     TableFactory objFactory = new TableFactory(type);
                     objectList.add((T)objFactory.CreateObject(formated)); 
                 }
@@ -70,6 +70,50 @@ public class TableReader <T>{
         
     }
     
+    public String readSpecifLine(long id){
+        
+        
+        File tableCSV = getTableFile();
+        String lineSearch = "";
+       
+        if(!tableCSV.exists() || !tableCSV.canRead() ||!tableCSV.isFile()){
+            System.out.println("FAIL READ TABLE");
+            return null;
+        }
+        
+        FileReader reader;
+        BufferedReader buffer;
+        
+        try {
+            reader = new FileReader(tableCSV);
+            buffer = new BufferedReader(reader);
+            String line = "";
+            
+            while( (line = buffer.readLine()) != null ){
+                
+                if(!line.isBlank()){
+                   if(StringExtensions.getIdInLine(line) == id){
+                       lineSearch = line;
+                       break;
+                   } 
+                }
+                
+            }
+            
+            buffer.close();
+            reader.close();
+            
+            return lineSearch;
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(TableReader.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(TableReader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return lineSearch;
+    }
+            
     public long getLastIdInTable(){
         
         File table = getTableFile();
@@ -90,7 +134,7 @@ public class TableReader <T>{
             
             while( (line = buffer.readLine()) != null){
                 if(!line.isBlank()){
-                    long currentId = deserializeId(line);
+                    long currentId = StringExtensions.deserializeId(line);
                     lastId = currentId > lastId ? currentId:lastId;
                 }
                     
@@ -105,23 +149,7 @@ public class TableReader <T>{
         
         return lastId;
     }
-    
-    private long deserializeId(String line){
-        return Long.valueOf(line.substring(0, line.indexOf(":{")));
-    }
-    
-    
-    private String[] formatLine(String line){
-       
-        int indexId = line.indexOf(":{");
-        String id = line.substring(0, indexId);
-        String[] atributes = line.substring(indexId+2, line.lastIndexOf("}")).trim().split(",");
-        List<String> concat = new ArrayList<>(Arrays.asList(atributes));
-        concat.add(0, id);
-                 
-        return concat.toArray(String[]::new);
-    }
-    
+
     private File getTableFile(){
               
         if( type instanceof IMusic){
