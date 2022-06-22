@@ -33,6 +33,7 @@ public class PlaylistPanel extends javax.swing.JPanel implements IObserver {
         initComponents();
         
         currentPlaylist = (Playlist) playlist;
+
   
         jLabelTitle.setText(currentPlaylist.getTitle());
         jTextAreaDescription.setText(currentPlaylist.getDescription());

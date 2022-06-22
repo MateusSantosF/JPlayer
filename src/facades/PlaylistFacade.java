@@ -49,7 +49,7 @@ public class PlaylistFacade {
     }
     
     public boolean insertMusics(IPlaylist currentPlaylist, List<IMusic> musics) {
-        return true;
+        return dbContext.PlaylistMusics.Insert(currentPlaylist, musics);
     }
     
     public List<IMusic> removeDuplicateMusics(List<IMusic> musics){

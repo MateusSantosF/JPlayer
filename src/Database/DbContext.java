@@ -2,6 +2,7 @@ package Database;
 
 import Utils.TableReader;
 import Utils.TableUnionReader;
+import Utils.TableUnionWriter;
 import Utils.TableWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,22 +28,24 @@ public class DbContext {
     
     public DbUnion<IPlaylist, IMusic> PlaylistMusics = new DbUnion<IPlaylist, IMusic>() {
         
-        TableUnionReader<IPlaylist, IMusic> reader;
+        TableUnionReader<IPlaylist, IMusic> reader = new TableUnionReader(new Playlist(), new Music());
+       
         
         @Override
-        public List<Long> ListAll(IPlaylist type) {
-            reader = new TableUnionReader(type, new Music());         
+        public List<Long> ListAll(IPlaylist type) {       
             return reader.readTable();
         }
 
         @Override
         public boolean Insert(IPlaylist type, List<IMusic> childrens) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+           TableUnionWriter<IPlaylist, IMusic> writer = new TableUnionWriter(type, new Music());
+           return writer.writeInTable(childrens);
         }
 
         @Override
         public boolean Update(IPlaylist type, List<IMusic> childrens) {
-           return reader.UpdateRegister(type.getId(), childrens);
+           TableUnionWriter<IPlaylist, IMusic> writer = new TableUnionWriter(type, new Music());
+           return writer.UpdateRegister(type.getId(), childrens);
         }
 
         @Override
