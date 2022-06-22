@@ -4,9 +4,9 @@
  */
 package Utils;
 
-import model.Music;
-import model.Playlist;
-import model.User;
+import Model.Music;
+import Model.Playlist;
+import Model.User;
 
 /**
  *

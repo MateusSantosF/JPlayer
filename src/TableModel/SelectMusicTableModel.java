@@ -1,12 +1,12 @@
 
 package TableModel;
 
-import facades.MusicFacade;
+import Facades.MusicFacade;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.table.AbstractTableModel;
-import model.interfaces.IMusic;
+import Model.interfaces.IMusic;
 
 /**
  *
