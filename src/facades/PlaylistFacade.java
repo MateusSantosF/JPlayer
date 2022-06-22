@@ -41,13 +41,16 @@ public class PlaylistFacade {
     }
     
     public boolean updatePlaylistMusics(IPlaylist playlist, List<IMusic> musics){
-        return true;
+        return dbContext.PlaylistMusics.Update(playlist, musics);
     }
     
     public boolean createPlaylist(IPlaylist playlist){
         return dbContext.Playlists.Insert(playlist);
     }
     
+    public boolean insertMusics(IPlaylist currentPlaylist, List<IMusic> musics) {
+        return true;
+    }
     
     public List<IMusic> removeDuplicateMusics(List<IMusic> musics){
         return musics.stream().filter(distinctByKey(IMusic::getId)).collect(Collectors.toList());  
@@ -57,4 +60,6 @@ public class PlaylistFacade {
         Set<Object> seen = ConcurrentHashMap.newKeySet();
     return t -> seen.add(keyExtractor.apply(t));
     }
+
+   
 }

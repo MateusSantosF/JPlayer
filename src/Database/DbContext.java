@@ -25,7 +25,7 @@ public class DbContext {
     private long LAST_ID_TABLE_USER = -1;
     private static DbContext dbContext;
     
-    private DbUnion<IPlaylist, IMusic> PlaylistMusics = new DbUnion<IPlaylist, IMusic>() {
+    public DbUnion<IPlaylist, IMusic> PlaylistMusics = new DbUnion<IPlaylist, IMusic>() {
         
         TableUnionReader<IPlaylist, IMusic> reader;
         
@@ -42,7 +42,7 @@ public class DbContext {
 
         @Override
         public boolean Update(IPlaylist type, List<IMusic> childrens) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+           return reader.UpdateRegister(type.getId(), childrens);
         }
 
         @Override
@@ -93,6 +93,7 @@ public class DbContext {
     public Dbset<IPlaylist> Playlists = new Dbset<IPlaylist>() {
         
         TableReader<IPlaylist> reader = new TableReader<>(new Playlist());
+        
         
         @Override
         public List<IPlaylist> ListAll() {
@@ -145,8 +146,8 @@ public class DbContext {
               //TODO dont forget clear TABLE_ID variables 
             throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         }
-
-     
+        
+  
     };
     
     public Dbset<IUser> Users = new Dbset<IUser>(){
