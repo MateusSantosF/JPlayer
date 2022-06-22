@@ -46,8 +46,13 @@ public class Main extends javax.swing.JFrame implements IObserver {
         jButtonMusics1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(400, 400));
+        setMinimumSize(new java.awt.Dimension(619, 400));
         setPreferredSize(new java.awt.Dimension(800, 500));
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                formComponentResized(evt);
+            }
+        });
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -186,6 +191,11 @@ public class Main extends javax.swing.JFrame implements IObserver {
            this.dispose();
         }
     }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
+      
+        System.out.println(this.getWidth());
+    }//GEN-LAST:event_formComponentResized
 
     /**
      * @param args the command line arguments
