@@ -15,6 +15,7 @@ public interface IUser {
     void setSelected(boolean value);
     String serialize();
     String getName();
+    String getSurname();
     String getEmail();
     String getPassword();
     boolean isSelected();

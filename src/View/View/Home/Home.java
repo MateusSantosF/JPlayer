@@ -1,5 +1,9 @@
 package View.View.Home;
 
+import TableModel.UserTableModel;
+import Utils.Observer.interfaces.IObserver;
+import Facades.UserFacade;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
@@ -9,15 +13,28 @@ package View.View.Home;
  *
  * @author mateus
  */
-public class Home extends javax.swing.JPanel {
+public class Home extends javax.swing.JPanel implements IObserver{
 
     /**
      * Creates new form Home
      */
+    
+            
+    private final UserTableModel model = new UserTableModel();
+    private final UserFacade facade = new UserFacade();
+    
     public Home() {
         initComponents();
+        listAllUsersInDatabase();           
     }
-
+    
+    private void listAllUsersInDatabase(){
+        
+        model.insertWithRemove(facade.GetAllUsers());  
+         jTable1.setModel(model);  
+        
+      
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -45,13 +62,13 @@ public class Home extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1", "Title 2", "Title 3"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -163,4 +180,15 @@ public class Home extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
+@Override
+    public void update(Object publisher) {
+        if(publisher instanceof Boolean){
+            
+            if( (( Boolean) publisher)){
+                listAllUsersInDatabase();    
+            }
+        }
+        
+  }
 }

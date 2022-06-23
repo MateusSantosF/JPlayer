@@ -3,15 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/User/Desktop/JPlayer/src/model/User.java</file>
-            <file>file:/C:/Users/User/Desktop/JPlayer/src/model/interfaces/IUser.java</file>
-            <file>file:/C:/Users/User/Desktop/JPlayer/src/Utils/Constants.java</file>
-            <file>file:/C:/Users/User/Desktop/JPlayer/src/facades/UserFacade.java</file>
-            <file>file:/C:/Users/User/Desktop/JPlayer/src/Utils/TableWriter.java</file>
-            <file>file:/C:/Users/User/Desktop/JPlayer/src/Database/DbContext.java</file>
-            <file>file:/C:/Users/User/Desktop/JPlayer/src/JPlayer/Mocks/UserMock.java</file>
-            <file>file:/C:/Users/User/Desktop/JPlayer/src/Utils/TableFactory.java</file>
-            <file>file:/C:/Users/User/Desktop/JPlayer/src/Utils/TableReader.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/Model/User.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/TableModel/MusicTableModel.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/Database/playlist_music.csv</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/DAO/DbContext.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/Database/playlist.csv</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/TableModel/UserTableModel.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/Database/user.csv</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/Model/interfaces/IUser.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/Facades/UserFacade.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/View/View/Main.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/View/View/Home/Home.java</file>
         </group>
     </open-files>
 </project-private>

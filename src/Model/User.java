@@ -10,6 +10,7 @@ public class User implements IUser {
     
      private long Id;
      private String name;
+     private String surname;
      private String email;
      private String password;
      private boolean selected;
@@ -18,8 +19,9 @@ public class User implements IUser {
          
     }
      
-     public User(String name, String email, String password){
+     public User(String name ,String surname, String email, String password){
         this.name  = name;
+        this.surname = surname;
         this.email = email;
         this.password = password;
     }
@@ -27,8 +29,9 @@ public class User implements IUser {
     public User(String[] atributes){
         this.Id = Long.valueOf(atributes[0]);
         this.name  = atributes[1];
-        this.email = atributes[2];
-        this.password = atributes[3];
+        this.surname = atributes[2];
+        this.email = atributes[3];
+        this.password = atributes[4];
     }
      
     
@@ -46,9 +49,18 @@ public class User implements IUser {
     public String getName() {
         return name;
     }
+    
+    @Override
+    public String getSurname() {
+        return surname;
+    }
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
     
      @Override
@@ -84,6 +96,8 @@ public class User implements IUser {
     public String serialize() {
         return String.format("%d:{%s,%s,%s}", this.getId(), this.getName(),this.getEmail(), this.getPassword());
     }
+
+    
 
     
     
