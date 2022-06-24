@@ -70,7 +70,7 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher,
             button.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent evt){
-                    clickedPlaylist = facade.getPlayList(playlist);
+                    clickedPlaylist = playlist;
                     notifyObservers();
                 }
             });

@@ -28,10 +28,10 @@ public class PlaylistPanel extends javax.swing.JPanel implements IObserver {
      */
     public PlaylistPanel(IPlaylist playlist) {
         initComponents();
-        
-        currentPlaylist = (Playlist) playlist;
-
-  
+       
+        System.out.println("teste id=>" + playlist.getId());
+        currentPlaylist = playlistFacade.getPlayList(playlist);
+       
         jLabelTitle.setText(currentPlaylist.getTitle());
         jTextAreaDescription.setText(currentPlaylist.getDescription());
         model.insertMusic(currentPlaylist.getMusics());

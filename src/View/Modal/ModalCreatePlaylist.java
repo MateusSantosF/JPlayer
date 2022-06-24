@@ -118,6 +118,7 @@ public class ModalCreatePlaylist extends javax.swing.JFrame implements IPublishe
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateActionPerformed

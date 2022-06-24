@@ -57,6 +57,7 @@ public class TableUnionReader<T, E> {
                 if (!line.isBlank()) {
                     if (father instanceof IPlaylist) {
                         if (StringExtensions.getIdInLine(line) == ((IPlaylist) father).getId()) {
+                            
                             objectList.addAll(StringExtensions.formatLine(line));
                             break;
                         }

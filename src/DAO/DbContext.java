@@ -24,11 +24,12 @@ public class DbContext {
     
     public DbUnion<IPlaylist, IMusic> PlaylistMusics = new DbUnion<IPlaylist, IMusic>() {
         
-        TableUnionReader<IPlaylist, IMusic> reader = new TableUnionReader(new Playlist(), new Music());
+  
        
         
         @Override
-        public List<Long> ListAll(IPlaylist type) {       
+        public List<Long> ListAll(IPlaylist type) {    
+            TableUnionReader<IPlaylist, IMusic> reader = new TableUnionReader(type ,new Music());
             return reader.readTable();
         }
 
@@ -118,8 +119,9 @@ public class DbContext {
         public IPlaylist GetById(long id) {
             IPlaylist result = reader.readTable().stream().filter( playlist -> playlist.getId() == id).findAny().orElse(null);
             List<IMusic> currentPlayListMusics = new ArrayList<>();
-            
+          
             PlaylistMusics.ListAll(result).forEach(idPlaylist -> {
+ 
                     currentPlayListMusics.add(Musics.GetById(idPlaylist));
              });
             result.addMusics(currentPlayListMusics);
