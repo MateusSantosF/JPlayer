@@ -155,8 +155,15 @@ public class DbContext {
 
         @Override
         public boolean Delete(IPlaylist type) {
-              //TODO dont forget clear TABLE_ID variables 
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+               
+            TableWriter<IPlaylist> writer = new TableWriter(type);
+            boolean result =  writer.DeleteRegister(type);
+            
+            if(result){
+                LAST_ID_TABLE_PLAYLIST = -1;
+                return true;
+            }
+            return false;
         }
         
   

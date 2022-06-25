@@ -37,6 +37,7 @@ public class PlaylistPanel extends javax.swing.JPanel implements IObserver {
         jTextAreaDescription.setText(currentPlaylist.getDescription());
         model.insertMusic(currentPlaylist.getMusics());
         jTableMusic.setModel(model);
+        jLabelConfirmRemove.setVisible(false);
     }
 
     /**
@@ -208,10 +209,12 @@ public class PlaylistPanel extends javax.swing.JPanel implements IObserver {
         if(jLabelConfirmRemove.isEnabled()){
           jTableMusic.setModel(model);
           jLabelConfirmRemove.setEnabled(false);
+          jLabelConfirmRemove.setVisible(false);
           return;
         }
         
         jLabelConfirmRemove.setEnabled(!jLabelConfirmRemove.isEnabled());
+          jLabelConfirmRemove.setVisible(true);
         deleteModel.insertMusic(playlistFacade.getPlayList(currentPlaylist).getMusics());
         jTableMusic.setModel(deleteModel);
     }//GEN-LAST:event_jLabelRemoveSongsMouseClicked

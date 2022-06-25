@@ -44,6 +44,19 @@ public class PlaylistFacade {
         return dbContext.PlaylistMusics.Update(playlist, musics);
     }
     
+    public boolean DeletePlaylist(IPlaylist playlist){
+        
+        boolean result = dbContext.Playlists.Delete(playlist);
+        
+        if(!result){
+            return false;
+        }
+        
+        result = dbContext.PlaylistMusics.Delete(playlist, playlist.getMusics());
+        
+        return result;
+    }
+    
     public boolean createPlaylist(IPlaylist playlist){
         return dbContext.Playlists.Insert(playlist);
     }

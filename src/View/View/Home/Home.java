@@ -150,7 +150,7 @@ public class Home extends javax.swing.JPanel implements IObserver{
                         .addGap(362, 362, 362)
                         .addComponent(jLabel8))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(151, 151, 151)
+                        .addGap(119, 119, 119)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

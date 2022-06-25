@@ -16,6 +16,9 @@ import Facades.PlaylistFacade;
 import java.util.Collections;
 import Model.Comparators.PlaylistComparatorByDate;
 import Model.interfaces.IPlaylist;
+import java.awt.Color;
+import java.awt.Cursor;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,6 +36,7 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher,
     public PlaylistContainer() {
         initComponents();
         ListAllPlayLists();
+        jLabelConfirmDelete.setVisible(false);
     }
     
     private void resizeScroll(){
@@ -65,13 +69,48 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher,
         playlists.forEach(playlist ->{        
             JPanel panel = new JPanel();
             panel.setLayout(new BorderLayout());
+            panel.setBackground(new Color(34,34,34));
             JButton button = new JButton(playlist.getTitle());
+            button.setBackground(new Color(34,34,34));
+            button.setBorderPainted(false);
+           // button.setFocusPainted(false);
+          
+            button.setContentAreaFilled(false);
+            button.setForeground(Color.WHITE);
             button.setPreferredSize(dimension);
             button.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent evt){
-                    clickedPlaylist = playlist;
-                    notifyObservers();
+                    if(!jLabelConfirmDelete.isVisible()){
+                        clickedPlaylist = playlist;
+                        notifyObservers();
+                    }else{
+                         int option = JOptionPane.showConfirmDialog(null, "Sure you want to Remove this playlist ?", "JPlayer", JOptionPane.OK_OPTION);
+        
+                        if(option == 0){
+                            boolean result = facade.DeletePlaylist(playlist);
+                            
+                            if(result){
+                                JOptionPane.showMessageDialog(null, "Playlist removed with success!");
+                                ListAllPlayLists();
+                            }else{
+                                JOptionPane.showMessageDialog(null, "An error ocurred while delete playlist!");
+                            }
+                        }
+                    }
+                    
+                 
+                }
+                @Override
+                public void mouseEntered(MouseEvent evt){
+                    setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    panel.setSize(104, 104);
+                }
+                
+                @Override
+                public void mouseExited(MouseEvent evt){
+                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                     panel.setSize(100, 100);
                 }
             });
             panel.add(button);
@@ -97,43 +136,69 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher,
         jPanelPlaylists = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        jLabelCreateNewPlaylist = new javax.swing.JLabel();
+        jLabelConfirmDelete = new javax.swing.JLabel();
+        jLabelDeletePlaylist = new javax.swing.JLabel();
 
+        scrollContainer.setBackground(new java.awt.Color(255, 255, 255));
         scrollContainer.setPreferredSize(new java.awt.Dimension(200, 200));
         scrollContainer.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentResized(java.awt.event.ComponentEvent evt) {
                 scrollContainerComponentResized(evt);
             }
         });
+        scrollContainer.setLayout(new java.awt.BorderLayout());
 
+        jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPane2.setPreferredSize(new java.awt.Dimension(16, 6));
 
+        jPanelPlaylists.setBackground(new java.awt.Color(244, 243, 243));
         jPanelPlaylists.setMinimumSize(new java.awt.Dimension(300, 200));
         jPanelPlaylists.setPreferredSize(new java.awt.Dimension(100, 500));
         jScrollPane2.setViewportView(jPanelPlaylists);
 
-        javax.swing.GroupLayout scrollContainerLayout = new javax.swing.GroupLayout(scrollContainer);
-        scrollContainer.setLayout(scrollContainerLayout);
-        scrollContainerLayout.setHorizontalGroup(
-            scrollContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        scrollContainerLayout.setVerticalGroup(
-            scrollContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
-        );
+        scrollContainer.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
         jPanel1.setBackground(new java.awt.Color(34, 34, 34));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         jPanel2.setBackground(new java.awt.Color(34, 34, 34));
 
-        jButton2.setText("Create New Playlist");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+        jLabelCreateNewPlaylist.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelCreateNewPlaylist.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelCreateNewPlaylist.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelCreateNewPlaylist.setText("New Playlist");
+        jLabelCreateNewPlaylist.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jLabelCreateNewPlaylist.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabelCreateNewPlaylist.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelCreateNewPlaylistMouseClicked(evt);
+            }
+        });
+
+        jLabelConfirmDelete.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelConfirmDelete.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelConfirmDelete.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelConfirmDelete.setText("Confirm");
+        jLabelConfirmDelete.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jLabelConfirmDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabelConfirmDelete.setEnabled(false);
+        jLabelConfirmDelete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelConfirmDeleteMouseClicked(evt);
+            }
+        });
+
+        jLabelDeletePlaylist.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelDeletePlaylist.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelDeletePlaylist.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelDeletePlaylist.setText("Delete");
+        jLabelDeletePlaylist.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jLabelDeletePlaylist.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabelDeletePlaylist.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelDeletePlaylistMouseClicked(evt);
             }
         });
 
@@ -142,16 +207,23 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher,
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jButton2)
-                .addContainerGap(313, Short.MAX_VALUE))
+                .addGap(34, 34, 34)
+                .addComponent(jLabelCreateNewPlaylist, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
+                .addComponent(jLabelDeletePlaylist, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabelConfirmDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(jButton2)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelConfirmDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelCreateNewPlaylist, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelDeletePlaylist, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.CENTER);
@@ -160,7 +232,7 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher,
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
+            .addComponent(scrollContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -176,16 +248,42 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher,
          resizeScroll();
     }//GEN-LAST:event_scrollContainerComponentResized
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       
+    private void jLabelCreateNewPlaylistMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCreateNewPlaylistMouseClicked
+
+          
         ModalCreatePlaylist modal = new ModalCreatePlaylist();
         modal.addObserver(this);
         modal.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+
+    }//GEN-LAST:event_jLabelCreateNewPlaylistMouseClicked
+
+    private void jLabelDeletePlaylistMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelDeletePlaylistMouseClicked
+
+        if(!jLabelConfirmDelete.isEnabled()){
+            jLabelDeletePlaylist.setVisible(false);
+            jLabelConfirmDelete.setEnabled(true);
+            jLabelConfirmDelete.setVisible(true);
+        }else{
+   
+            jLabelConfirmDelete.setEnabled(false);
+            jLabelConfirmDelete.setVisible(false);
+             jLabelDeletePlaylist.setVisible(true);
+        }
+
+    }//GEN-LAST:event_jLabelDeletePlaylistMouseClicked
+
+    private void jLabelConfirmDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelConfirmDeleteMouseClicked
+
+        jLabelDeletePlaylist.setVisible(true);
+        jLabelConfirmDelete.setVisible(false);
+        jLabelConfirmDelete.setEnabled(false);
+    }//GEN-LAST:event_jLabelConfirmDeleteMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabelConfirmDelete;
+    private javax.swing.JLabel jLabelCreateNewPlaylist;
+    private javax.swing.JLabel jLabelDeletePlaylist;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelPlaylists;

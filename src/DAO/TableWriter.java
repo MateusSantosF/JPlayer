@@ -74,6 +74,9 @@ public class TableWriter <T>{
         if(type instanceof IMusic){
             id = ((IMusic) removeData).getId();
         }
+        if(type instanceof IPlaylist){
+            id = ((IPlaylist) removeData).getId();
+        }
         
         String lineUpdate = readSpecifLine(id); //actual line
         String formated = "";
