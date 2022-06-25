@@ -15,11 +15,11 @@ import java.util.List;
 public class StringExtensions {
  
     
-    public static long getIdInLine(String line){
-        
-        return Long.valueOf(line.substring(0, line.indexOf(":{")));
-    }
-    
+    /**
+     * Return id's from line of Unions Tables
+     * @param line
+     * @return 
+    */
     public static List<Long> formatLine(String line){
        
         int indexId = line.indexOf(":{");
@@ -47,7 +47,12 @@ public class StringExtensions {
         return concat.toArray(String[]::new);
     }
     
-    public static long deserializeId(String line){
+    /**
+     * Extract id from line
+     * @param line
+     * @return ID current line
+     */
+    public static long getIdInLine(String line){
         return Long.valueOf(line.substring(0, line.indexOf(":{")));
     }
     

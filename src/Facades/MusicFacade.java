@@ -33,14 +33,21 @@ public class MusicFacade {
 
     public boolean removeMusicsDb(List<IMusic> currentMusics) {
         
-        boolean result = false;
+        boolean result;
         int length = currentMusics.size();
         
         for(int i = 0; i < length; i++){
             result = dbContext.Musics.Delete(currentMusics.get(i));
+            if(!result){
+                return false;
+            }
         }
         result = dbContext.PlaylistMusics.DeleteMultiples(currentMusics);
         
         return result;
+    }
+    
+    public boolean UpdateMusic(IMusic editedMusic){
+        return dbContext.Musics.Update(editedMusic);
     }
 }

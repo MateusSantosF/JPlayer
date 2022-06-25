@@ -86,6 +86,10 @@ public class MusicTableModel extends AbstractTableModel {
         return musics;
     }
     
+    public IMusic getData(int rowIndex){
+        return musics.get(rowIndex);
+    }
+    
  
     
 }

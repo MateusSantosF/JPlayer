@@ -99,7 +99,7 @@ public class TableReader<T> {
 
             while ((line = buffer.readLine()) != null) {
                 if (!line.isBlank()) {
-                    long currentId = StringExtensions.deserializeId(line);
+                    long currentId = StringExtensions.getIdInLine(line);
                     lastId = currentId > lastId ? currentId : lastId;
                 }
 

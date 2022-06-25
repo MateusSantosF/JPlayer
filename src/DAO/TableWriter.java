@@ -18,8 +18,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -68,13 +66,13 @@ public class TableWriter <T>{
         return false;
     }
     
-     public boolean DeleteRegister(T removeSong) {
+    public boolean DeleteRegister(T removeData) {
         
         File tableCSV = getTableFile();
         
         long id = 0;
         if(type instanceof IMusic){
-            id = ((IMusic) removeSong).getId();
+            id = ((IMusic) removeData).getId();
         }
         
         String lineUpdate = readSpecifLine(id); //actual line
@@ -99,28 +97,42 @@ public class TableWriter <T>{
         }
         return true;
     }
-     
-      private String getIdForNewRegisters(List<T> registers) {
-
-        StringBuilder serialized = new StringBuilder();
-        int size = registers.size();
-        
-        for( int i = 0; i < size; i++){
-            
-            T current = registers.get(i);
-            if ( current instanceof IMusic) {
-                serialized.append(((IMusic) current).getId() );
-                if( i < size - 1){
-                    serialized.append(",");
-                }
-            }
-        }
     
+    public boolean UpdateRegister(T removeData) {
+        
+        File tableCSV = getTableFile();
+        
+        long id = 0;
+        if(type instanceof IMusic){
+            id = ((IMusic) removeData).getId();
+        }
+        
+        String lineUpdate = readSpecifLine(id); //actual line   
+        String formated = serializeLine(removeData);
+ 
+        
+        if (!tableCSV.exists() || !tableCSV.canRead() || !tableCSV.isFile()) {
+            System.out.println("FAIL READ TABLE");
+            return false;
+        }
 
-        return serialized.toString();
+        Path path = Paths.get(tableCSV.getPath());
+
+        try ( Stream<String> stream = Files.lines(path, StandardCharsets.UTF_8)) {
+
+            List<String> list = stream.map(line -> line.equals(lineUpdate) ? formated : line)
+                    .collect(Collectors.toList());
+
+            Files.write(path, list, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            Logger.getLogger(TableReader.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+        return true;
     }
+ 
      
-      private String readSpecifLine(long id) {
+    private String readSpecifLine(long id) {
 
         File tableCSV = getTableFile();
         String lineSearch = "";

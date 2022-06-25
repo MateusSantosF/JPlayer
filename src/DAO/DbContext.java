@@ -83,7 +83,8 @@ public class DbContext {
 
         @Override
         public boolean Update(IMusic type) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            TableWriter<IMusic> writer = new TableWriter(type);
+            return writer.UpdateRegister(type);
         }
 
         @Override
