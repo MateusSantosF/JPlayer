@@ -70,12 +70,10 @@ public class TableWriter <T>{
         
         File tableCSV = getTableFile();
         
-        long id = 0;
-        if(type instanceof IMusic){
-            id = ((IMusic) removeData).getId();
-        }
-        if(type instanceof IPlaylist){
-            id = ((IPlaylist) removeData).getId();
+        long id = getIdFromData(removeData);
+        
+        if(id == 0){
+            return false;
         }
         
         String lineUpdate = readSpecifLine(id); //actual line
@@ -101,17 +99,19 @@ public class TableWriter <T>{
         return true;
     }
     
-    public boolean UpdateRegister(T removeData) {
+    public boolean UpdateRegister(T updateData) {
         
         File tableCSV = getTableFile();
         
-        long id = 0;
-        if(type instanceof IMusic){
-            id = ((IMusic) removeData).getId();
-        }
+        long id = getIdFromData(updateData);
         
+        if(id == 0){
+            return false;
+        }
+
         String lineUpdate = readSpecifLine(id); //actual line   
-        String formated = serializeLine(removeData);
+        String formated = serializeLine(updateData); //new line
+
  
         
         if (!tableCSV.exists() || !tableCSV.canRead() || !tableCSV.isFile()) {
@@ -195,6 +195,20 @@ public class TableWriter <T>{
         }
                  
         return "";
+    }
+    
+    private long getIdFromData(T data){
+        
+        long id = 0;
+        
+        if(type instanceof IMusic){
+            id = ((IMusic) data).getId();
+        }
+        
+        if(type instanceof IPlaylist){
+            id = ((IPlaylist) data).getId();
+        }
+        return id;
     }
     
     private File getTableFile(){

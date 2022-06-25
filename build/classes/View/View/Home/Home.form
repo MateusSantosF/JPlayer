@@ -219,7 +219,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Total Time Of Music in JPlayer!"/>
+            <Property name="text" type="java.lang.String" value="Total Music Time in JPlayer"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel8">

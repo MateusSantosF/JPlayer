@@ -65,6 +65,10 @@ public class PlaylistFacade {
         return dbContext.PlaylistMusics.Insert(currentPlaylist, musics);
     }
     
+    public boolean UpdatePlaylist(IPlaylist playlist){
+        return dbContext.Playlists.Update(playlist);
+    }
+    
     public List<IMusic> removeDuplicateMusics(List<IMusic> musics){
         return musics.stream().filter(distinctByKey(IMusic::getId)).collect(Collectors.toList());  
     }

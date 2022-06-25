@@ -2,34 +2,42 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package View.Modal;
+package View.View.Editions.Playlist;
 
+import Facades.PlaylistFacade;
+import Model.Playlist;
+import Model.interfaces.IPlaylist;
 import Utils.Observer.interfaces.IObserver;
 import Utils.Observer.interfaces.IPublisher;
-import Facades.PlaylistFacade;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import Model.Playlist;
-import Model.interfaces.IPlaylist;
 
 /**
  *
- * @author Mateus Santos
+ * @author mateus
  */
-public class ModalCreatePlaylist extends javax.swing.JFrame implements IPublisher{
+public class EditPlaylist extends javax.swing.JFrame implements IPublisher {
 
-    /**
-     * Creates new form ModalAddMusic
-     */
-    private final PlaylistFacade facade = new PlaylistFacade();
-    private final List<IObserver> observers = new ArrayList<>();
+    private List<IObserver> observers = new ArrayList<>();
+    private IPlaylist currentPlaylist;
+    private PlaylistFacade facade = new PlaylistFacade();
     private boolean result;
-    
-    public ModalCreatePlaylist() {
+   
+    /**
+     * Creates new form EditPlaylist
+     */
+    public EditPlaylist() {
         initComponents();
-
+    }
+    
+    public EditPlaylist(IPlaylist playlist) {
+        initComponents();
+        
+        currentPlaylist = playlist;
+        System.out.println("AKIII => "+ playlist.getId());
+        jTextFieldTitle.setText(playlist.getTitle());
+        jTextAreaDescription.setText(playlist.getDescription());
     }
 
     /**
@@ -54,7 +62,7 @@ public class ModalCreatePlaylist extends javax.swing.JFrame implements IPublishe
 
         jPanel1.setBackground(new java.awt.Color(35, 35, 35));
 
-        jButtonCreate.setText("Create");
+        jButtonCreate.setText("Confirm");
         jButtonCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCreateActionPerformed(evt);
@@ -77,8 +85,6 @@ public class ModalCreatePlaylist extends javax.swing.JFrame implements IPublishe
                 .addComponent(jButtonCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(20, Short.MAX_VALUE))
         );
-
-        getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
 
         jPanel2.setBackground(new java.awt.Color(244, 243, 243));
 
@@ -117,34 +123,65 @@ public class ModalCreatePlaylist extends javax.swing.JFrame implements IPublishe
                 .addContainerGap(51, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 335, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(262, 262, 262)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateActionPerformed
-       
         
-        if(validateFields()){
-            result = facade.createPlaylist(CreatePlaylist());
-            if(result){
-                notifyObservers();
-                JOptionPane.showMessageDialog(null, "Playlist created with sucess!");
-            }
-            this.dispose();
-        }else{
-            JOptionPane.showMessageDialog(null, "You cannot create an unnamed playlist");
+        
+        String title = jTextFieldTitle.getText().trim();
+        String description = jTextAreaDescription.getText().trim();
+        
+        if( title.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Title cannot be empty ");
+            return;
         }
-       
-     
-  
-    }//GEN-LAST:event_jButtonCreateActionPerformed
-    
-    private boolean validateFields(){
         
-        return !jTextFieldTitle.getText().isEmpty();
-    }
+        Playlist editedPlaylist = new Playlist();
+        editedPlaylist.setId(currentPlaylist.getId());
+        editedPlaylist.addMusics(currentPlaylist.getMusics());
+        editedPlaylist.setCreateData(currentPlaylist.getCreateData());
+        editedPlaylist.setTitle(title);
+        editedPlaylist.setDescription(description);
+
+        result = facade.UpdatePlaylist(editedPlaylist);
+        
+        if(result){
+            JOptionPane.showMessageDialog(null, "Playlist edit with success");
+            notifyObservers();
+            dispose();
+        }else{
+            JOptionPane.showMessageDialog(null, "An error occurred while trying to edit the playlist. Try again");
+        }
+    }//GEN-LAST:event_jButtonCreateActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -162,27 +199,22 @@ public class ModalCreatePlaylist extends javax.swing.JFrame implements IPublishe
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ModalCreatePlaylist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditPlaylist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ModalCreatePlaylist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditPlaylist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ModalCreatePlaylist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditPlaylist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ModalCreatePlaylist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditPlaylist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ModalCreatePlaylist().setVisible(true);
+                new EditPlaylist().setVisible(true);
             }
         });
-    }
-    
-    private IPlaylist CreatePlaylist(){ 
-        return new Playlist(new ArrayList<>(), jTextFieldTitle.getText().trim(), jTextAreaDescription.getText().trim(), LocalDate.now());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -208,11 +240,7 @@ public class ModalCreatePlaylist extends javax.swing.JFrame implements IPublishe
 
     @Override
     public void notifyObservers() {
-
-        observers.forEach(ob ->{
-            ob.update(result);
-        });
+        
+        observers.forEach(ob -> { ob.update(result);});
     }
-
-
 }

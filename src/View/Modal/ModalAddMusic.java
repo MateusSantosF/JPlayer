@@ -77,6 +77,8 @@ public class ModalAddMusic extends javax.swing.JFrame implements IPublisher {
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
 
+        jPanel2.setBackground(new java.awt.Color(244, 243, 243));
+
         jTableMusics.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},

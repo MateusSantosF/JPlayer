@@ -78,6 +78,8 @@ public class ModalCreateMusic extends javax.swing.JFrame implements IPublisher{
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
 
+        jPanel2.setBackground(new java.awt.Color(244, 243, 243));
+
         jTextFieldAuthor.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
                 jTextFieldAuthorCaretUpdate(evt);
