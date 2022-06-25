@@ -23,10 +23,7 @@ public class DbContext {
     private static DbContext dbContext;
     
     public DbUnion<IPlaylist, IMusic> PlaylistMusics = new DbUnion<IPlaylist, IMusic>() {
-        
-  
-       
-        
+               
         @Override
         public List<Long> ListAll(IPlaylist type) {    
             TableUnionReader<IPlaylist, IMusic> reader = new TableUnionReader(type ,new Music());
@@ -48,7 +45,13 @@ public class DbContext {
         @Override
         public boolean Delete(IPlaylist type, List<IMusic> childrens) {
             TableUnionWriter<IPlaylist, IMusic> writer = new TableUnionWriter(type, new Music());
-           return writer.DeleteRegister(type.getId(), childrens);
+           return writer.DeleteOneRegister(type.getId(), childrens);
+        }
+
+        @Override
+        public boolean DeleteMultiples(List<IMusic> childrens) {
+            TableUnionWriter<IPlaylist, IMusic> writer = new TableUnionWriter(new Playlist(), new Music());
+            return writer.DeleteMultiplesRegisters(childrens);
         }
     };
         
@@ -85,8 +88,15 @@ public class DbContext {
 
         @Override
         public boolean Delete(IMusic type) {           
-            //TODO dont forget clear TABLE_ID variables 
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+           
+            TableWriter<IMusic> writer = new TableWriter(type);
+            boolean result =  writer.DeleteRegister(type);
+            
+            if(result){
+                LAST_ID_TABLE_MUSIC = -1;
+                return true;
+            }
+            return false;
         }
     };
     

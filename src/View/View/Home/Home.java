@@ -56,8 +56,9 @@ public class Home extends javax.swing.JPanel implements IObserver{
         for( int i = 0; i< musics.size(); i++){
             totalTime = totalTime.plusMinutes(LocalTime.parse(musics.get(i).getDuration()).getMinute());
             totalTime = totalTime.plusHours(LocalTime.parse(musics.get(i).getDuration()).getHour());
+             totalTime = totalTime.plusSeconds(LocalTime.parse(musics.get(i).getDuration()).getSecond());
         }
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
         List<IPlaylist> playlists = playlistFacade.getAllPlaylistHasNoTracking();
         
         jLabelTotalMusics.setText(String.valueOf(musics.size()));

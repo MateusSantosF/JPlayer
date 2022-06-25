@@ -38,7 +38,8 @@ public class TableUnionWriter <T, E>{
         this.father = father;
         this.children = children;
     }
-     public boolean writeInTable(List<E> data){
+    
+    public boolean writeInTable(List<E> data){
         
         File tableCSV = getTableFile();
       
@@ -128,19 +129,15 @@ public class TableUnionWriter <T, E>{
         return true;
     }
     
-    public boolean DeleteRegister(long id, List<E> newRegisters) {
+    public boolean DeleteOneRegister(long id, List<E> newRegisters) {
         
         File tableCSV = getTableFile();
+        
+        
         String lineUpdate = readSpecifLine(id); //actual line
-
-        String oldRegisterId = "";
-
-        oldRegisterId = lineUpdate.substring(lineUpdate.indexOf(":{") + 2, lineUpdate.lastIndexOf("}")); //actual ids
-        String newRegisterId = getIdForNewRegisters(newRegisters); //ids new line
-      
+        String newRegisterId = getIdForNewRegisters(newRegisters); //ids new line      
         List<String> union = new ArrayList<>(Arrays.asList(newRegisterId.split(",")));
        
-
         int lenght = union.size();
         StringBuilder formated = new StringBuilder();
         if(!newRegisterId.isEmpty()){
@@ -155,10 +152,8 @@ public class TableUnionWriter <T, E>{
             formated.append("}");
         }
         
-          formated.append("");
+        formated.append("");
         
-
-
         if (!tableCSV.exists() || !tableCSV.canRead() || !tableCSV.isFile()) {
             System.out.println("FAIL READ TABLE");
             return false;
@@ -172,6 +167,62 @@ public class TableUnionWriter <T, E>{
                     .collect(Collectors.toList());
 
             Files.write(path, list, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            Logger.getLogger(TableReader.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+        return true;
+    }
+    
+    public boolean DeleteMultiplesRegisters( List<E> deletedRegisters) {
+        
+        File tableCSV = getTableFile();
+        
+        String newRegisterId = getIdForNewRegisters(deletedRegisters); //ids new line 
+     
+        List<String> removedIdString = new ArrayList<>(Arrays.asList(newRegisterId.split(","))); 
+        List<Long> removedIdLong = removedIdString.stream().map(Long::parseLong).collect(Collectors.toList());
+         
+        if (!tableCSV.exists() || !tableCSV.canRead() || !tableCSV.isFile()) {
+            System.out.println("FAIL READ TABLE");
+            return false;
+        }
+
+        Path path = Paths.get(tableCSV.getPath());
+
+        try ( Stream<String> stream = Files.lines(path, StandardCharsets.UTF_8)) {
+
+            List<String> list = stream.collect(Collectors.toList());
+            List<String> newList = new ArrayList<>();
+            
+            for( int i = 0; i < list.size();i++){
+                String currentLine = list.get(i);
+                if( currentLine.isBlank() || currentLine.isEmpty()){
+                    continue;
+                }
+                long lineId = StringExtensions.getIdInLine(currentLine); // current line ID
+                List<Long> listLineId = StringExtensions.formatLine(currentLine); // current line IDs
+                listLineId.removeAll(removedIdLong);             
+                List<String> currentNewLine = listLineId.stream().map(String::valueOf).collect(Collectors.toList());
+             
+                if(currentNewLine.size() > 0){
+                    StringBuilder formated = new StringBuilder();
+                    int length = currentNewLine.size();
+                    formated.append(lineId + ":{");
+
+                    for (int j = 0; j < length; j++) {
+                         formated.append(currentNewLine.get(j));
+
+                         if (j < length - 1) {
+                             formated.append(",");
+                         }
+                     }
+                    formated.append("}");
+                    newList.add(formated.toString());
+                }             
+            }   
+
+            Files.write(path, newList, StandardCharsets.UTF_8);
         } catch (IOException e) {
             Logger.getLogger(TableReader.class.getName()).log(Level.SEVERE, null, e);
             return false;
@@ -199,7 +250,7 @@ public class TableUnionWriter <T, E>{
         return serialized.toString();
     }
     
-     private String readSpecifLine(long id) {
+    private String readSpecifLine(long id) {
 
         File tableCSV = getTableFile();
         String lineSearch = "";

@@ -30,4 +30,17 @@ public class MusicFacade {
     public boolean insertMusic(IMusic music){
         return dbContext.Musics.Insert(music);
     }
+
+    public boolean removeMusicsDb(List<IMusic> currentMusics) {
+        
+        boolean result = false;
+        int length = currentMusics.size();
+        
+        for(int i = 0; i < length; i++){
+            result = dbContext.Musics.Delete(currentMusics.get(i));
+        }
+        result = dbContext.PlaylistMusics.DeleteMultiples(currentMusics);
+        
+        return result;
+    }
 }

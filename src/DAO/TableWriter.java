@@ -11,6 +11,18 @@ import java.util.logging.Logger;
 import Model.interfaces.IMusic;
 import Model.interfaces.IPlaylist;
 import Model.interfaces.IUser;
+import Utils.StringExtensions;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  *
@@ -55,6 +67,102 @@ public class TableWriter <T>{
         
         return false;
     }
+    
+     public boolean DeleteRegister(T removeSong) {
+        
+        File tableCSV = getTableFile();
+        
+        long id = 0;
+        if(type instanceof IMusic){
+            id = ((IMusic) removeSong).getId();
+        }
+        
+        String lineUpdate = readSpecifLine(id); //actual line
+        String formated = "";
+        
+        if (!tableCSV.exists() || !tableCSV.canRead() || !tableCSV.isFile()) {
+            System.out.println("FAIL READ TABLE");
+            return false;
+        }
+
+        Path path = Paths.get(tableCSV.getPath());
+
+        try ( Stream<String> stream = Files.lines(path, StandardCharsets.UTF_8)) {
+
+            List<String> list = stream.map(line -> line.equals(lineUpdate) ? formated : line)
+                    .collect(Collectors.toList());
+
+            Files.write(path, list, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            Logger.getLogger(TableReader.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+        return true;
+    }
+     
+      private String getIdForNewRegisters(List<T> registers) {
+
+        StringBuilder serialized = new StringBuilder();
+        int size = registers.size();
+        
+        for( int i = 0; i < size; i++){
+            
+            T current = registers.get(i);
+            if ( current instanceof IMusic) {
+                serialized.append(((IMusic) current).getId() );
+                if( i < size - 1){
+                    serialized.append(",");
+                }
+            }
+        }
+    
+
+        return serialized.toString();
+    }
+     
+      private String readSpecifLine(long id) {
+
+        File tableCSV = getTableFile();
+        String lineSearch = "";
+
+        if (!tableCSV.exists() || !tableCSV.canRead() || !tableCSV.isFile()) {
+            System.out.println("FAIL READ TABLE");
+            return null;
+        }
+
+        FileReader reader;
+        BufferedReader buffer;
+
+        try {
+            reader = new FileReader(tableCSV);
+            buffer = new BufferedReader(reader);
+            String line = "";
+
+            while ((line = buffer.readLine()) != null) {
+
+                if (!line.isBlank()) {
+                    if (StringExtensions.getIdInLine(line) == id) {
+                        lineSearch = line;
+                        break;
+                    }
+                }
+
+            }
+
+            buffer.close();
+            reader.close();
+
+            return lineSearch;
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(TableReader.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(TableReader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return lineSearch;
+    }
+
    
     
     private String serializeLine(T obj){

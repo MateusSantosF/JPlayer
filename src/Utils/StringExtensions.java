@@ -16,6 +16,7 @@ public class StringExtensions {
  
     
     public static long getIdInLine(String line){
+        
         return Long.valueOf(line.substring(0, line.indexOf(":{")));
     }
     
