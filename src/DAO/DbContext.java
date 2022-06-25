@@ -47,7 +47,8 @@ public class DbContext {
 
         @Override
         public boolean Delete(IPlaylist type, List<IMusic> childrens) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            TableUnionWriter<IPlaylist, IMusic> writer = new TableUnionWriter(type, new Music());
+           return writer.DeleteRegister(type.getId(), childrens);
         }
     };
         

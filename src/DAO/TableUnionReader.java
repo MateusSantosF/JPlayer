@@ -85,55 +85,7 @@ public class TableUnionReader<T, E> {
 
     }
 
-    public boolean UpdateRegister(long id, List<E> newRegisters) {
-
-        File tableCSV = getTableFile();
-        String lineUpdate = readSpecifLine(id); //actual line
-        String oldRegisterId = "";
-
-        oldRegisterId = lineUpdate.substring(lineUpdate.indexOf(":{") + 2, lineUpdate.lastIndexOf("}")); //actual ids
-
-        String newRegisterId = getIdForNewRegisters(newRegisters); //ids new line
-
-        List<String> union = new ArrayList<>(Arrays.asList(oldRegisterId.split(",")));
-        List<String> newRegister = new ArrayList<>(Arrays.asList(newRegisterId.split(",")));
-
-        union.addAll(newRegister);
-
-        List<String> intersection = Arrays.stream(union.toArray(new String[0])).distinct().toList();
-
-        int lenght = intersection.size();
-        StringBuilder formated = new StringBuilder();
-
-        formated.append(id + ":{");
-        for (int i = 0; i < lenght; i++) {
-            formated.append(intersection.get(i));
-
-            if (i < lenght - 1) {
-                formated.append(",");
-            }
-        }
-        formated.append("}");
-
-        if (!tableCSV.exists() || !tableCSV.canRead() || !tableCSV.isFile()) {
-            System.out.println("FAIL READ TABLE");
-            return false;
-        }
-
-        Path path = Paths.get(tableCSV.getPath());
-
-        try ( Stream<String> stream = Files.lines(path, StandardCharsets.UTF_8)) {
-
-            List<String> list = stream.map(line -> line.equals(lineUpdate) ? formated.toString() : line)
-                    .collect(Collectors.toList());
-
-            Files.write(path, list, StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            Logger.getLogger(TableReader.class.getName()).log(Level.SEVERE, null, e);
-            return false;
-        }
-        return true;
-    }
+   
 
     private String getIdForNewRegisters(List<E> registers) {
 

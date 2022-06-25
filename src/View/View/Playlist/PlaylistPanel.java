@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import Model.Playlist;
 import Model.interfaces.IMusic;
 import Model.interfaces.IPlaylist;
+import java.util.ArrayList;
 
 /**
  *
@@ -29,7 +30,7 @@ public class PlaylistPanel extends javax.swing.JPanel implements IObserver {
     public PlaylistPanel(IPlaylist playlist) {
         initComponents();
        
-        System.out.println("teste id=>" + playlist.getId());
+
         currentPlaylist = playlistFacade.getPlayList(playlist);
        
         jLabelTitle.setText(currentPlaylist.getTitle());
@@ -183,9 +184,15 @@ public class PlaylistPanel extends javax.swing.JPanel implements IObserver {
         if(option == 0){
            
             List<IMusic> selecteds = deleteModel.GetAllSelected();
-            boolean result =  playlistFacade.removeMusicsDb(currentPlaylist, selecteds); 
-            currentPlaylist.getMusics().removeAll(selecteds); // remove visually
-            model.insertWithRemove(currentPlaylist.getMusics());  // alter visually
+          
+            List<IMusic> currentMusics = currentPlaylist.getMusics();
+            
+            selecteds.forEach( song -> {
+                currentMusics.removeIf( music -> music.getId() == song.getId());
+            });
+
+            model.insertWithRemove(currentMusics);
+            boolean result = playlistFacade.removeMusicsDb(currentPlaylist, currentMusics);// alter visually
             if(!result){
                 JOptionPane.showMessageDialog(null, "An error occurred while trying to delete the selected songs. Try again");
                 return;

@@ -37,7 +37,7 @@ public class PlaylistFacade {
     }
     
     public boolean removeMusicsDb(IPlaylist playlist,  List<IMusic> musics){
-        return  true;
+        return  dbContext.PlaylistMusics.Delete(playlist, musics);
     }
     
     public boolean updatePlaylistMusics(IPlaylist playlist, List<IMusic> musics){

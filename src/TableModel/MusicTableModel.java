@@ -82,6 +82,10 @@ public class MusicTableModel extends AbstractTableModel {
         musics.clear();
     }
     
+    public List<IMusic> getData(){
+        return musics;
+    }
+    
  
     
 }
