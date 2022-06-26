@@ -33,7 +33,8 @@ public class UserTableModel extends AbstractTableModel{
     
     @Override
     public String getColumnName(int columnIndex){
-        return columns[columnIndex];
+             return columns[columnIndex];
+        
     }
 
     @Override

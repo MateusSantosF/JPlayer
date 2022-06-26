@@ -44,7 +44,7 @@ public class DbContext {
 
         @Override
         public boolean Delete(IPlaylist type, List<IMusic> childrens) {
-            TableUnionWriter<IPlaylist, IMusic> writer = new TableUnionWriter(type, new Music());
+           TableUnionWriter<IPlaylist, IMusic> writer = new TableUnionWriter(type, new Music());
            return writer.DeleteOneRegister(type.getId(), childrens);
         }
 
@@ -202,15 +202,60 @@ public class DbContext {
 
         @Override
         public boolean Update(IUser type) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            TableWriter<IUser> writer = new TableWriter(type);
+            return writer.UpdateRegister(type);
         }
 
         @Override
         public boolean Delete(IUser type) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            
+            TableWriter<IUser> writer = new TableWriter(type);
+            boolean result =  writer.DeleteRegister(type);
+            
+            if(result){
+                LAST_ID_TABLE_USER = -1;
+                return true;
+            }
+            return false;
         }
         
     };
+    
+    public DbUnion<IPlaylist, IUser> PlaylistUsers = new DbUnion<IPlaylist, IUser>() {
+        
+        @Override
+        public List<Long> ListAll(IPlaylist type) {
+            TableUnionReader<IPlaylist, IUser> reader = new TableUnionReader(type ,new User());
+            return reader.readTable();
+        }
+        
+        @Override
+        public boolean Insert(IPlaylist type, List<IUser> childrens) {
+           TableUnionWriter<IPlaylist, IUser> writer = new TableUnionWriter(type, new User());
+           return writer.writeInTable(childrens);
+        }
+
+        @Override
+        public boolean Update(IPlaylist type, List<IUser> childrens) {
+           TableUnionWriter<IPlaylist, IUser> writer = new TableUnionWriter(type, new User());
+           return writer.UpdateRegister(type.getId(), childrens);
+        }
+
+        @Override
+        public boolean Delete(IPlaylist type, List<IUser> childrens) {
+           TableUnionWriter<IPlaylist, IUser> writer = new TableUnionWriter(type, new User());
+           return writer.DeleteOneRegister(type.getId(), childrens);
+        }
+
+        @Override
+        public boolean DeleteMultiples(List<IUser> childrens) {
+            TableUnionWriter<IPlaylist, IUser> writer = new TableUnionWriter(new Playlist(), new User());
+            return writer.DeleteMultiplesRegisters(childrens);
+        }
+               
+       
+    };
+      
     private DbContext(){
         
     }

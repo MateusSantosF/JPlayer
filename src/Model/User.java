@@ -74,7 +74,7 @@ public class User implements IUser {
     
      @Override
     public String getPassword() {
-        return email;
+        return password;
     }
 
     public void setPassword(String password) {
@@ -94,7 +94,7 @@ public class User implements IUser {
 
       @Override
     public String serialize() {
-        return String.format("%d:{%s,%s,%s}", this.getId(), this.getName(),this.getEmail(), this.getPassword());
+        return String.format("%d:{%s,%s,%s, %S}", this.getId(), this.getName(),this.getSurname(),this.getEmail(), this.getPassword());
     }
 
     

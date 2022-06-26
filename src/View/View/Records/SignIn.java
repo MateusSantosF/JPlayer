@@ -6,6 +6,7 @@ package View.View.Records;
 
 import View.View.Main;
 
+
 /**
  *
  * @author mateus
@@ -16,6 +17,8 @@ public class SignIn extends javax.swing.JFrame {
     /**
      * Creates new form SignIn2
      */
+    
+    
     public SignIn() {
         initComponents();
         
@@ -49,6 +52,12 @@ public class SignIn extends javax.swing.JFrame {
 
         jLabelPassword.setForeground(new java.awt.Color(255, 255, 255));
         jLabelPassword.setText("Password");
+
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
 
         jButtonSignIn.setForeground(new java.awt.Color(255, 255, 255));
         jButtonSignIn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -144,6 +153,10 @@ public class SignIn extends javax.swing.JFrame {
         new Main().setVisible(true);
         this.dispose(); 
     }//GEN-LAST:event_jButtonSignInMouseClicked
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -3,17 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/mateus/Documents/JPlayer/JPlayer/src/Facades/MusicFacade.java</file>
-            <file>file:/home/mateus/Documents/JPlayer/JPlayer/src/DAO/TableUnionReader.java</file>
-            <file>file:/home/mateus/Documents/JPlayer/JPlayer/src/DAO/DbUnion.java</file>
-            <file>file:/home/mateus/Documents/JPlayer/JPlayer/src/Utils/StringExtensions.java</file>
-            <file>file:/home/mateus/Documents/JPlayer/JPlayer/src/DAO/DbContext.java</file>
-            <file>file:/home/mateus/Documents/JPlayer/JPlayer/src/View/View/Playlist/PlaylistContainer.java</file>
-            <file>file:/home/mateus/Documents/JPlayer/JPlayer/src/TableModel/MusicTableModel.java</file>
-            <file>file:/home/mateus/Documents/JPlayer/JPlayer/src/View/View/Music/MusicContainer.java</file>
-            <file>file:/home/mateus/Documents/JPlayer/JPlayer/src/DAO/TableUnionWriter.java</file>
-            <file>file:/home/mateus/Documents/JPlayer/JPlayer/src/View/View/Home/Home.java</file>
-            <file>file:/home/mateus/Documents/JPlayer/JPlayer/src/DAO/TableWriter.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/View/View/Records/SignIn.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/Facades/UserFacade.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/View/View/Home/Home.java</file>
         </group>
     </open-files>
 </project-private>

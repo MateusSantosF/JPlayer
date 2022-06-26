@@ -29,4 +29,23 @@ public class UserFacade {
         return dbContext.Users.Insert(user);
     }
     
+    public boolean removeUsersDb(List<IUser> currentUsers) {
+        
+        boolean result;
+        int length = currentUsers.size();
+        
+        for(int i = 0; i < length; i++){
+            result = dbContext.Users.Delete(currentUsers.get(i));
+            if(!result){
+                return false;
+            }
+        }
+        result = dbContext.PlaylistUsers.DeleteMultiples(currentUsers);
+        
+        return result;
+    }
+    
+    public boolean UpdateUser(IUser editedUser){
+        return dbContext.Users.Update(editedUser);
+    }
 }
