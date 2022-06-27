@@ -10,6 +10,8 @@ import Model.interfaces.IUser;
 import Utils.Observer.interfaces.IObserver;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 /**
@@ -217,16 +219,18 @@ public class SignUp extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldEmailActionPerformed
 
     private void jButtonSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSignupActionPerformed
-        if(validateFields()){
-            result = facade.insertUser(createUser());
-            if(result){
-                JOptionPane.showMessageDialog(null, "User created in database with sucess!");        
-            }  
+
+        if(validateFields() && validateEmail(jTextFieldEmail.getText()) && validatePassword(jPasswordFieldPassword.getText(), jPasswordFieldConfirmPassword.getText())){
+             result = facade.insertUser(createUser());
+            
+                if(result){
+                    JOptionPane.showMessageDialog(null, "User created in database with sucess!");        
+                }  
 
             notifyObservers();
             this.dispose();
         }else{
-            JOptionPane.showMessageDialog(null, "Check the fields and try again");
+            JOptionPane.showMessageDialog(null, "All fields must be filled in and written correctly.");
         }
     }//GEN-LAST:event_jButtonSignupActionPerformed
 
@@ -294,4 +298,15 @@ public class SignUp extends javax.swing.JFrame {
             ob.update(result);
         });
     }
+     
+     public static final Pattern VALID_EMAIL_ADDRESS_REGEX = 
+     Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
+     public static boolean validateEmail(String emailStr) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
+        return matcher.find();
+}
+     public static boolean validatePassword(String passwordStr, String passwordConfirmedStr){
+        return passwordStr.equals(passwordConfirmedStr);
+     }
 }

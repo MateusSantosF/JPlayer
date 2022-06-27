@@ -4,7 +4,11 @@
  */
 package View.View.Records;
 
+import Facades.UserFacade;
+import Model.interfaces.IUser;
 import View.View.Main;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -17,12 +21,19 @@ public class SignIn extends javax.swing.JFrame {
     /**
      * Creates new form SignIn2
      */
+        private final UserFacade facade = new UserFacade();
     
     
     public SignIn() {
         initComponents();
         
     }
+    
+     private boolean validateFields(){
+        
+        return !(jTextField1.getText().isEmpty() ||
+                jTextField2.getText().isEmpty() ); 
+     }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -150,8 +161,22 @@ public class SignIn extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSignUpActionPerformed
 
     private void jButtonSignInMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonSignInMouseClicked
-        new Main().setVisible(true);
-        this.dispose(); 
+          
+        List<IUser> UsersList = facade.GetAllUsers();
+             
+         IUser result = UsersList.stream().filter( User -> 
+                 User.getName().equals(jTextField1.getText()) && 
+                         User.getPassword().equals(jTextField2.getText())).findAny().orElse(null);
+          
+      if(validateFields() && result != null){
+            JOptionPane.showMessageDialog(null, "Successful login !");
+            new Main().setVisible(true);
+            this.dispose();
+          
+          
+      }else{
+          JOptionPane.showMessageDialog(null, "Incorrect user");
+      }
     }//GEN-LAST:event_jButtonSignInMouseClicked
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
@@ -193,6 +218,8 @@ public class SignIn extends javax.swing.JFrame {
             }
         });
     }
+    
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jButtonSignIn;
