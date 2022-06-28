@@ -1,7 +1,7 @@
 package View.View;
 
 
-import Database.DbContext;
+import DAO.DbContext;
 import View.View.Home.Home;
 import Utils.Observer.interfaces.IObserver;
 import View.View.Music.MusicContainer;
@@ -13,7 +13,8 @@ import Model.Playlist;
 import Model.interfaces.IPlaylist;
 import Model.interfaces.IUser;
 import View.View.Records.SignIn;
-import View.View.User.UserContainer;
+
+import View.View.User.UsersContainers;
 
 
 /**
@@ -244,7 +245,7 @@ public class Main extends javax.swing.JFrame implements IObserver {
 
     private void jButtonProfileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonProfileMouseClicked
 
-          new JPanelManager(container, new UserContainer());
+          new JPanelManager(container, new UsersContainers());
     }//GEN-LAST:event_jButtonProfileMouseClicked
 
     /**

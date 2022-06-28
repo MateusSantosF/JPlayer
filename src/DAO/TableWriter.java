@@ -208,6 +208,12 @@ public class TableWriter <T>{
         if(type instanceof IPlaylist){
             id = ((IPlaylist) data).getId();
         }
+        
+        
+        if(type instanceof IUser){
+            id = ((IUser) data).getId();
+        }
+        
         return id;
     }
     

@@ -18,20 +18,14 @@ import javax.swing.table.AbstractTableModel;
 public class SelectUserTableModel extends AbstractTableModel {
 
     private final String[] columns = {"Name", "Surname", "Email", "Password", "Selected"};
-    private final UserFacade userFacade = new UserFacade();
+    private final UserFacade facade = new UserFacade();
     private List<IUser> users;
     
      public SelectUserTableModel(){
         users = new ArrayList<>();
     }
-    
-
-    @Override
-    public int getRowCount() {
-        return users.size();
-    }
-    
-    @Override
+     
+     @Override
     public String getColumnName(int columnIndex){
              return columns[columnIndex];
         
@@ -40,14 +34,14 @@ public class SelectUserTableModel extends AbstractTableModel {
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 
-        if ( columnIndex == 3 ) {
+        if ( columnIndex == 4 ) {
             users.get(rowIndex).setSelected(Boolean.valueOf(aValue.toString()));             
             fireTableRowsUpdated(rowIndex, rowIndex);
             fireTableCellUpdated(rowIndex, columnIndex);
         }
     }
-    
-       @Override
+        
+     @Override
     public Class<?> getColumnClass​(int columnIndex){
     
         switch (columnIndex) {
@@ -58,7 +52,7 @@ public class SelectUserTableModel extends AbstractTableModel {
             case 2:
                 return String.class;
             case 3:
-                return Boolean.class;
+                return String.class;
             case 4:
                 return Boolean.class;
             default:
@@ -66,62 +60,46 @@ public class SelectUserTableModel extends AbstractTableModel {
         }
     }
 
+
+    @Override
+    public int getRowCount() {
+        return users.size();
+    }
+    
+   
+      
     @Override
     public int getColumnCount() {
            return columns.length;
     }
+    
+     @Override
+    public boolean isCellEditable(int row, int column) {
+        return column == 4;
+    }
+    
 
+   
     @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        
-        switch (columnIndex) {
+    public Object getValueAt(int row, int column) {
+        switch (column) {
             case 0:
-                return users.get(rowIndex).getName();
+                return users.get(row).getName();
             case 1:
-                return users.get(rowIndex).getSurname();
+                return users.get(row).getSurname();
             case 2:
-                return users.get(rowIndex).getEmail();
+                return users.get(row).getEmail();
             case 3:
-                if(!users.get(rowIndex).isSelected()){
-                    
-                    return "Offline";
-                }else {
-                    return "Online";
-                }
-            
+                return users.get(row).getPassword();    
+            case 4:
+                return users.get(row).isSelected();
             default:
                 return null;
         }
     }
-    
-    public void insertUser(List<IUser> newUsers){  
-        users.addAll(newUsers);
-        fireTableDataChanged(); 
-    }
-    
-     public void removeUser(List<IUser> musics){
-        this.users.removeAll(musics);
-        fireTableDataChanged(); 
-    }
-    
-    public void insertWithRemove(List<IUser> newUsers){
+       public void SearchUserByName(String input){ 
         clearData();
-        users.addAll(newUsers);
-        fireTableDataChanged(); 
-    }
-    
-    private void clearData(){
-        users.clear();
-    }
-    
-     public List<IUser> GetAllSelected(){
-        return users.stream().filter(music -> music.isSelected() == true).collect(Collectors.toList());
-    }
-    
-    
-    public void SearchUserByName(String input){ 
-        clearData();
-        insertUser(userFacade.GetAllUsers());
+        insertUser(facade.GetAllUsers());
         List<IUser> filtered = users.stream().filter(
                 user -> input.toLowerCase().contains(user.getName().toLowerCase())).collect(Collectors.toList());
         
@@ -129,6 +107,28 @@ public class SelectUserTableModel extends AbstractTableModel {
             users = filtered;
         }
         fireTableDataChanged();    
+    }
+    
+    
+    public void insertUser(List<IUser> newUsers){  
+        clearData();
+        newUsers.forEach( m -> { m.setSelected(false); });
+        this.users.addAll(newUsers);     
+        fireTableDataChanged(); 
+    }
+    
+     public void removeUser(List<IUser> users){
+        this.users.removeAll(users);
+        fireTableDataChanged(); 
+    }
+    
+    
+    private void clearData(){
+        users.clear();
+    }
+    
+     public List<IUser> GetAllSelected(){
+        return users.stream().filter(user -> user.isSelected() == true).collect(Collectors.toList());
     }
     
 }
