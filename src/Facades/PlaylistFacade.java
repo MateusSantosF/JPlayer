@@ -9,6 +9,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import Model.interfaces.IMusic;
 import Model.interfaces.IPlaylist;
+import java.util.ArrayList;
 
 
 /**
@@ -53,6 +54,14 @@ public class PlaylistFacade {
         }
         
         result = dbContext.PlaylistMusics.Delete(playlist, playlist.getMusics());
+        
+        if(!result){
+            return false;
+        }
+        
+        List<IPlaylist> fakeList = new ArrayList<>();
+        fakeList.add(playlist);
+        result = dbContext.UserPlaylistsMateus.DeleteMultiples(fakeList);
         
         return result;
     }

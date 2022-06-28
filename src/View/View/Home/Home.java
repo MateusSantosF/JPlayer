@@ -1,5 +1,6 @@
 package View.View.Home;
 
+import DAO.DbContext;
 import Facades.MusicFacade;
 import Facades.PlaylistFacade;
 import TableModel.UserTableModel;
@@ -36,6 +37,7 @@ public class Home extends javax.swing.JPanel implements IObserver{
     public Home() {
         initComponents();
         listAllUsersInDatabase();
+    
         loadDashboardData();
     }
     

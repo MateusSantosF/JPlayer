@@ -1,6 +1,7 @@
 package View.View;
 
 
+import Database.DbContext;
 import View.View.Home.Home;
 import Utils.Observer.interfaces.IObserver;
 import View.View.Music.MusicContainer;
@@ -10,6 +11,7 @@ import javax.swing.JOptionPane;
 import Utils.JPanelManager;
 import Model.Playlist;
 import Model.interfaces.IPlaylist;
+import Model.interfaces.IUser;
 import View.View.Records.SignIn;
 import View.View.User.UserContainer;
 
@@ -27,6 +29,13 @@ public class Main extends javax.swing.JFrame implements IObserver {
         initComponents();     
         new JPanelManager(container, new Home());
     }
+    
+     public Main(IUser currentUser) {
+        initComponents();     
+        new JPanelManager(container, new Home());
+        jLabelUsername.setText(currentUser.getName());
+    }
+ 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -41,7 +50,7 @@ public class Main extends javax.swing.JFrame implements IObserver {
         container = new javax.swing.JPanel();
         jButtonPlaylists2 = new javax.swing.JLabel();
         LateralBar = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jLabelUsername = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jButtonPlaylists = new javax.swing.JLabel();
         jButtonHome1 = new javax.swing.JLabel();
@@ -49,7 +58,8 @@ public class Main extends javax.swing.JFrame implements IObserver {
         jButtonProfile = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(619, 400));
+        setMinimumSize(new java.awt.Dimension(719, 500));
+        setPreferredSize(new java.awt.Dimension(719, 500));
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentResized(java.awt.event.ComponentEvent evt) {
                 formComponentResized(evt);
@@ -84,10 +94,10 @@ public class Main extends javax.swing.JFrame implements IObserver {
 
         LateralBar.setBackground(new java.awt.Color(52, 52, 52));
 
-        jLabel1.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("USERNAME");
+        jLabelUsername.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
+        jLabelUsername.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelUsername.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelUsername.setText("USERNAME");
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -152,7 +162,7 @@ public class Main extends javax.swing.JFrame implements IObserver {
         LateralBar.setLayout(LateralBarLayout);
         LateralBarLayout.setHorizontalGroup(
             LateralBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+            .addComponent(jLabelUsername, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LateralBarLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(LateralBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,7 +178,7 @@ public class Main extends javax.swing.JFrame implements IObserver {
             LateralBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LateralBarLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabelUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(55, 55, 55)
                 .addComponent(jButtonHome1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -281,8 +291,8 @@ public class Main extends javax.swing.JFrame implements IObserver {
     private javax.swing.JLabel jButtonPlaylists;
     private javax.swing.JLabel jButtonPlaylists2;
     private javax.swing.JLabel jButtonProfile;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabelUsername;
     private javax.swing.JPanel mainPainel;
     // End of variables declaration//GEN-END:variables
 

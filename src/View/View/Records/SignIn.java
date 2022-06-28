@@ -4,6 +4,7 @@
  */
 package View.View.Records;
 
+import DAO.DbContext;
 import Facades.UserFacade;
 import Model.interfaces.IUser;
 import View.View.Main;
@@ -30,8 +31,8 @@ public class SignIn extends javax.swing.JFrame {
     
      private boolean validateFields(){
         
-        return !(jTextField1.getText().isEmpty() ||
-                jTextField2.getText().isEmpty() ); 
+        return !(jTextFieldUsername.getText().isEmpty() ||
+                jTextFieldPassword.getText().isEmpty() ); 
      }
 
     /**
@@ -45,9 +46,9 @@ public class SignIn extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabelUserName = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextFieldUsername = new javax.swing.JTextField();
         jLabelPassword = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jTextFieldPassword = new javax.swing.JTextField();
         jButtonSignIn = new javax.swing.JLabel();
         jButtonSignUp = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -63,9 +64,9 @@ public class SignIn extends javax.swing.JFrame {
         jLabelPassword.setForeground(new java.awt.Color(255, 255, 255));
         jLabelPassword.setText("Password");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                jTextFieldPasswordActionPerformed(evt);
             }
         });
 
@@ -89,8 +90,8 @@ public class SignIn extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabelPassword)
                     .addComponent(jLabelUserName)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
-                    .addComponent(jTextField2)
+                    .addComponent(jTextFieldUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                    .addComponent(jTextFieldPassword)
                     .addComponent(jButtonSignIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(83, 83, 83))
         );
@@ -100,11 +101,11 @@ public class SignIn extends javax.swing.JFrame {
                 .addGap(68, 68, 68)
                 .addComponent(jLabelUserName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabelPassword)
                 .addGap(5, 5, 5)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonSignIn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -164,12 +165,15 @@ public class SignIn extends javax.swing.JFrame {
         List<IUser> UsersList = facade.GetAllUsers();
              
          IUser result = UsersList.stream().filter( User -> 
-                 User.getName().equals(jTextField1.getText()) && 
-                         User.getPassword().equals(jTextField2.getText())).findAny().orElse(null);
+                 User.getName().equals(jTextFieldUsername.getText().trim()) && 
+                         User.getPassword().equals(jTextFieldPassword.getText().trim())).findAny().orElse(null);
           
       if(validateFields() && result != null){
             JOptionPane.showMessageDialog(null, "Successful login !");
-            new Main().setVisible(true);
+            DbContext initialContext = DbContext.getInstance();
+            initialContext.CURRENT_USER = result;
+            new Main(result).setVisible(true);
+          
             this.dispose();
           
           
@@ -178,9 +182,9 @@ public class SignIn extends javax.swing.JFrame {
       }
     }//GEN-LAST:event_jButtonSignInMouseClicked
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void jTextFieldPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPasswordActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_jTextFieldPasswordActionPerformed
 
     /**
      * @param args the command line arguments
@@ -227,7 +231,7 @@ public class SignIn extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelPassword;
     private javax.swing.JLabel jLabelUserName;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextFieldPassword;
+    private javax.swing.JTextField jTextFieldUsername;
     // End of variables declaration//GEN-END:variables
 }

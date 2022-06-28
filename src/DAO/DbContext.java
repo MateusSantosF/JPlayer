@@ -20,6 +20,8 @@ public class DbContext {
     private long LAST_ID_TABLE_MUSIC = -1;
     private long LAST_ID_TABLE_PLAYLIST = -1;
     private long LAST_ID_TABLE_USER = -1;
+    public IUser CURRENT_USER; 
+            
     private static DbContext dbContext;
     
     public DbUnion<IPlaylist, IMusic> PlaylistMusics = new DbUnion<IPlaylist, IMusic>() {
@@ -144,7 +146,8 @@ public class DbContext {
         @Override
         public boolean Insert(IPlaylist type) {
             type.setId(getLastIdTablePlaylist());
-            TableWriter<IPlaylist> writer = new TableWriter(type);         
+            TableWriter<IPlaylist> writer = new TableWriter(type);   
+
             return writer.writeInTable(type);
         }
 
@@ -221,6 +224,7 @@ public class DbContext {
         
     };
     
+    //TODO Joao Fixed this
     public DbUnion<IPlaylist, IUser> PlaylistUsers = new DbUnion<IPlaylist, IUser>() {
         
         @Override
@@ -255,16 +259,78 @@ public class DbContext {
                
        
     };
+    
+    public DbUnion<IPlaylist, IPlaylist> UserPlaylistsMateus = new DbUnion<IPlaylist, IPlaylist>() {
+        @Override
+        public List<Long> ListAll(IPlaylist type) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public boolean Insert(IPlaylist type, List<IPlaylist> childrens) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public boolean Update(IPlaylist type, List<IPlaylist> childrens) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public boolean Delete(IPlaylist type, List<IPlaylist> childrens) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public boolean DeleteMultiples(List<IPlaylist> childrens) {
+            TableUnionWriter<IPlaylist, IPlaylist> writer = new TableUnionWriter(new Playlist(), new Playlist());
+            return writer.DeleteMultiplesRegisters(childrens);
+        }
+    };
+    
+    public DbUnion<IUser, IPlaylist> UserPlaylist = new DbUnion<IUser, IPlaylist>() {
+        @Override
+        public List<Long> ListAll(IUser type) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public boolean Insert(IUser type, List<IPlaylist> childrens) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public boolean Update(IUser type, List<IPlaylist> childrens) {
+           TableUnionWriter<IUser, IPlaylist> writer = new TableUnionWriter(type, new Playlist());
+           return writer.UpdateRegister(type.getId(), childrens);
+        }
+
+        @Override
+        public boolean Delete(IUser type, List<IPlaylist> childrens) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public boolean DeleteMultiples(List<IPlaylist> childrens) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+    };
       
-    private DbContext(){
-        
-    }
+   
     
     public static DbContext getInstance(){
         if(dbContext == null){
             dbContext = new DbContext();
         }      
         return dbContext;
+    }
+    
+    public IUser currentUser(){
+        return CURRENT_USER;
+    }
+    
+    private DbContext(){
+        
     }
     
     private long getLastIdTableMusic(){
@@ -287,9 +353,11 @@ public class DbContext {
         
         TableReader<IMusic> musicTableReader = new TableReader<>(new Music());
         TableReader<IPlaylist> playListTableReader = new TableReader<>(new Playlist());
+        TableReader<IUser> userTableReader = new TableReader<>(new User());
         
         LAST_ID_TABLE_PLAYLIST = playListTableReader.getLastIdInTable();      
         LAST_ID_TABLE_MUSIC = musicTableReader.getLastIdInTable();
+        LAST_ID_TABLE_USER = userTableReader.getLastIdInTable();
 
     }
 }

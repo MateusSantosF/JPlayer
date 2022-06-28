@@ -53,8 +53,12 @@ public class TableUnionWriter <T, E>{
         BufferedWriter buffer;
         
         long id = 0;
-        if( father instanceof IPlaylist){
-            id = ((IPlaylist) father).getId();
+        if( father instanceof IPlaylist iPlaylist){
+            id = iPlaylist.getId();
+        }
+        
+        if( father instanceof IUser iUser){
+            id = iUser.getId();
         }
         
         String newLine = id + ":{" + getIdForNewRegisters(data) + "}";
@@ -181,7 +185,14 @@ public class TableUnionWriter <T, E>{
         String newRegisterId = getIdForNewRegisters(deletedRegisters); //ids new line 
      
         List<String> removedIdString = new ArrayList<>(Arrays.asList(newRegisterId.split(","))); 
-        List<Long> removedIdLong = removedIdString.stream().map(Long::parseLong).collect(Collectors.toList());
+        List<Long> removedIdLong = null;
+         
+        if(removedIdString.size() > 1){
+           removedIdLong = removedIdString.stream().map(Long::parseLong).collect(Collectors.toList());
+        }else{
+            removedIdLong = new ArrayList<>();
+            removedIdLong.add(Long.parseLong(newRegisterId));
+        }
          
         if (!tableCSV.exists() || !tableCSV.canRead() || !tableCSV.isFile()) {
             System.out.println("FAIL READ TABLE");
@@ -243,6 +254,11 @@ public class TableUnionWriter <T, E>{
                 if( i < size - 1){
                     serialized.append(",");
                 }
+            }else if(current instanceof IPlaylist){
+                serialized.append(((IPlaylist) current).getId());
+                if (i < size - 1) {
+                    serialized.append(",");
+                }
             }
         }
     
@@ -297,6 +313,14 @@ public class TableUnionWriter <T, E>{
               
         if( children instanceof IMusic){
             return new File(Constants.PLAYLIST_MUSIC_TABLE);
+        }
+        
+        if (children instanceof IUser) {
+            return new File(Constants.USER_PLAYLIST_TABLE);
+        }
+
+        if (children instanceof IPlaylist) {
+            return new File(Constants.USER_PLAYLIST_TABLE);
         }
         
         return null;
