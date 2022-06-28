@@ -4,12 +4,16 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/User/Desktop/JPlayer/src/View/View/Records/SignIn.java</file>
-            <file>file:/C:/Users/User/Desktop/JPlayer/src/Model/User.java</file>
-            <file>file:/C:/Users/User/Desktop/JPlayer/src/DAO/DbContext.java</file>
-            <file>file:/C:/Users/User/Desktop/JPlayer/src/View/Modal/ModalCreateMusic.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/TableModel/MusicTableModel.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/View/View/Editions/User/EditUser.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/TableModel/SelectMusicTableModel.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/Database/music.csv</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/TableModel/SelectUserTableModel.java</file>
             <file>file:/C:/Users/User/Desktop/JPlayer/src/TableModel/UserTableModel.java</file>
             <file>file:/C:/Users/User/Desktop/JPlayer/src/Database/user.csv</file>
-            <file>file:/C:/Users/User/Desktop/JPlayer/src/View/View/Records/SignUp.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/View/View/User/UserContainer.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/View/View/Music/MusicContainer.java</file>
+            <file>file:/C:/Users/User/Desktop/JPlayer/src/View/View/Editions/Music/EditMusic.java</file>
         </group>
     </open-files>
 </project-private>

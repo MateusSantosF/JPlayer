@@ -5,23 +5,23 @@
 package TableModel;
 
 import Facades.UserFacade;
+import Model.interfaces.IUser;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.table.AbstractTableModel;
-import Model.interfaces.IUser;
 
 /**
  *
  * @author User
  */
-public class UserTableModel extends AbstractTableModel{
-    
-    private final String[] columns = {"Name", "Surname", "Email", "Password"};
+public class SelectUserTableModel extends AbstractTableModel {
+
+    private final String[] columns = {"Name", "Surname", "Email", "Password", "Selected"};
     private final UserFacade userFacade = new UserFacade();
     private List<IUser> users;
     
-     public UserTableModel(){
+     public SelectUserTableModel(){
         users = new ArrayList<>();
     }
     
@@ -35,6 +35,35 @@ public class UserTableModel extends AbstractTableModel{
     public String getColumnName(int columnIndex){
              return columns[columnIndex];
         
+    }
+    
+    @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+
+        if ( columnIndex == 3 ) {
+            users.get(rowIndex).setSelected(Boolean.valueOf(aValue.toString()));             
+            fireTableRowsUpdated(rowIndex, rowIndex);
+            fireTableCellUpdated(rowIndex, columnIndex);
+        }
+    }
+    
+       @Override
+    public Class<?> getColumnClass​(int columnIndex){
+    
+        switch (columnIndex) {
+            case 0:
+                return String.class;
+            case 1:
+                return String.class;
+            case 2:
+                return String.class;
+            case 3:
+                return Boolean.class;
+            case 4:
+                return Boolean.class;
+            default:
+                throw new AssertionError();
+        }
     }
 
     @Override
@@ -70,19 +99,25 @@ public class UserTableModel extends AbstractTableModel{
         fireTableDataChanged(); 
     }
     
+     public void removeUser(List<IUser> musics){
+        this.users.removeAll(musics);
+        fireTableDataChanged(); 
+    }
+    
     public void insertWithRemove(List<IUser> newUsers){
         clearData();
         users.addAll(newUsers);
         fireTableDataChanged(); 
     }
     
-    public List<IUser> getData(){
-       return users;
-    }
-    
     private void clearData(){
         users.clear();
     }
+    
+     public List<IUser> GetAllSelected(){
+        return users.stream().filter(music -> music.isSelected() == true).collect(Collectors.toList());
+    }
+    
     
     public void SearchUserByName(String input){ 
         clearData();
@@ -95,11 +130,5 @@ public class UserTableModel extends AbstractTableModel{
         }
         fireTableDataChanged();    
     }
-
-     public IUser getData(int rowIndex){
-        return users.get(rowIndex);
-    }
-    
-    
     
 }

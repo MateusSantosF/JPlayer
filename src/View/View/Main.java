@@ -11,6 +11,7 @@ import Utils.JPanelManager;
 import Model.Playlist;
 import Model.interfaces.IPlaylist;
 import View.View.Records.SignIn;
+import View.View.User.UserContainer;
 
 
 /**
@@ -38,16 +39,17 @@ public class Main extends javax.swing.JFrame implements IObserver {
 
         mainPainel = new javax.swing.JPanel();
         container = new javax.swing.JPanel();
+        jButtonPlaylists2 = new javax.swing.JLabel();
         LateralBar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jButtonPlaylists = new javax.swing.JLabel();
         jButtonHome1 = new javax.swing.JLabel();
         jButtonMusics1 = new javax.swing.JLabel();
+        jButtonProfile = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(619, 400));
-        setPreferredSize(new java.awt.Dimension(800, 500));
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentResized(java.awt.event.ComponentEvent evt) {
                 formComponentResized(evt);
@@ -64,6 +66,20 @@ public class Main extends javax.swing.JFrame implements IObserver {
 
         container.setPreferredSize(new java.awt.Dimension(600, 400));
         container.setLayout(new java.awt.BorderLayout());
+
+        jButtonPlaylists2.setFont(new java.awt.Font("Liberation Sans", 1, 14)); // NOI18N
+        jButtonPlaylists2.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonPlaylists2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jButtonPlaylists2.setText("Playlists");
+        jButtonPlaylists2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        jButtonPlaylists2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonPlaylists2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonPlaylists2MouseClicked(evt);
+            }
+        });
+        container.add(jButtonPlaylists2, java.awt.BorderLayout.CENTER);
+
         mainPainel.add(container, java.awt.BorderLayout.CENTER);
 
         LateralBar.setBackground(new java.awt.Color(52, 52, 52));
@@ -120,6 +136,18 @@ public class Main extends javax.swing.JFrame implements IObserver {
             }
         });
 
+        jButtonProfile.setFont(new java.awt.Font("Liberation Sans", 1, 14)); // NOI18N
+        jButtonProfile.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonProfile.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jButtonProfile.setText("Profile");
+        jButtonProfile.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        jButtonProfile.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonProfile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonProfileMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout LateralBarLayout = new javax.swing.GroupLayout(LateralBar);
         LateralBar.setLayout(LateralBarLayout);
         LateralBarLayout.setHorizontalGroup(
@@ -132,7 +160,8 @@ public class Main extends javax.swing.JFrame implements IObserver {
                     .addGroup(LateralBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jButtonHome1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonPlaylists, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonMusics1, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)))
+                        .addComponent(jButtonMusics1, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                        .addComponent(jButtonProfile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(16, 16, 16))
         );
         LateralBarLayout.setVerticalGroup(
@@ -146,7 +175,9 @@ public class Main extends javax.swing.JFrame implements IObserver {
                 .addComponent(jButtonMusics1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonPlaylists, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -197,6 +228,15 @@ public class Main extends javax.swing.JFrame implements IObserver {
         System.out.println(this.getWidth());
     }//GEN-LAST:event_formComponentResized
 
+    private void jButtonPlaylists2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonPlaylists2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonPlaylists2MouseClicked
+
+    private void jButtonProfileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonProfileMouseClicked
+
+          new JPanelManager(container, new UserContainer());
+    }//GEN-LAST:event_jButtonProfileMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -239,6 +279,8 @@ public class Main extends javax.swing.JFrame implements IObserver {
     private javax.swing.JLabel jButtonHome1;
     private javax.swing.JLabel jButtonMusics1;
     private javax.swing.JLabel jButtonPlaylists;
+    private javax.swing.JLabel jButtonPlaylists2;
+    private javax.swing.JLabel jButtonProfile;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel mainPainel;
