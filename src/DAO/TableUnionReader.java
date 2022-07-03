@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import Model.interfaces.IMusic;
 import Model.interfaces.IPlaylist;
+import Model.interfaces.IUser;
 /**
  *
  * @author mateus
@@ -62,14 +63,15 @@ public class TableUnionReader<T, E> {
                             break;
                         }
                     }
+                    
+                    if (father instanceof IUser) {
+                        if (StringExtensions.getIdInLine(line) == ((IUser) father).getId()) {
+                            
+                            objectList.addAll(StringExtensions.formatLine(line));
+                            break;
+                        }
+                    }
                 }
-
-//                if( father instanceof IUser){
-//                   if(getIdInLine(linha) == ((IPlaylist) father).getId()){                 
-//                       objectList.addAll(formatLine(linha));
-//                       break;
-//                   }
-//               }
             }
             buffer.close();
             reader.close();
@@ -153,6 +155,10 @@ public class TableUnionReader<T, E> {
 
         if (children instanceof IMusic) {
             return new File(Constants.PLAYLIST_MUSIC_TABLE);
+        }
+        
+        if (children instanceof IPlaylist) {
+            return new File(Constants.USER_PLAYLIST_TABLE );
         }
 
         return null;

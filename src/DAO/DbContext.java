@@ -8,6 +8,10 @@ import Model.User;
 import Model.interfaces.IMusic;
 import Model.interfaces.IPlaylist;
 import Model.interfaces.IUser;
+import Utils.Constants;
+import java.io.File;
+import java.io.IOException;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -24,6 +28,9 @@ public class DbContext {
             
     private static DbContext dbContext;
     
+    /**
+     * Relaciona playlists com Músicas
+     */
     public DbUnion<IPlaylist, IMusic> PlaylistMusics = new DbUnion<IPlaylist, IMusic>() {
                
         @Override
@@ -56,7 +63,10 @@ public class DbContext {
             return writer.DeleteMultiplesRegisters(childrens);
         }
     };
-        
+      
+    /**
+     * Responsável exclusivamente pela entidade Musica
+     */
     public Dbset<IMusic> Musics = new Dbset<IMusic>() {
         
         TableReader<IMusic> reader = new TableReader<>(new Music());
@@ -103,6 +113,9 @@ public class DbContext {
         }
     };
     
+    /**
+     * Responsável exclusivamente pela entidade Playlist
+     */
     public Dbset<IPlaylist> Playlists = new Dbset<IPlaylist>() {
         
         TableReader<IPlaylist> reader = new TableReader<>(new Playlist());
@@ -173,6 +186,9 @@ public class DbContext {
   
     };
     
+    /**
+     * Responsável exclusivamente pela entidade Usuário
+     */
     public Dbset<IUser> Users = new Dbset<IUser>(){
         
         TableReader<IUser> reader = new TableReader<>(new User());
@@ -224,7 +240,9 @@ public class DbContext {
         
     };
     
-    //TODO Joao Fixed this
+    /**
+     * Relaciona a PLAYLIST com o USUARIO
+     */
     public DbUnion<IPlaylist, IUser> PlaylistUsers = new DbUnion<IPlaylist, IUser>() {
         
         @Override
@@ -260,43 +278,30 @@ public class DbContext {
        
     };
     
-    public DbUnion<IPlaylist, IPlaylist> UserPlaylistsMateus = new DbUnion<IPlaylist, IPlaylist>() {
-        @Override
-        public List<Long> ListAll(IPlaylist type) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
-
-        @Override
-        public boolean Insert(IPlaylist type, List<IPlaylist> childrens) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
-
-        @Override
-        public boolean Update(IPlaylist type, List<IPlaylist> childrens) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
-
-        @Override
-        public boolean Delete(IPlaylist type, List<IPlaylist> childrens) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
-
-        @Override
-        public boolean DeleteMultiples(List<IPlaylist> childrens) {
-            TableUnionWriter<IPlaylist, IPlaylist> writer = new TableUnionWriter(new Playlist(), new Playlist());
-            return writer.DeleteMultiplesRegisters(childrens);
-        }
-    };
     
+    /**
+     * Relaciona os Usuários com Playlists
+     */
     public DbUnion<IUser, IPlaylist> UserPlaylist = new DbUnion<IUser, IPlaylist>() {
         @Override
         public List<Long> ListAll(IUser type) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            TableUnionReader<IUser, IPlaylist> reader = new TableUnionReader(type, new Playlist());
+            return reader.readTable();
         }
 
         @Override
         public boolean Insert(IUser type, List<IPlaylist> childrens) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            TableUnionWriter<IUser, IPlaylist> writer = new TableUnionWriter(type, new Playlist());
+            TableUnionReader<IUser, IPlaylist> reader = new TableUnionReader(type, new Playlist());
+      
+            
+            List<Long> playlistIdsCurrentUser = reader.readTable();
+            
+            if(playlistIdsCurrentUser.isEmpty()){
+               return writer.writeInTable(childrens);
+            }
+            
+            return Update(type, childrens);      
         }
 
         @Override
@@ -312,7 +317,8 @@ public class DbContext {
 
         @Override
         public boolean DeleteMultiples(List<IPlaylist> childrens) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            TableUnionWriter<IPlaylist, IPlaylist> writer = new TableUnionWriter(new Playlist(), new Playlist());
+           return writer.DeleteMultiplesRegisters(childrens);
         }
     };
       
@@ -321,18 +327,38 @@ public class DbContext {
     public static DbContext getInstance(){
         if(dbContext == null){
             dbContext = new DbContext();
+           
         }      
         return dbContext;
     }
     
-    public IUser currentUser(){
-        return CURRENT_USER;
-    }
-    
     private DbContext(){
+         createTablesIfNotExists();
+    }
+   
+    
+    private void createTablesIfNotExists(){
+        
+        File userTable = new File(Constants.USER_TABLE);
+        File playlistTable = new File(Constants.PLAYLIST_TABLE);
+        File musicTable = new File(Constants.MUSIC_TABLE);
+        File userPlaylistTable = new File(Constants.USER_PLAYLIST_TABLE);
+        File playlistMusicsTable = new File(Constants.PLAYLIST_MUSIC_TABLE);
+        
+        try {
+            userTable.createNewFile();
+            playlistTable.createNewFile();
+            musicTable.createNewFile();
+            userPlaylistTable.createNewFile();
+        playlistMusicsTable.createNewFile();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error in create database files");
+        }
+      
         
     }
-    
+   
+
     private long getLastIdTableMusic(){
         if(LAST_ID_TABLE_MUSIC < 0) mappingTables();
         return ++LAST_ID_TABLE_MUSIC;
@@ -358,6 +384,5 @@ public class DbContext {
         LAST_ID_TABLE_PLAYLIST = playListTableReader.getLastIdInTable();      
         LAST_ID_TABLE_MUSIC = musicTableReader.getLastIdInTable();
         LAST_ID_TABLE_USER = userTableReader.getLastIdInTable();
-
     }
 }

@@ -72,7 +72,7 @@
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jLabelPassword" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabelUserName" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextFieldUsername" alignment="0" pref="175" max="32767" attributes="0"/>
+                      <Component id="jTextFieldEmail" alignment="0" pref="175" max="32767" attributes="0"/>
                       <Component id="jTextFieldPassword" alignment="0" max="32767" attributes="0"/>
                       <Component id="jButtonSignIn" max="32767" attributes="0"/>
                   </Group>
@@ -86,7 +86,7 @@
                   <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
                   <Component id="jLabelUserName" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jTextFieldUsername" min="-2" pref="35" max="-2" attributes="0"/>
+                  <Component id="jTextFieldEmail" min="-2" pref="35" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jLabelPassword" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
@@ -104,10 +104,10 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Username"/>
+            <Property name="text" type="java.lang.String" value="Email"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldUsername">
+        <Component class="javax.swing.JTextField" name="jTextFieldEmail">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelPassword">
           <Properties>

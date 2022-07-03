@@ -26,11 +26,17 @@ public class PlaylistFacade {
     }
     
     public List<IPlaylist> getAllPlaylistHasNoTracking(){
-        return dbContext.Playlists.ListAllHasNoTracking();
+        List<IPlaylist> playlists =  dbContext.Playlists.ListAllHasNoTracking();
+        List<Long> userPlaylists = dbContext.UserPlaylist.ListAll(dbContext.CURRENT_USER);
+        
+       return playlists.stream().filter( playlist -> userPlaylists.contains(playlist.getId())).collect(Collectors.toList());
     }
     
     public List<IPlaylist> getAllPlaylist(){
-        return dbContext.Playlists.ListAll();
+        List<IPlaylist> playlists =  dbContext.Playlists.ListAllHasNoTracking();
+        List<Long> userPlaylists = dbContext.UserPlaylist.ListAll(dbContext.CURRENT_USER);
+        
+       return playlists.stream().filter( playlist -> userPlaylists.contains(playlist.getId())).collect(Collectors.toList());
     }
     
     public IPlaylist getPlayList(IPlaylist playlist){
@@ -61,17 +67,25 @@ public class PlaylistFacade {
         
         List<IPlaylist> fakeList = new ArrayList<>();
         fakeList.add(playlist);
-        result = dbContext.UserPlaylistsMateus.DeleteMultiples(fakeList);
+        result = dbContext.UserPlaylist.DeleteMultiples(fakeList);
         
         return result;
     }
     
     public boolean createPlaylist(IPlaylist playlist){
-        return dbContext.Playlists.Insert(playlist);
+        boolean result =  dbContext.Playlists.Insert(playlist);
+        if(!result){
+        return false;
+        }
+        List<IPlaylist> fakeList = new ArrayList<>();
+        fakeList.add(playlist);
+              
+        return dbContext.UserPlaylist.Insert(dbContext.CURRENT_USER, fakeList);
     }
     
+    
     public boolean insertMusics(IPlaylist currentPlaylist, List<IMusic> musics) {
-        return dbContext.PlaylistMusics.Insert(currentPlaylist, musics);
+        return  dbContext.PlaylistMusics.Insert(currentPlaylist, musics);
     }
     
     public boolean UpdatePlaylist(IPlaylist playlist){

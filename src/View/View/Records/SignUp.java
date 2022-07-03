@@ -88,6 +88,11 @@ public class SignUp extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(34, 34, 34));
 
@@ -221,19 +226,40 @@ public class SignUp extends javax.swing.JFrame {
     private void jButtonSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSignupActionPerformed
 
         if(validateFields() && validateEmail(jTextFieldEmail.getText()) && validatePassword(jPasswordFieldPassword.getText(), jPasswordFieldConfirmPassword.getText())){
-             result = facade.insertUser(createUser());
+             
+            IUser isExistingUser = facade.GetAllUsers()
+                    .stream().filter(user -> user.getEmail().equals(jTextFieldEmail.getText().trim())).findAny().orElse(null);
+               
+            if(isExistingUser == null){
+                 result =  facade.insertUser(createUser());
             
                 if(result){
                     JOptionPane.showMessageDialog(null, "User created in database with sucess!");        
                 }  
 
-            notifyObservers();
-            this.dispose();
+                notifyObservers();
+                clearFields();
+                this.dispose();
+            }else{
+                JOptionPane.showMessageDialog(null,"There is already a user with this email.");
+            }
+           
         }else{
             JOptionPane.showMessageDialog(null, "All fields must be filled in and written correctly.");
         }
     }//GEN-LAST:event_jButtonSignupActionPerformed
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        clearFields();
+    }//GEN-LAST:event_formWindowClosed
+
+    private void clearFields(){
+        jTextFieldName.setText("");
+        jTextFieldLastName.setText("");
+        jTextFieldEmail.setText("");
+        jPasswordFieldPassword.setText("");
+        jPasswordFieldConfirmPassword.setText("");
+    }
     /**
      * @param args the command line arguments
      */

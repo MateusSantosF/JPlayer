@@ -5,10 +5,14 @@ import Facades.UserFacade;
 import Model.interfaces.IUser;
 import TableModel.SelectUserTableModel;
 import TableModel.UserTableModel;
+import Utils.JPanelManager;
 import Utils.Observer.interfaces.IObserver;
 import View.View.Editions.User.EditUsers;
+import View.View.Records.SignIn;
+import java.awt.Window;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 /**
  *
  * @author Mateus Santos
@@ -223,20 +227,30 @@ public class UsersContainers extends javax.swing.JPanel implements IObserver {
                 currentUsers.removeIf( user -> user.getId() == users.getId());
             });
             
-            model.insertUser(currentUsers);
-          
+       
             boolean result = facade.removeUsersDb(selecteds);
             if(!result){
                 JOptionPane.showMessageDialog(null, "An error occurred while trying to delete the selected users. Try again");         
             }else{
                 removeModel.removeUser(selecteds); 
             }
-            
+           
+            IUser isCurrentUSer = selecteds.stream().filter(user -> user.getId() == facade.GetIdCurrentUser()).findFirst().orElse(null);
+           
+            if(isCurrentUSer != null){
+               closeApplication();             
+            }
         }
         jLabelConfirmRemove.setEnabled(false);
-        jTableMusics.setModel(model);
+        listAllUsersInDatabase();
+       
     }//GEN-LAST:event_jLabelConfirmRemoveMouseClicked
-
+    
+    private void closeApplication(){
+         final Window parentWindow = SwingUtilities.getWindowAncestor(this);
+         new SignIn().setVisible(true);
+         parentWindow.dispose();
+    }
     private void jLabelRemoveSongs1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelRemoveSongs1MouseClicked
        
         int selectedRow = jTableMusics.getSelectedRow();

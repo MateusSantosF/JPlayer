@@ -53,12 +53,12 @@ public class TableUnionWriter <T, E>{
         BufferedWriter buffer;
         
         long id = 0;
-        if( father instanceof IPlaylist iPlaylist){
-            id = iPlaylist.getId();
+        if( father instanceof IPlaylist){
+            id = ((IPlaylist) father).getId();
         }
         
-        if( father instanceof IUser iUser){
-            id = iUser.getId();
+        if( father instanceof IUser){
+            id = ((IUser) father ).getId();
         }
         
         String newLine = id + ":{" + getIdForNewRegisters(data) + "}";

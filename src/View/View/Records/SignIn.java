@@ -31,7 +31,7 @@ public class SignIn extends javax.swing.JFrame {
     
      private boolean validateFields(){
         
-        return !(jTextFieldUsername.getText().isEmpty() ||
+        return !(jTextFieldEmail.getText().isEmpty() ||
                 jTextFieldPassword.getText().isEmpty() ); 
      }
 
@@ -46,7 +46,7 @@ public class SignIn extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabelUserName = new javax.swing.JLabel();
-        jTextFieldUsername = new javax.swing.JTextField();
+        jTextFieldEmail = new javax.swing.JTextField();
         jLabelPassword = new javax.swing.JLabel();
         jTextFieldPassword = new javax.swing.JTextField();
         jButtonSignIn = new javax.swing.JLabel();
@@ -59,7 +59,7 @@ public class SignIn extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(34, 34, 34));
 
         jLabelUserName.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelUserName.setText("Username");
+        jLabelUserName.setText("Email");
 
         jLabelPassword.setForeground(new java.awt.Color(255, 255, 255));
         jLabelPassword.setText("Password");
@@ -90,7 +90,7 @@ public class SignIn extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabelPassword)
                     .addComponent(jLabelUserName)
-                    .addComponent(jTextFieldUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                    .addComponent(jTextFieldEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
                     .addComponent(jTextFieldPassword)
                     .addComponent(jButtonSignIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(83, 83, 83))
@@ -101,7 +101,7 @@ public class SignIn extends javax.swing.JFrame {
                 .addGap(68, 68, 68)
                 .addComponent(jLabelUserName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabelPassword)
                 .addGap(5, 5, 5)
@@ -165,7 +165,7 @@ public class SignIn extends javax.swing.JFrame {
         List<IUser> UsersList = facade.GetAllUsers();
              
          IUser result = UsersList.stream().filter( User -> 
-                 User.getName().equals(jTextFieldUsername.getText().trim()) && 
+                 User.getEmail().equals(jTextFieldEmail.getText().trim()) && 
                          User.getPassword().equals(jTextFieldPassword.getText().trim())).findAny().orElse(null);
           
       if(validateFields() && result != null){
@@ -231,7 +231,7 @@ public class SignIn extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelPassword;
     private javax.swing.JLabel jLabelUserName;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField jTextFieldEmail;
     private javax.swing.JTextField jTextFieldPassword;
-    private javax.swing.JTextField jTextFieldUsername;
     // End of variables declaration//GEN-END:variables
 }
