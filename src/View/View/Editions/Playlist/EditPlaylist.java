@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package View.View.Editions.Playlist;
 
 import Facades.PlaylistFacade;
@@ -13,10 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author mateus
- */
 public class EditPlaylist extends javax.swing.JFrame implements IPublisher {
 
     private List<IObserver> observers = new ArrayList<>();

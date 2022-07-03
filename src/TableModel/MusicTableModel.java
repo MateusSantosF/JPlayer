@@ -9,10 +9,6 @@ import java.util.stream.Collectors;
 import javax.swing.table.AbstractTableModel;
 import Model.interfaces.IMusic;
 
-/**
- *
- * @author mateus
- */
 public class MusicTableModel extends AbstractTableModel {
 
     private final String[] columns = {"Title", "Author", "Duration"};

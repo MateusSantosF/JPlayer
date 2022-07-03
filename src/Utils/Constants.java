@@ -1,9 +1,5 @@
 package Utils;
 
-/**
- *
- * @author mateus
- */
 public class Constants {
     
     public static final String MUSIC_TABLE = "src/Database/music.csv";

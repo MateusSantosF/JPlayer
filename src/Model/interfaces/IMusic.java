@@ -2,7 +2,6 @@ package Model.interfaces;
 
 /**
  *
- * @author mateus
  * @param <T>
  */
 public interface IMusic{

@@ -1,6 +1,6 @@
 package View.View.Home;
 
-import DAO.DbContext;
+
 import Facades.MusicFacade;
 import Facades.PlaylistFacade;
 import TableModel.UserTableModel;
@@ -12,61 +12,50 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
-
-/**
- *
- * @author mateus
- */
-public class Home extends javax.swing.JPanel implements IObserver{
+public class Home extends javax.swing.JPanel implements IObserver {
 
     /**
      * Creates new form Home
      */
-    
-            
     private final UserTableModel model = new UserTableModel();
     private final UserFacade facade = new UserFacade();
-    
+
     private final MusicFacade musicFacade = new MusicFacade();
     private final PlaylistFacade playlistFacade = new PlaylistFacade();
-    
+
     public Home() {
         initComponents();
         listAllUsersInDatabase();
-    
+
         loadDashboardData();
     }
-    
-    private void listAllUsersInDatabase(){
-        
-        model.insertWithRemove(facade.GetAllUsers());  
-         jTable1.setModel(model);  
-        
-      
+
+    private void listAllUsersInDatabase() {
+
+        model.insertWithRemove(facade.GetAllUsers());
+        jTable1.setModel(model);
+
     }
-    
-    private void loadDashboardData(){
-        
+
+    private void loadDashboardData() {
+
         List<IMusic> musics = musicFacade.GetAllMusics();
-        
+
         LocalTime totalTime = LocalTime.MIN;
-        
-        for( int i = 0; i< musics.size(); i++){
+
+        for (int i = 0; i < musics.size(); i++) {
             totalTime = totalTime.plusMinutes(LocalTime.parse(musics.get(i).getDuration()).getMinute());
             totalTime = totalTime.plusHours(LocalTime.parse(musics.get(i).getDuration()).getHour());
-             totalTime = totalTime.plusSeconds(LocalTime.parse(musics.get(i).getDuration()).getSecond());
+            totalTime = totalTime.plusSeconds(LocalTime.parse(musics.get(i).getDuration()).getSecond());
         }
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
         List<IPlaylist> playlists = playlistFacade.getAllPlaylistHasNoTracking();
-        
+
         jLabelTotalMusics.setText(String.valueOf(musics.size()));
         jLabelTotalPlaylists.setText(String.valueOf(playlists.size()));
         jLabelTime.setText(dtf.format(totalTime));
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -210,14 +199,14 @@ public class Home extends javax.swing.JPanel implements IObserver{
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 
-@Override
+    @Override
     public void update(Object publisher) {
-        if(publisher instanceof Boolean){
-            
-            if( (( Boolean) publisher)){
-                listAllUsersInDatabase();    
+        if (publisher instanceof Boolean) {
+
+            if (((Boolean) publisher)) {
+                listAllUsersInDatabase();
             }
         }
-        
-  }
+
+    }
 }

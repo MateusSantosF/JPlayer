@@ -7,23 +7,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import Model.interfaces.IMusic;
 import Model.interfaces.IPlaylist;
 import Model.interfaces.IUser;
+
 /**
  *
- * @author mateus
  * @param <T>
  */
 public class TableUnionReader<T, E> {
@@ -58,15 +51,15 @@ public class TableUnionReader<T, E> {
                 if (!line.isBlank()) {
                     if (father instanceof IPlaylist) {
                         if (StringExtensions.getIdInLine(line) == ((IPlaylist) father).getId()) {
-                            
+
                             objectList.addAll(StringExtensions.formatLine(line));
                             break;
                         }
                     }
-                    
+
                     if (father instanceof IUser) {
                         if (StringExtensions.getIdInLine(line) == ((IUser) father).getId()) {
-                            
+
                             objectList.addAll(StringExtensions.formatLine(line));
                             break;
                         }
@@ -86,8 +79,6 @@ public class TableUnionReader<T, E> {
         return null;
 
     }
-
-   
 
     private String getIdForNewRegisters(List<E> registers) {
 
@@ -156,9 +147,9 @@ public class TableUnionReader<T, E> {
         if (children instanceof IMusic) {
             return new File(Constants.PLAYLIST_MUSIC_TABLE);
         }
-        
+
         if (children instanceof IPlaylist) {
-            return new File(Constants.USER_PLAYLIST_TABLE );
+            return new File(Constants.USER_PLAYLIST_TABLE);
         }
 
         return null;

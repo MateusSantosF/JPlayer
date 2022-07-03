@@ -8,10 +8,7 @@ import java.util.List;
 import Model.Playlist;
 import Model.interfaces.IPlaylist;
 
-/**
- *
- * @author mateus
- */
+
 public class PlaylistMock {
     
     public static List<IPlaylist> playlistList(){

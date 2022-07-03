@@ -24,61 +24,59 @@ import java.util.stream.Stream;
 
 /**
  *
- * @author mateus
  * @param <T>
  */
-public class TableWriter <T>{
-    
+public class TableWriter<T> {
+
     private final T type;
-   
-    public TableWriter(T type){
+
+    public TableWriter(T type) {
         this.type = type;
     }
-    
-    public boolean writeInTable(T data){
-        
+
+    public boolean writeInTable(T data) {
+
         File tableCSV = getTableFile();
-      
-        
-        if(!tableCSV.exists() || !tableCSV.canRead() ||!tableCSV.isFile()){
+
+        if (!tableCSV.exists() || !tableCSV.canRead() || !tableCSV.isFile()) {
             System.out.println("FAIL READ TABLE");
             return false;
         }
-        
+
         FileWriter writer;
         BufferedWriter buffer;
-        
+
         try {
             writer = new FileWriter(tableCSV, true);
-            buffer = new BufferedWriter(writer);            
-            buffer.append("\n"+serializeLine(data));
+            buffer = new BufferedWriter(writer);
+            buffer.append("\n" + serializeLine(data));
             buffer.close();
             writer.close();
-            
+
             return true;
-            
+
         } catch (FileNotFoundException ex) {
             Logger.getLogger(TableWriter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(TableWriter.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return false;
     }
-    
+
     public boolean DeleteRegister(T removeData) {
-        
+
         File tableCSV = getTableFile();
-        
+
         long id = getIdFromData(removeData);
-        
-        if(id == 0){
+
+        if (id == 0) {
             return false;
         }
-        
+
         String lineUpdate = readSpecifLine(id); //actual line
         String formated = "";
-        
+
         if (!tableCSV.exists() || !tableCSV.canRead() || !tableCSV.isFile()) {
             System.out.println("FAIL READ TABLE");
             return false;
@@ -98,22 +96,20 @@ public class TableWriter <T>{
         }
         return true;
     }
-    
+
     public boolean UpdateRegister(T updateData) {
-        
+
         File tableCSV = getTableFile();
-        
+
         long id = getIdFromData(updateData);
-        
-        if(id == 0){
+
+        if (id == 0) {
             return false;
         }
 
         String lineUpdate = readSpecifLine(id); //actual line   
         String formated = serializeLine(updateData); //new line
 
- 
-        
         if (!tableCSV.exists() || !tableCSV.canRead() || !tableCSV.isFile()) {
             System.out.println("FAIL READ TABLE");
             return false;
@@ -133,8 +129,7 @@ public class TableWriter <T>{
         }
         return true;
     }
- 
-     
+
     private String readSpecifLine(long id) {
 
         File tableCSV = getTableFile();
@@ -178,60 +173,56 @@ public class TableWriter <T>{
         return lineSearch;
     }
 
-   
-    
-    private String serializeLine(T obj){
-       
-        if( type instanceof IMusic){
-            return ((IMusic)obj).serialize();
+    private String serializeLine(T obj) {
+
+        if (type instanceof IMusic) {
+            return ((IMusic) obj).serialize();
         }
-        
-        if( type instanceof IPlaylist){
-            return ((IPlaylist)obj).serialize();
+
+        if (type instanceof IPlaylist) {
+            return ((IPlaylist) obj).serialize();
         }
-        
-        if( type instanceof IUser){
-            return ((IUser)obj).serialize();
+
+        if (type instanceof IUser) {
+            return ((IUser) obj).serialize();
         }
-                 
+
         return "";
     }
-    
-    private long getIdFromData(T data){
-        
+
+    private long getIdFromData(T data) {
+
         long id = 0;
-        
-        if(type instanceof IMusic){
+
+        if (type instanceof IMusic) {
             id = ((IMusic) data).getId();
         }
-        
-        if(type instanceof IPlaylist){
+
+        if (type instanceof IPlaylist) {
             id = ((IPlaylist) data).getId();
         }
-        
-        
-        if(type instanceof IUser){
+
+        if (type instanceof IUser) {
             id = ((IUser) data).getId();
         }
-        
+
         return id;
     }
-    
-    private File getTableFile(){
-              
-        if( type instanceof IMusic){
+
+    private File getTableFile() {
+
+        if (type instanceof IMusic) {
             return new File(Constants.MUSIC_TABLE);
         }
-        
-        if( type instanceof IPlaylist){
+
+        if (type instanceof IPlaylist) {
             return new File(Constants.PLAYLIST_TABLE);
         }
-        
-        if( type instanceof  IUser) {
+
+        if (type instanceof IUser) {
             return new File(Constants.USER_TABLE);
         }
         return null;
     }
 
-    
 }

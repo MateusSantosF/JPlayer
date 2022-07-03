@@ -8,15 +8,9 @@ import TableModel.SelectMusicTableModel;
 import Facades.PlaylistFacade;
 import java.util.List;
 import javax.swing.JOptionPane;
-import Model.Playlist;
 import Model.interfaces.IMusic;
 import Model.interfaces.IPlaylist;
-import java.util.ArrayList;
 
-/**
- *
- * @author mateus
- */
 public class PlaylistPanel extends javax.swing.JPanel implements IObserver {
     
     private  MusicTableModel model = new MusicTableModel();

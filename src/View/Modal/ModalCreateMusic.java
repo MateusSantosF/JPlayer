@@ -3,19 +3,13 @@ package View.Modal;
 import Utils.Observer.interfaces.IObserver;
 import Utils.Observer.interfaces.IPublisher;
 import Facades.MusicFacade;
-import Facades.PlaylistFacade;
-
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import Model.Music;
 import Model.interfaces.IMusic;
 
-/**
- *
- * @author Mateus Santos
- */
-public class ModalCreateMusic extends javax.swing.JFrame implements IPublisher{
+public class ModalCreateMusic extends javax.swing.JFrame implements IPublisher {
 
     /**
      * Creates new form ModalAddMusic
@@ -23,7 +17,7 @@ public class ModalCreateMusic extends javax.swing.JFrame implements IPublisher{
     private final MusicFacade facade = new MusicFacade();
     private final List<IObserver> observers = new ArrayList<>();
     private boolean result;
-    
+
     public ModalCreateMusic() {
         initComponents();
 
@@ -150,30 +144,30 @@ public class ModalCreateMusic extends javax.swing.JFrame implements IPublisher{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateActionPerformed
-        
-        if(validateFields()){
+
+        if (validateFields()) {
             result = facade.insertMusic(createMusic());
-            if(result){
-                JOptionPane.showMessageDialog(null, "Music created in database with sucess!");        
-            }  
+            if (result) {
+                JOptionPane.showMessageDialog(null, "Music created in database with sucess!");
+            }
 
             notifyObservers();
             this.dispose();
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Check the fields and try again");
         }
-       
-   
+
+
     }//GEN-LAST:event_jButtonCreateActionPerformed
-    
-    private boolean validateFields(){
-        
-        return !(jTextFieldName.getText().isEmpty() ||
-                jTextFieldAuthor.getText().isEmpty() || 
-                jFormattedTextFieldDuration.getText().equals("  :  "));
+
+    private boolean validateFields() {
+
+        return !(jTextFieldName.getText().isEmpty()
+                || jTextFieldAuthor.getText().isEmpty()
+                || jFormattedTextFieldDuration.getText().equals("  :  "));
     }
     private void jTextFieldAuthorCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldAuthorCaretUpdate
-        
+
     }//GEN-LAST:event_jTextFieldAuthorCaretUpdate
 
     private void jTextFieldNameCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldNameCaretUpdate
@@ -184,9 +178,10 @@ public class ModalCreateMusic extends javax.swing.JFrame implements IPublisher{
         // TODO add your handling code here:
     }//GEN-LAST:event_jFormattedTextFieldDurationActionPerformed
 
-    private IMusic createMusic(){     
+    private IMusic createMusic() {
         return new Music(jTextFieldName.getText(), jTextFieldAuthor.getText(), jFormattedTextFieldDuration.getText());
     }
+
     /**
      * @param args the command line arguments
      */
@@ -224,7 +219,7 @@ public class ModalCreateMusic extends javax.swing.JFrame implements IPublisher{
             }
         });
     }
- 
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCreate;
@@ -251,10 +246,9 @@ public class ModalCreateMusic extends javax.swing.JFrame implements IPublisher{
     @Override
     public void notifyObservers() {
 
-        observers.forEach(ob ->{
+        observers.forEach(ob -> {
             ob.update(result);
         });
     }
-
 
 }

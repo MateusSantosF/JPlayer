@@ -2,54 +2,49 @@ package Model;
 
 import Model.interfaces.IUser;
 
-/**
- *
- * @author mateus
- */
 public class User implements IUser {
-    
-     private long Id;
-     private String name;
-     private String surname;
-     private String email;
-     private String password;
-     private boolean selected;
-     
-     public User() {
-         
+
+    private long Id;
+    private String name;
+    private String surname;
+    private String email;
+    private String password;
+    private boolean selected;
+
+    public User() {
+
     }
-     
-     public User(String name ,String surname, String email, String password){
-        this.name  = name;
+
+    public User(String name, String surname, String email, String password) {
+        this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
     }
-    
-    public User(String[] atributes){
+
+    public User(String[] atributes) {
         this.Id = Long.valueOf(atributes[0]);
-        this.name  = atributes[1];
+        this.name = atributes[1];
         this.surname = atributes[2];
         this.email = atributes[3];
         this.password = atributes[4];
     }
-     
-    
-     @Override
+
+    @Override
     public long getId() {
         return Id;
     }
 
-     @Override
+    @Override
     public void setId(long Id) {
         this.Id = Id;
     }
-    
+
     @Override
     public String getName() {
         return name;
     }
-    
+
     @Override
     public String getSurname() {
         return surname;
@@ -58,12 +53,12 @@ public class User implements IUser {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public void setSurname(String surname) {
         this.surname = surname;
     }
-    
-     @Override
+
+    @Override
     public String getEmail() {
         return email;
     }
@@ -71,8 +66,8 @@ public class User implements IUser {
     public void setEmail(String email) {
         this.email = email;
     }
-    
-     @Override
+
+    @Override
     public String getPassword() {
         return password;
     }
@@ -80,9 +75,9 @@ public class User implements IUser {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-     @Override
-        public boolean isSelected() {
+
+    @Override
+    public boolean isSelected() {
         return selected;
     }
 
@@ -90,15 +85,10 @@ public class User implements IUser {
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
-    
 
-      @Override
+    @Override
     public String serialize() {
-          return String.format("%d:{%s,%s,%s,%s}", this.getId(), this.getName(),this.getSurname(), this.getEmail(), this.getPassword());
+        return String.format("%d:{%s,%s,%s,%s}", this.getId(), this.getName(), this.getSurname(), this.getEmail(), this.getPassword());
     }
 
-    
-
-    
-    
 }

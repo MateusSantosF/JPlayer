@@ -1,11 +1,9 @@
-
 package View.View.User;
 
 import Facades.UserFacade;
 import Model.interfaces.IUser;
 import TableModel.SelectUserTableModel;
 import TableModel.UserTableModel;
-import Utils.JPanelManager;
 import Utils.Observer.interfaces.IObserver;
 import View.View.Editions.User.EditUsers;
 import View.View.Records.SignIn;
@@ -13,31 +11,28 @@ import java.awt.Window;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-/**
- *
- * @author Mateus Santos
- */
+
 public class UsersContainers extends javax.swing.JPanel implements IObserver {
 
     /**
      * Creates new form MusicContainer
      */
-    
     private UserTableModel model = new UserTableModel();
     private SelectUserTableModel removeModel = new SelectUserTableModel();
     private final UserFacade facade = new UserFacade();
-    
+
     public UsersContainers() {
-        initComponents();       
+        initComponents();
         listAllUsersInDatabase();
-        jLabelConfirmRemove.setVisible(false);        
+        jLabelConfirmRemove.setVisible(false);
     }
-    
-    private void listAllUsersInDatabase(){
-        
+
+    private void listAllUsersInDatabase() {
+
         model.insertWithRemove(facade.GetAllUsers());
-        jTableMusics.setModel(model);  
+        jTableMusics.setModel(model);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -187,85 +182,83 @@ public class UsersContainers extends javax.swing.JPanel implements IObserver {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextFieldSearchBarCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldSearchBarCaretUpdate
-       model.SearchUserByName(jTextFieldSearchBar.getText());
-       jTableMusics.setModel(model);
+        model.SearchUserByName(jTextFieldSearchBar.getText());
+        jTableMusics.setModel(model);
     }//GEN-LAST:event_jTextFieldSearchBarCaretUpdate
 
     private void jLabelRemoveSongsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelRemoveSongsMouseClicked
-        
-        if(!jLabelConfirmRemove.isEnabled()){
-           removeModel.insertUser(model.getData());
-           jTableMusics.setModel(removeModel);
-           jLabelConfirmRemove.setEnabled(true); 
-           jLabelConfirmRemove.setVisible(true);
 
-        }else{
+        if (!jLabelConfirmRemove.isEnabled()) {
+            removeModel.insertUser(model.getData());
+            jTableMusics.setModel(removeModel);
+            jLabelConfirmRemove.setEnabled(true);
+            jLabelConfirmRemove.setVisible(true);
+
+        } else {
             jTableMusics.setModel(model);
-            jLabelConfirmRemove.setEnabled(false); 
-           jLabelConfirmRemove.setVisible(false);
+            jLabelConfirmRemove.setEnabled(false);
+            jLabelConfirmRemove.setVisible(false);
         }
-       
-           
+
+
     }//GEN-LAST:event_jLabelRemoveSongsMouseClicked
 
     private void jLabelConfirmRemoveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelConfirmRemoveMouseClicked
-        
+
         int option = JOptionPane.showConfirmDialog(null, "Sure you want to Remove users ?", "JPlayer", JOptionPane.OK_OPTION);
-        
-        if(option == 0){
-           
+
+        if (option == 0) {
+
             List<IUser> selecteds = removeModel.GetAllSelected();
-            if(selecteds.isEmpty()){
+            if (selecteds.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Select at least one user.");
                 return;
             }
-          
+
             List<IUser> currentUsers = model.getData();
-            
-         
-            selecteds.forEach( users -> {
-                currentUsers.removeIf( user -> user.getId() == users.getId());
+
+            selecteds.forEach(users -> {
+                currentUsers.removeIf(user -> user.getId() == users.getId());
             });
-            
-       
+
             boolean result = facade.removeUsersDb(selecteds);
-            if(!result){
-                JOptionPane.showMessageDialog(null, "An error occurred while trying to delete the selected users. Try again");         
-            }else{
-                removeModel.removeUser(selecteds); 
+            if (!result) {
+                JOptionPane.showMessageDialog(null, "An error occurred while trying to delete the selected users. Try again");
+            } else {
+                removeModel.removeUser(selecteds);
             }
-           
+
             IUser isCurrentUSer = selecteds.stream().filter(user -> user.getId() == facade.GetIdCurrentUser()).findFirst().orElse(null);
-           
-            if(isCurrentUSer != null){
-               closeApplication();             
+
+            if (isCurrentUSer != null) {
+                closeApplication();
             }
         }
         jLabelConfirmRemove.setEnabled(false);
         listAllUsersInDatabase();
-       
+
     }//GEN-LAST:event_jLabelConfirmRemoveMouseClicked
-    
-    private void closeApplication(){
-         final Window parentWindow = SwingUtilities.getWindowAncestor(this);
-         new SignIn().setVisible(true);
-         parentWindow.dispose();
+
+    private void closeApplication() {
+        final Window parentWindow = SwingUtilities.getWindowAncestor(this);
+        new SignIn().setVisible(true);
+        parentWindow.dispose();
     }
     private void jLabelRemoveSongs1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelRemoveSongs1MouseClicked
-       
+
         int selectedRow = jTableMusics.getSelectedRow();
-        
-        if(selectedRow == -1){
+
+        if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null, "Select at least one user in table.");
             return;
         }
-        
+
         IUser selectedUser = model.getData(selectedRow);
         EditUsers modalEdit = new EditUsers(selectedUser);
         modalEdit.addObserver(this);
         modalEdit.setVisible(true);
-        
-        
+
+
     }//GEN-LAST:event_jLabelRemoveSongs1MouseClicked
 
 
@@ -284,11 +277,11 @@ public class UsersContainers extends javax.swing.JPanel implements IObserver {
 
     @Override
     public void update(Object publisher) {
-        
-        if(publisher instanceof Boolean){
-            
-            if( (( Boolean) publisher)){
-                listAllUsersInDatabase();    
+
+        if (publisher instanceof Boolean) {
+
+            if (((Boolean) publisher)) {
+                listAllUsersInDatabase();
             }
         }
 

@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package View.View.Records;
 
 import DAO.DbContext;
@@ -11,10 +8,7 @@ import View.View.Main;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author mateus
- */
+
 public class SignIn extends javax.swing.JFrame {
     
     private SignUp signUp;

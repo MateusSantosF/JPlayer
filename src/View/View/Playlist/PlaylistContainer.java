@@ -21,18 +21,15 @@ import java.awt.Color;
 import java.awt.Cursor;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author mateus
- */
+
 public class PlaylistContainer extends javax.swing.JPanel implements IPublisher, IObserver {
-    
+
     private final List<IObserver> observers = new ArrayList<>();
     private final PlaylistFacade facade = new PlaylistFacade();
     private IPlaylist clickedPlaylist;
-    private long playlistSize;  
+    private long playlistSize;
     private boolean isEditOption = false;
-    
+
     /**
      * Creates new form Playlist
      */
@@ -41,24 +38,25 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher,
         ListAllPlayLists();
         jLabelConfirmDelete.setVisible(false);
     }
-    
-    private void resizeScroll(){
-        
+
+    private void resizeScroll() {
+
         int itemsPerColumn = (int) scrollContainer.getSize().getWidth() / 100;
-        
-        int gap = Math.round(playlistSize/itemsPerColumn) * 50;
-        int newHeight = (Math.round(playlistSize/itemsPerColumn) * 100 )+ gap;
-        
-        if(newHeight % 2 != 0)
+
+        int gap = Math.round(playlistSize / itemsPerColumn) * 50;
+        int newHeight = (Math.round(playlistSize / itemsPerColumn) * 100) + gap;
+
+        if (newHeight % 2 != 0) {
             newHeight += 150;
-        
+        }
+
         int newWidth = itemsPerColumn * 100;
-              
-        jPanelPlaylists.setPreferredSize(new Dimension(  newWidth, newHeight));
+
+        jPanelPlaylists.setPreferredSize(new Dimension(newWidth, newHeight));
 
     }
-    
-    private void ListAllPlayLists(){
+
+    private void ListAllPlayLists() {
         PlaylistContainer observer = this;
         jPanelPlaylists.removeAll();
         jPanelPlaylists.revalidate();
@@ -67,75 +65,74 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher,
         Dimension dimension = new Dimension(100, 100);
         List<IPlaylist> playlists = facade.getAllPlaylistHasNoTracking();
         Collections.sort(playlists, new PlaylistComparatorByDate()); // Sort to createData
-      
+
         playlistSize = playlists.size();
-            
-        playlists.forEach(playlist ->{        
+
+        playlists.forEach(playlist -> {
             JPanel panel = new JPanel();
             panel.setLayout(new BorderLayout());
-            panel.setBackground(new Color(34,34,34));
+            panel.setBackground(new Color(34, 34, 34));
             JButton button = new JButton(playlist.getTitle());
-            button.setBackground(new Color(34,34,34));
+            button.setBackground(new Color(34, 34, 34));
             button.setBorderPainted(false);
-           
-          
+
             button.setContentAreaFilled(false);
             button.setForeground(Color.WHITE);
             button.setPreferredSize(dimension);
             button.addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked(MouseEvent evt){
-                    if(!jLabelConfirmDelete.isVisible()){
+                public void mouseClicked(MouseEvent evt) {
+                    if (!jLabelConfirmDelete.isVisible()) {
                         clickedPlaylist = playlist;
                         notifyObservers();
-                    }else{
-                        
-                        if(isEditOption){
-                            
+                    } else {
+
+                        if (isEditOption) {
+
                             EditPlaylist modalEditPlaylist = new EditPlaylist(playlist);
                             modalEditPlaylist.addObserver(observer);
                             modalEditPlaylist.setVisible(true);
-                            
-                        }else{
+
+                        } else {
                             int option = JOptionPane.showConfirmDialog(null, "Sure you want to Remove this playlist ?", "JPlayer", JOptionPane.OK_OPTION);
 
-                           if(option == 0){
-                               boolean result = facade.DeletePlaylist(playlist);
+                            if (option == 0) {
+                                boolean result = facade.DeletePlaylist(playlist);
 
-                               if(result){
-                                   JOptionPane.showMessageDialog(null, "Playlist removed with success!");
-                                   ListAllPlayLists();
-                               }else{
-                                   JOptionPane.showMessageDialog(null, "An error ocurred while delete playlist!");
-                               }
-                           } 
+                                if (result) {
+                                    JOptionPane.showMessageDialog(null, "Playlist removed with success!");
+                                    ListAllPlayLists();
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "An error ocurred while delete playlist!");
+                                }
+                            }
                         }
-                      
+
                     }
-                    
-                 
+
                 }
+
                 @Override
-                public void mouseEntered(MouseEvent evt){
+                public void mouseEntered(MouseEvent evt) {
                     setCursor(new Cursor(Cursor.HAND_CURSOR));
                     panel.setSize(104, 104);
                 }
-                
+
                 @Override
-                public void mouseExited(MouseEvent evt){
+                public void mouseExited(MouseEvent evt) {
                     setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                     panel.setSize(100, 100);
+                    panel.setSize(100, 100);
                 }
             });
             panel.add(button);
             capas.add(panel);
         });
-        
-        
-        capas.forEach(item->{
+
+        capas.forEach(item -> {
             jPanelPlaylists.add(item);
         });
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -275,12 +272,11 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher,
     }// </editor-fold>//GEN-END:initComponents
 
     private void scrollContainerComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_scrollContainerComponentResized
-         resizeScroll();
+        resizeScroll();
     }//GEN-LAST:event_scrollContainerComponentResized
 
     private void jLabelCreateNewPlaylistMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCreateNewPlaylistMouseClicked
 
-          
         ModalCreatePlaylist modal = new ModalCreatePlaylist();
         modal.addObserver(this);
         modal.setVisible(true);
@@ -288,18 +284,18 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher,
     }//GEN-LAST:event_jLabelCreateNewPlaylistMouseClicked
 
     private void jLabelDeletePlaylistMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelDeletePlaylistMouseClicked
-        
+
         isEditOption = false;
         jLabelEditPlaylist.setVisible(false);
-        if(!jLabelConfirmDelete.isEnabled()){
+        if (!jLabelConfirmDelete.isEnabled()) {
             jLabelDeletePlaylist.setVisible(false);
             jLabelConfirmDelete.setEnabled(true);
             jLabelConfirmDelete.setVisible(true);
-        }else{
-   
+        } else {
+
             jLabelConfirmDelete.setEnabled(false);
             jLabelConfirmDelete.setVisible(false);
-             jLabelDeletePlaylist.setVisible(true);
+            jLabelDeletePlaylist.setVisible(true);
         }
 
     }//GEN-LAST:event_jLabelDeletePlaylistMouseClicked
@@ -313,15 +309,15 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher,
     }//GEN-LAST:event_jLabelConfirmDeleteMouseClicked
 
     private void jLabelEditPlaylistMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelEditPlaylistMouseClicked
-      
+
         isEditOption = true;
         jLabelDeletePlaylist.setVisible(false);
-        if(!jLabelConfirmDelete.isEnabled()){
+        if (!jLabelConfirmDelete.isEnabled()) {
             jLabelEditPlaylist.setVisible(false);
             jLabelConfirmDelete.setVisible(true);
             jLabelConfirmDelete.setEnabled(true);
         }
-       
+
     }//GEN-LAST:event_jLabelEditPlaylistMouseClicked
 
 
@@ -350,17 +346,17 @@ public class PlaylistContainer extends javax.swing.JPanel implements IPublisher,
     @Override
     public void notifyObservers() {
 
-        observers.forEach(ob ->{
+        observers.forEach(ob -> {
             ob.update(clickedPlaylist);
         });
-       
+
     }
 
     @Override
     public void update(Object publisher) {
 
-        if( publisher instanceof Boolean ){
-            if( ((Boolean)publisher) ){ 
+        if (publisher instanceof Boolean) {
+            if (((Boolean) publisher)) {
                 ListAllPlayLists();
             }
         }

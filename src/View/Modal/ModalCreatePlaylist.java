@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package View.Modal;
 
 import Utils.Observer.interfaces.IObserver;
@@ -14,11 +11,8 @@ import javax.swing.JOptionPane;
 import Model.Playlist;
 import Model.interfaces.IPlaylist;
 
-/**
- *
- * @author Mateus Santos
- */
-public class ModalCreatePlaylist extends javax.swing.JFrame implements IPublisher{
+
+public class ModalCreatePlaylist extends javax.swing.JFrame implements IPublisher {
 
     /**
      * Creates new form ModalAddMusic
@@ -26,7 +20,7 @@ public class ModalCreatePlaylist extends javax.swing.JFrame implements IPublishe
     private final PlaylistFacade facade = new PlaylistFacade();
     private final List<IObserver> observers = new ArrayList<>();
     private boolean result;
-    
+
     public ModalCreatePlaylist() {
         initComponents();
 
@@ -124,27 +118,26 @@ public class ModalCreatePlaylist extends javax.swing.JFrame implements IPublishe
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateActionPerformed
-       
-        
-        if(validateFields()){
+
+        if (validateFields()) {
             result = facade.createPlaylist(CreatePlaylist());
-            if(result){
+            if (result) {
                 notifyObservers();
                 JOptionPane.showMessageDialog(null, "Playlist created with sucess!");
             }
             this.dispose();
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "You cannot create an unnamed playlist");
         }
-       
-     
-  
+
+
     }//GEN-LAST:event_jButtonCreateActionPerformed
-    
-    private boolean validateFields(){
-        
+
+    private boolean validateFields() {
+
         return !jTextFieldTitle.getText().isEmpty();
     }
+
     /**
      * @param args the command line arguments
      */
@@ -180,8 +173,8 @@ public class ModalCreatePlaylist extends javax.swing.JFrame implements IPublishe
             }
         });
     }
-    
-    private IPlaylist CreatePlaylist(){ 
+
+    private IPlaylist CreatePlaylist() {
         return new Playlist(new ArrayList<>(), jTextFieldTitle.getText().trim(), jTextAreaDescription.getText().trim(), LocalDate.now());
     }
 
@@ -209,10 +202,9 @@ public class ModalCreatePlaylist extends javax.swing.JFrame implements IPublishe
     @Override
     public void notifyObservers() {
 
-        observers.forEach(ob ->{
+        observers.forEach(ob -> {
             ob.update(result);
         });
     }
-
 
 }

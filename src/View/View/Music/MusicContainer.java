@@ -1,4 +1,3 @@
-
 package View.View.Music;
 
 import View.Modal.ModalCreateMusic;
@@ -10,31 +9,28 @@ import TableModel.SelectMusicTableModel;
 import View.View.Editions.Music.EditMusic;
 import java.util.List;
 import javax.swing.JOptionPane;
-/**
- *
- * @author Mateus Santos
- */
+
 public class MusicContainer extends javax.swing.JPanel implements IObserver {
 
     /**
      * Creates new form MusicContainer
      */
-    
     private MusicTableModel model = new MusicTableModel();
     private SelectMusicTableModel removeModel = new SelectMusicTableModel();
     private final MusicFacade facade = new MusicFacade();
-    
+
     public MusicContainer() {
-        initComponents();       
-        listAllMusicsInDatabase();   
-        jLabelConfirmRemove.setVisible(false);        
+        initComponents();
+        listAllMusicsInDatabase();
+        jLabelConfirmRemove.setVisible(false);
     }
-    
-    private void listAllMusicsInDatabase(){
-        
+
+    private void listAllMusicsInDatabase() {
+
         model.insertWithRemove(facade.GetAllMusics());
-        jTableMusics.setModel(model);  
+        jTableMusics.setModel(model);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -212,73 +208,72 @@ public class MusicContainer extends javax.swing.JPanel implements IObserver {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextFieldSearchBarCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldSearchBarCaretUpdate
-       model.SearchMusicByName(jTextFieldSearchBar.getText());
-       jTableMusics.setModel(model);
+        model.SearchMusicByName(jTextFieldSearchBar.getText());
+        jTableMusics.setModel(model);
     }//GEN-LAST:event_jTextFieldSearchBarCaretUpdate
 
     private void jLabelRemoveSongsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelRemoveSongsMouseClicked
-        
-        if(!jLabelConfirmRemove.isEnabled()){
-           removeModel.insertMusic(model.getData());
-           jTableMusics.setModel(removeModel);
-           jLabelConfirmRemove.setEnabled(true); 
-           jLabelConfirmRemove.setVisible(true);
-        }else{
+
+        if (!jLabelConfirmRemove.isEnabled()) {
+            removeModel.insertMusic(model.getData());
+            jTableMusics.setModel(removeModel);
+            jLabelConfirmRemove.setEnabled(true);
+            jLabelConfirmRemove.setVisible(true);
+        } else {
             jTableMusics.setModel(model);
-            jLabelConfirmRemove.setEnabled(false); 
-           jLabelConfirmRemove.setVisible(false);
+            jLabelConfirmRemove.setEnabled(false);
+            jLabelConfirmRemove.setVisible(false);
         }
-           
+
     }//GEN-LAST:event_jLabelRemoveSongsMouseClicked
 
     private void jLabelConfirmRemoveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelConfirmRemoveMouseClicked
-        
+
         int option = JOptionPane.showConfirmDialog(null, "Sure you want to Remove songs ?", "JPlayer", JOptionPane.OK_OPTION);
-        
-        if(option == 0){
-           
+
+        if (option == 0) {
+
             List<IMusic> selecteds = removeModel.GetAllSelected();
-            if(selecteds.isEmpty()){
+            if (selecteds.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Select at least one song.");
                 return;
             }
-          
+
             List<IMusic> currentMusics = model.getData();
-            
-         
-            selecteds.forEach( song -> {
-                currentMusics.removeIf( music -> music.getId() == song.getId());
+
+            selecteds.forEach(song -> {
+                currentMusics.removeIf(music -> music.getId() == song.getId());
             });
-            
+
             model.insertMusic(currentMusics);
-          
+
             boolean result = facade.removeMusicsDb(selecteds);
-            if(!result){
-                JOptionPane.showMessageDialog(null, "An error occurred while trying to delete the selected songs. Try again");         
-            }else{
+            if (!result) {
+                JOptionPane.showMessageDialog(null, "An error occurred while trying to delete the selected songs. Try again");
+            } else {
                 removeModel.removeMusic(selecteds); //remove visually
             }
-            
+
         }
         jLabelConfirmRemove.setEnabled(false);
         jTableMusics.setModel(model);
     }//GEN-LAST:event_jLabelConfirmRemoveMouseClicked
 
     private void jLabelRemoveSongs1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelRemoveSongs1MouseClicked
-       
+
         int selectedRow = jTableMusics.getSelectedRow();
-        
-        if(selectedRow == -1){
+
+        if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null, "Select at least one music in table.");
             return;
         }
-        
+
         IMusic selectedMusic = model.getData(selectedRow);
         EditMusic modalEdit = new EditMusic(selectedMusic);
         modalEdit.addObserver(this);
         modalEdit.setVisible(true);
-        
-        
+
+
     }//GEN-LAST:event_jLabelRemoveSongs1MouseClicked
 
     private void jLabelRemoveSongs2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelRemoveSongs2MouseClicked
@@ -305,11 +300,11 @@ public class MusicContainer extends javax.swing.JPanel implements IObserver {
 
     @Override
     public void update(Object publisher) {
-        
-        if(publisher instanceof Boolean){
-            
-            if( (( Boolean) publisher)){
-                listAllMusicsInDatabase();    
+
+        if (publisher instanceof Boolean) {
+
+            if (((Boolean) publisher)) {
+                listAllMusicsInDatabase();
             }
         }
 

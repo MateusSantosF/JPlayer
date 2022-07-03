@@ -1,7 +1,5 @@
 package View.View;
 
-
-import DAO.DbContext;
 import View.View.Home.Home;
 import Utils.Observer.interfaces.IObserver;
 import View.View.Music.MusicContainer;
@@ -17,10 +15,6 @@ import View.View.Records.SignIn;
 import View.View.User.UsersContainers;
 
 
-/**
- *
- * @author mateus
- */
 public class Main extends javax.swing.JFrame implements IObserver {
 
     /**
