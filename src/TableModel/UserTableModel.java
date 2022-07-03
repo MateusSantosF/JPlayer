@@ -11,7 +11,7 @@ import Model.interfaces.IUser;
 
 public class UserTableModel extends AbstractTableModel{
     
-    private final String[] columns = {"Name", "Surname", "Email", "Password"};
+    private final String[] columns = {"Name", "Surname", "Email", "Status"};
     private final UserFacade userFacade = new UserFacade();
     private List<IUser> users;
     
